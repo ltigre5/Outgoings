@@ -174,6 +174,13 @@ public class DBAdapter {
         return db.update(DATABASE_TABLE, newValues, where, null) != 0;
     }
 
+    public void updateValue(double newValue, int id){
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBAdapter.KEY_VALUE, newValue);
+        db.update(DBAdapter.DATABASE_TABLE, contentValues, DBAdapter.KEY_ROWID + " = " + id, null);
+    }
+
 
 
     /////////////////////////////////////////////////////////////////////

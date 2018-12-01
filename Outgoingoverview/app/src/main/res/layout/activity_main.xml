@@ -44,39 +44,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_MainActivity_SelectedDate" />
 
-    <TextView
-        android:id="@+id/textView_MainActivity_savedValues"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Saved Values"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_MainActivity_SelectedDateValue" />
 
     <Button
         android:id="@+id/button_MainActivity_deletValues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:onClick="onClick_ClearAll"
-        android:text="Delet Values"
-        app:layout_constraintEnd_toStartOf="@+id/button_MainActivity_showAllValues"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_MainActivity_savedValues" />
+        android:text="Delet All"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button_MainActivity_showAllValues"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onClick_ShowAllvalues"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="onClick_ShowAllvalues"
         android:text="Show values"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_MainActivity_savedValues" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/textView_MainActivity_totalValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:textSize="18sp"
+        android:text="TotalValueofMonth"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_MainActivity_showAllValues"
+        app:layout_constraintStart_toEndOf="@+id/button_MainActivity_deletValues" />
 </android.support.constraint.ConstraintLayout>

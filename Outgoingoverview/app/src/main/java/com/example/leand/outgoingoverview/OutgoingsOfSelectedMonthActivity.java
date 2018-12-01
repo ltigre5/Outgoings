@@ -1,22 +1,23 @@
 package com.example.leand.outgoingoverview;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
     SimpleDateFormat sdf_DateInNumbers = new SimpleDateFormat("dd/MM/yyyy");
     DBAdapter myDb;
     ListView listView;
+    Integer integer_selectedMonth;
+    String string_SelectedMonth;
 
     // Deklaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -27,74 +28,113 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_outgoings_of_selected_month);
 
-        listView= (ListView) findViewById(R.id.listView_outgoingsOfSelectedMonth);
+        Intent intent= getIntent();
+        integer_selectedMonth=intent.getIntExtra("IntSelectedMonth",-1);
+        setMonth();
 
-        myDb= new DBAdapter(this);
+        listView = findViewById(R.id.listView_outgoingsOfSelectedMonth);
+
+        myDb = new DBAdapter(this);
         myDb.open();
 
-        enterStringDateAndValueToArraylist();
+        createArrayListOfAllValues();
 
+    }
+
+    //sets textView for Month to selected Month
+    private void setMonth() {
+        TextView textView_out_goings_of_selected_month_Month= findViewById(R.id.textView_out_goings_of_selected_month_Month);
+        switch (integer_selectedMonth) {
+            case 1:  string_SelectedMonth = "January";
+                break;
+            case 2:  string_SelectedMonth = "February";
+                break;
+            case 3:  string_SelectedMonth = "March";
+                break;
+            case 4:  string_SelectedMonth = "April";
+                break;
+            case 5:  string_SelectedMonth = "May";
+                break;
+            case 6:  string_SelectedMonth = "June";
+                break;
+            case 7:  string_SelectedMonth = "July";
+                break;
+            case 8:  string_SelectedMonth = "August";
+                break;
+            case 9:  string_SelectedMonth = "September";
+                break;
+            case 10: string_SelectedMonth = "October";
+                break;
+            case 11: string_SelectedMonth = "November";
+                break;
+            case 12: string_SelectedMonth = "December";
+                break;
+            default: string_SelectedMonth = "Invalid month";
+                break;
+        }
+        textView_out_goings_of_selected_month_Month.setText(string_SelectedMonth);
     }
 
     // OnCreate
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Database methods
 
-    //Enters all Data from Database into a Array list
-    private void enterStringDateAndValueToArraylist() {
+    //Creates Arraylist of all values and adds an onClick Method which opens EditValueActivity and tranfers Databse-ID of selected Value
+    private void createArrayListOfAllValues() {
+        //Get cursor for all Rows
         Cursor cursor = myDb.getAllRows();
-        ArrayList<String> arrayListDatabaseAll= new ArrayList<String>();
-        // populate the message from the cursor
 
-        // Reset cursor to start, checking to see if there's data:
-        if (cursor.moveToFirst()) {
-            do {
-                String message = "";
+        //Select from which Rows in Databse to get values
+        String[] fromFieldsName = new String[]{DBAdapter.KEY_ROWID, DBAdapter.KEY_DATE, DBAdapter.KEY_VALUE};
 
-                // Process the data:
-                long longDate = cursor.getLong(DBAdapter.COL_DATE);
-                double value = cursor.getDouble(DBAdapter.COL_VALUE);
-                String date = longToStringDate(longDate);
+        //Select where to show values, textViews defined in Class CustomCursorAdapter dont need to enter here
+        int[] toViewsID = new int[]{R.id.textView_adapter_view_list_ID};
 
-                // Append data to the message:
-                message += "date=" + date
-                        +", value=" + value;
+        //create Adapter
+        CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(this, R.layout.adapter_view_list, cursor, fromFieldsName, toViewsID, 0);
 
-                // add Data to array list
-                arrayListDatabaseAll.add(message);
+        //set Adapter to listView
+        listView.setAdapter(customCursorAdapter);
 
-            } while(cursor.moveToNext());
+        //by clicking of Item get Database-ID of Position and open EditValueActivity and send ID
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //get cursor of Position
+                Cursor cursor = (Cursor) parent.getItemAtPosition(position);
 
-            ArrayAdapter<String> adapter= new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayListDatabaseAll);
-            listView.setAdapter(adapter);
+                //get ID of position
+                Integer iD = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    String name= parent.getItemAtPosition(position).toString();
-                }
-            });
-        }
+                //Open EditValueActivity and send ID
+                Intent intent = new Intent(OutgoingsOfSelectedMonthActivity.this, EditValueActivity.class);
+                intent.putExtra("values", iD.toString());
+                startActivityForResult(intent, RESULT_FIRST_USER);
+            }
+        });
 
-        // Close the cursor to avoid a resource leak.
-        cursor.close();
 
     }
 
     // Database methods
     //----------------------------------------------------------------------------------------------------------------------------------------------
-    // Displaying Values
+    // Come back from EditValueActivity
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+                createArrayListOfAllValues();
+            }
+        }
+    }
 
 
-
-    // Displaying Values
+    // Come back from EditValueActivity
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Convert Values
 
-    private String longToStringDate(long longDate){
-        String date=sdf_DateInNumbers.format(longDate);
-        return date;
-    }
 
     // Convert Values
     //----------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 package com.example.leand.outgoingoverview;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -18,7 +19,7 @@ public class AddValueToDateActivity extends AppCompatActivity {
     private String string_selectedDate;
     Button button_AddValueToDateActivity_SaveValue;
     EditText editText_AddValueToDateActivity_Value;
-    Double double_AddValueToDateActivity_returnValue;
+    Double double_returnValue;
 
     // Deklaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -51,11 +52,11 @@ public class AddValueToDateActivity extends AppCompatActivity {
                 if (editText_AddValueToDateActivity_Value.getText().toString() != null) {
                     Intent putOutgoingValueIntent = new Intent();
                     if (editText_AddValueToDateActivity_Value.getText().toString().equals("")) {
-                        double_AddValueToDateActivity_returnValue = 0.0;
+                        double_returnValue = 0.0;
                     } else {
-                        double_AddValueToDateActivity_returnValue = Double.parseDouble(editText_AddValueToDateActivity_Value.getText().toString());
+                        double_returnValue = Double.parseDouble(editText_AddValueToDateActivity_Value.getText().toString());
                     }
-                    putOutgoingValueIntent.putExtra("OutgoingValue", double_AddValueToDateActivity_returnValue);
+                    putOutgoingValueIntent.putExtra("OutgoingValue", double_returnValue);
                     putOutgoingValueIntent.putExtra("OutgoingDate", date_selectedDate.getTime());
 
                     setResult(RESULT_OK, putOutgoingValueIntent);

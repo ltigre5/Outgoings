@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".AddValueToDateActivity" />
-        <activity android:name=".OutgoingsOfSelectedMonthActivity"></activity>
+        <activity android:name=".OutgoingsOfSelectedMonthActivity" />
+        <activity android:name=".EditValueActivity"></activity>
     </application>
 
 </manifest>

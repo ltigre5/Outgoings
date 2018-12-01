@@ -20,12 +20,13 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_DATE = "Outgoingoverview.DATE";
     String string_selectedDate;
     Date date_selectedDate;
+    Integer integer_selectedMonth;
     public static final int requestedValue = 1;
     Double double_AddValueToDateActivity_DateValue;
     TextView textView_MainActivity_savedValues;
 
     SimpleDateFormat sdf_DateInNumbers = new SimpleDateFormat("dd/MM/yyyy");
-    SimpleDateFormat sdf_Month = new SimpleDateFormat("MMMM");
+    SimpleDateFormat sdf_Month = new SimpleDateFormat("MM");
 
     // Deklaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
         openDB();
 
-        textView_MainActivity_savedValues = (TextView) findViewById(R.id.textView_MainActivity_savedValues);
 
         //TextViews of showed Date and value of the Selected Date
         textView_MainActivity_SelectedDate = (TextView) findViewById(R.id.textView_MainActivity_SelectedDate);
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         textView_MainActivity_SelectedDate.setText(string_selectedDate);
 
         // get selected Date
-        date_selectedDate=new Date(calendarView_MainActivity_calendar.getDate());
+        date_selectedDate = new Date(calendarView_MainActivity_calendar.getDate());
 
         //show sum of all values of this date
         textView_MainActivity_SelectedDateValue.setText(Double.toString(sumAllValuesOfSelectedDate()));
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Delet all data in Database
     public void onClick_ClearAll(View view) {
-        displayText("Clicked clear all!");
+
         myDb.deleteAll();
     }
 
@@ -105,36 +105,8 @@ public class MainActivity extends AppCompatActivity {
         long newId = myDb.insertRow(intDate, value);
     }
 
-    //Makes String of all values in Database
-    private void displayRecordSet(Cursor cursor) {
-        String message = "";
-        // populate the message from the cursor
-
-        // Reset cursor to start, checking to see if there's data:
-        if (cursor.moveToFirst()) {
-            do {
-                // Process the data:
-                int id = cursor.getInt(DBAdapter.COL_ROWID);
-                long longDate = cursor.getLong(DBAdapter.COL_DATE);
-                double value = cursor.getDouble(DBAdapter.COL_VALUE);
-                String date = longToStringDate(longDate);
-
-
-                // Append data to the message:
-                message += "id=" + id
-                        + ", date=" + date
-                        + ", value=" + value
-                        + "\n";
-            } while (cursor.moveToNext());
-        }
-
-        // Close the cursor to avoid a resource leak.
-        cursor.close();
-
-        displayText(message);
-    }
-
-    private double sumAllValuesOfSelectedDate(){
+    //sums the value of the selected date
+    private double sumAllValuesOfSelectedDate() {
         //show saved Value of selected Date
         Cursor cursor = myDb.getRowWithDate(date_selectedDate.getTime());
 
@@ -183,10 +155,6 @@ public class MainActivity extends AppCompatActivity {
                     addDateAndValue(date_selectedDate, double_AddValueToDateActivity_DateValue);
                 }
 
-                //show values
-                Cursor cursor = myDb.getAllRows();
-                displayRecordSet(cursor);
-
                 //show selected Date in TextView
                 textView_MainActivity_SelectedDate.setText(longToStringDate(date_selectedDate.getTime()));
                 //textView_MainActivity_SelectedDateValue.setText(double_AddValueToDateActivity_DateValue.toString());
@@ -201,7 +169,8 @@ public class MainActivity extends AppCompatActivity {
     //Opens new Activity which shows all values
     public void onClick_ShowAllvalues(View view) {
         Intent intent = new Intent(this, OutgoingsOfSelectedMonthActivity.class);
-
+        integer_selectedMonth = Integer.valueOf(sdf_Month.format(date_selectedDate.getTime()));
+        intent.putExtra("IntSelectedMonth", integer_selectedMonth);
         startActivity(intent);
     }
 
@@ -210,10 +179,7 @@ public class MainActivity extends AppCompatActivity {
     // Displaying Values
 
     //Displays Values on MainActivity
-    private void displayText(String message) {
-        TextView textView = (TextView) findViewById(R.id.textView_MainActivity_savedValues);
-        textView.setText(message);
-    }
+
 
     // Displaying Values
     //----------------------------------------------------------------------------------------------------------------------------------------------
