@@ -1,7 +1,6 @@
 package com.example.leand.outgoingoverview;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,13 +12,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddValueToDateActivity extends AppCompatActivity {
-    Date date_selectedDate = new Date();
+    DBAdapter myDb;
     TextView textView_AddValueToDateActivity_SelectedDate;
-    String date;
-    private String string_selectedDate;
     Button button_AddValueToDateActivity_SaveValue;
     EditText editText_AddValueToDateActivity_Value;
-    Double double_returnValue;
+    SelectedDate selectedDate;
 
     // Deklaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -30,46 +27,75 @@ public class AddValueToDateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_value_to_date);
 
-        SimpleDateFormat sdf_DateInNumbers = new SimpleDateFormat("dd/MM/yyyy");
+        openDB();
+
+        //definition of Items in MainActivity
+        textView_AddValueToDateActivity_SelectedDate = findViewById(R.id.textView_putOutgoing_SelectedDate);
+        button_AddValueToDateActivity_SaveValue = findViewById(R.id.button_putOutgoing_SaveValue);
+        editText_AddValueToDateActivity_Value = findViewById(R.id.editText_putOutgoing_Value);
 
         //get Date from MainActivity
         Intent caller = getIntent();
-        date_selectedDate.setTime(caller.getLongExtra(MainActivity.EXTRA_DATE, -1));
-        string_selectedDate = sdf_DateInNumbers.format(date_selectedDate);
+        selectedDate = new SelectedDate(caller.getLongExtra(MainActivity.EXTRA_LONG_DATE, -1));
 
-        //show Date in layout
-        textView_AddValueToDateActivity_SelectedDate = (TextView) findViewById(R.id.textView_putOutgoing_SelectedDate);
-        textView_AddValueToDateActivity_SelectedDate.setText(string_selectedDate);
-
-        //Get Value
-        editText_AddValueToDateActivity_Value = (EditText) findViewById(R.id.editText_putOutgoing_Value);
-
-        //save Value and Date by Button click
-        button_AddValueToDateActivity_SaveValue = (Button) findViewById(R.id.button_putOutgoing_SaveValue);
-        button_AddValueToDateActivity_SaveValue.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (editText_AddValueToDateActivity_Value.getText().toString() != null) {
-                    Intent putOutgoingValueIntent = new Intent();
-                    if (editText_AddValueToDateActivity_Value.getText().toString().equals("")) {
-                        double_returnValue = 0.0;
-                    } else {
-                        double_returnValue = Double.parseDouble(editText_AddValueToDateActivity_Value.getText().toString());
-                    }
-                    putOutgoingValueIntent.putExtra("OutgoingValue", double_returnValue);
-                    putOutgoingValueIntent.putExtra("OutgoingDate", date_selectedDate.getTime());
-
-                    setResult(RESULT_OK, putOutgoingValueIntent);
-                    finish();
-                } else {
-                    finish();
-                }
-            }
-        });
-
+        //show Items on Activity
+        displayItemsOnActivity();
     }
 
     // OnCreate
     //----------------------------------------------------------------------------------------------------------------------------------------------
+    // Communication with other Activity
+
+    //save Value and Date by Button click
+    public void onClick_SaveValue(View view) {
+        Double double_Value;
+        if (editText_AddValueToDateActivity_Value.getText().toString().equals("")) {
+            finish();
+        } else {
+            double_Value = Double.parseDouble(editText_AddValueToDateActivity_Value.getText().toString());
+            addDateAndValue(selectedDate.getLong_Date(), double_Value, selectedDate.getInteger_day(), selectedDate.getInteger_Month(), selectedDate.getInteger_Year());
+        }
+
+        Intent intent = new Intent();
+        setResult(1, intent);
+        finish();
+    }
+
+    // Communication with other Activity
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // Displaying Values
+
+    public void displayItemsOnActivity() {
+        //show Date in layout
+        textView_AddValueToDateActivity_SelectedDate.setText(selectedDate.getString_Date());
+    }
+
+    // Displaying Values
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // Database methods
+
+    //Adds Date and value to Database
+    private void addDateAndValue(long longDate, double value, int int_Day, int int_Month, int int_Year) {
+        myDb.insertRow(longDate, value, int_Day, int_Month, int_Year);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        closeDB();
+    }
+
+    private void openDB() {
+        myDb = new DBAdapter(this);
+        myDb.open();
+    }
+
+    private void closeDB() {
+        myDb.close();
+    }
+
+    // Database methods
+    //----------------------------------------------------------------------------------------------------------------------------------------------
     // End
+
 }

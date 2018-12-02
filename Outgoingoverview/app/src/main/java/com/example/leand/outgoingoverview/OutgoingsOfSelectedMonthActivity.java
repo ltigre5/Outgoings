@@ -13,9 +13,10 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 
 public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
-    SimpleDateFormat sdf_DateInNumbers = new SimpleDateFormat("dd/MM/yyyy");
+    TextView textView_out_goings_of_selected_month_Month;
     DBAdapter myDb;
-    ListView listView;
+    ListView listView_outgoingsOfSelectedMonth;
+
     Integer integer_selectedMonth;
     String string_SelectedMonth;
 
@@ -28,52 +29,21 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_outgoings_of_selected_month);
 
-        Intent intent= getIntent();
-        integer_selectedMonth=intent.getIntExtra("IntSelectedMonth",-1);
-        setMonth();
+        //open the Database
+        openDB();
 
-        listView = findViewById(R.id.listView_outgoingsOfSelectedMonth);
+        //definition of Items in MainActivity
+        listView_outgoingsOfSelectedMonth = findViewById(R.id.listView_outgoingsOfSelectedMonth);
+        textView_out_goings_of_selected_month_Month = findViewById(R.id.textView_out_goings_of_selected_month_Month);
 
-        myDb = new DBAdapter(this);
-        myDb.open();
+        //get Intent from MainActivity
+        Intent intent = getIntent();
+        integer_selectedMonth = intent.getIntExtra("IntSelectedMonth", -1);
 
-        createArrayListOfAllValues();
-
+        //shows all Items On Activity
+        displayItemsOnActivity();
     }
 
-    //sets textView for Month to selected Month
-    private void setMonth() {
-        TextView textView_out_goings_of_selected_month_Month= findViewById(R.id.textView_out_goings_of_selected_month_Month);
-        switch (integer_selectedMonth) {
-            case 1:  string_SelectedMonth = "January";
-                break;
-            case 2:  string_SelectedMonth = "February";
-                break;
-            case 3:  string_SelectedMonth = "March";
-                break;
-            case 4:  string_SelectedMonth = "April";
-                break;
-            case 5:  string_SelectedMonth = "May";
-                break;
-            case 6:  string_SelectedMonth = "June";
-                break;
-            case 7:  string_SelectedMonth = "July";
-                break;
-            case 8:  string_SelectedMonth = "August";
-                break;
-            case 9:  string_SelectedMonth = "September";
-                break;
-            case 10: string_SelectedMonth = "October";
-                break;
-            case 11: string_SelectedMonth = "November";
-                break;
-            case 12: string_SelectedMonth = "December";
-                break;
-            default: string_SelectedMonth = "Invalid month";
-                break;
-        }
-        textView_out_goings_of_selected_month_Month.setText(string_SelectedMonth);
-    }
 
     // OnCreate
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -81,29 +51,21 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
 
     //Creates Arraylist of all values and adds an onClick Method which opens EditValueActivity and tranfers Databse-ID of selected Value
     private void createArrayListOfAllValues() {
-        //Get cursor for all Rows
         Cursor cursor = myDb.getAllRows();
-
-        //Select from which Rows in Databse to get values
         String[] fromFieldsName = new String[]{DBAdapter.KEY_ROWID, DBAdapter.KEY_DATE, DBAdapter.KEY_VALUE};
 
         //Select where to show values, textViews defined in Class CustomCursorAdapter dont need to enter here
         int[] toViewsID = new int[]{R.id.textView_adapter_view_list_ID};
 
-        //create Adapter
         CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(this, R.layout.adapter_view_list, cursor, fromFieldsName, toViewsID, 0);
-
-        //set Adapter to listView
-        listView.setAdapter(customCursorAdapter);
+        listView_outgoingsOfSelectedMonth.setAdapter(customCursorAdapter);
 
         //by clicking of Item get Database-ID of Position and open EditValueActivity and send ID
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView_outgoingsOfSelectedMonth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //get cursor of Position
+                //get ID of selected Item from Databse
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
-
-                //get ID of position
                 Integer iD = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
 
                 //Open EditValueActivity and send ID
@@ -112,8 +74,21 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
                 startActivityForResult(intent, RESULT_FIRST_USER);
             }
         });
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        closeDB();
+    }
 
+    private void openDB() {
+        myDb = new DBAdapter(this);
+        myDb.open();
+    }
+
+    private void closeDB() {
+        myDb.close();
     }
 
     // Database methods
@@ -125,18 +100,70 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                createArrayListOfAllValues();
+                displayItemsOnActivity();
             }
         }
     }
 
-
     // Come back from EditValueActivity
     //----------------------------------------------------------------------------------------------------------------------------------------------
-    // Convert Values
+    // Set selected Values
 
+    //sets textView for Month to selected Month
+    private void setSelectedMonth() {
+        switch (integer_selectedMonth) {
+            case 1:
+                string_SelectedMonth = "January";
+                break;
+            case 2:
+                string_SelectedMonth = "February";
+                break;
+            case 3:
+                string_SelectedMonth = "March";
+                break;
+            case 4:
+                string_SelectedMonth = "April";
+                break;
+            case 5:
+                string_SelectedMonth = "May";
+                break;
+            case 6:
+                string_SelectedMonth = "June";
+                break;
+            case 7:
+                string_SelectedMonth = "July";
+                break;
+            case 8:
+                string_SelectedMonth = "August";
+                break;
+            case 9:
+                string_SelectedMonth = "September";
+                break;
+            case 10:
+                string_SelectedMonth = "October";
+                break;
+            case 11:
+                string_SelectedMonth = "November";
+                break;
+            case 12:
+                string_SelectedMonth = "December";
+                break;
+            default:
+                string_SelectedMonth = "Invalid month";
+                break;
+        }
+    }
 
-    // Convert Values
+    // Set selected Values
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // Displaying Values
+
+    public void displayItemsOnActivity() {
+        textView_out_goings_of_selected_month_Month.setText(string_SelectedMonth);
+        createArrayListOfAllValues();
+    }
+
+    // Displaying Values
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // End
 }
