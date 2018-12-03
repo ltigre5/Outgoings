@@ -10,15 +10,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
     TextView textView_out_goings_of_selected_month_Month;
+    TextView textView_out_goings_of_selected_month_totalValue;
     DBAdapter myDb;
     ListView listView_outgoingsOfSelectedMonth;
+    SelectedDate selectedDate;
+    String string_Currency = "CHF";
 
-    Integer integer_selectedMonth;
-    String string_SelectedMonth;
+    DecimalFormat df = new DecimalFormat("0.00");
 
     // Deklaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -35,10 +38,11 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
         //definition of Items in MainActivity
         listView_outgoingsOfSelectedMonth = findViewById(R.id.listView_outgoingsOfSelectedMonth);
         textView_out_goings_of_selected_month_Month = findViewById(R.id.textView_out_goings_of_selected_month_Month);
+        textView_out_goings_of_selected_month_totalValue = findViewById(R.id.textView_out_goings_of_selected_month_TotalValue);
 
         //get Intent from MainActivity
         Intent intent = getIntent();
-        integer_selectedMonth = intent.getIntExtra("IntSelectedMonth", -1);
+        selectedDate = new SelectedDate(intent.getLongExtra("LongSelectedDate", -1));
 
         //shows all Items On Activity
         displayItemsOnActivity();
@@ -51,12 +55,9 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
 
     //Creates Arraylist of all values and adds an onClick Method which opens EditValueActivity and tranfers Databse-ID of selected Value
     private void createArrayListOfAllValues() {
-        Cursor cursor = myDb.getAllRows();
+        Cursor cursor = myDb.getRowWithMonthYear(selectedDate.getInteger_Month(), selectedDate.getInteger_Year());
         String[] fromFieldsName = new String[]{DBAdapter.KEY_ROWID, DBAdapter.KEY_DATE, DBAdapter.KEY_VALUE};
-
-        //Select where to show values, textViews defined in Class CustomCursorAdapter dont need to enter here
-        int[] toViewsID = new int[]{R.id.textView_adapter_view_list_ID};
-
+        int[] toViewsID = new int[]{};
         CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(this, R.layout.adapter_view_list, cursor, fromFieldsName, toViewsID, 0);
         listView_outgoingsOfSelectedMonth.setAdapter(customCursorAdapter);
 
@@ -70,7 +71,7 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
 
                 //Open EditValueActivity and send ID
                 Intent intent = new Intent(OutgoingsOfSelectedMonthActivity.this, EditValueActivity.class);
-                intent.putExtra("values", iD.toString());
+                intent.putExtra("id", iD);
                 startActivityForResult(intent, RESULT_FIRST_USER);
             }
         });
@@ -91,6 +92,22 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
         myDb.close();
     }
 
+    //sums all values of the selected Month
+    private Double sumAllValuesOfSelectedMonth() {
+        Cursor cursor = myDb.getRowWithMonthYear(selectedDate.getInteger_Month(), selectedDate.getInteger_Year());
+
+        Double doubleTotalValue = 0.0;
+
+        if (cursor.moveToFirst()) {
+            do {
+                doubleTotalValue += cursor.getDouble(DBAdapter.COL_VALUE);
+            } while (cursor.moveToNext());
+        } else doubleTotalValue = 0.0;
+
+        cursor.close();
+        return doubleTotalValue;
+    }
+
     // Database methods
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Come back from EditValueActivity
@@ -109,57 +126,14 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Set selected Values
 
-    //sets textView for Month to selected Month
-    private void setSelectedMonth() {
-        switch (integer_selectedMonth) {
-            case 1:
-                string_SelectedMonth = "January";
-                break;
-            case 2:
-                string_SelectedMonth = "February";
-                break;
-            case 3:
-                string_SelectedMonth = "March";
-                break;
-            case 4:
-                string_SelectedMonth = "April";
-                break;
-            case 5:
-                string_SelectedMonth = "May";
-                break;
-            case 6:
-                string_SelectedMonth = "June";
-                break;
-            case 7:
-                string_SelectedMonth = "July";
-                break;
-            case 8:
-                string_SelectedMonth = "August";
-                break;
-            case 9:
-                string_SelectedMonth = "September";
-                break;
-            case 10:
-                string_SelectedMonth = "October";
-                break;
-            case 11:
-                string_SelectedMonth = "November";
-                break;
-            case 12:
-                string_SelectedMonth = "December";
-                break;
-            default:
-                string_SelectedMonth = "Invalid month";
-                break;
-        }
-    }
 
     // Set selected Values
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Displaying Values
 
     public void displayItemsOnActivity() {
-        textView_out_goings_of_selected_month_Month.setText(string_SelectedMonth);
+        textView_out_goings_of_selected_month_Month.setText(selectedDate.getString_Month());
+        textView_out_goings_of_selected_month_totalValue.setText("Total of the Month: " + df.format(sumAllValuesOfSelectedMonth()) + string_Currency);
         createArrayListOfAllValues();
     }
 

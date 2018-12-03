@@ -7,25 +7,16 @@
     tools:context=".AddValueToDateActivity">
 
     <TextView
-        android:id="@+id/textView_putOutgoing_SelectedDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="1.1.2000"
-        android:textSize="24sp"
+        android:id="@+id/textView_AddValueToDateActivity_SelectedDate"
+        style="@style/TextViews"
+        android:text="Date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_putOutgoing_SaveValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:id="@+id/button_AddValueToDateActivity_SaveValue"
+        style="@style/Buttons"
         android:onClick="onClick_SaveValue"
         android:text="Speichern"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,15 +24,27 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editText_putOutgoing_Value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:ems="10"
+        android:id="@+id/editText_AddValueToDateActivity_Titel"
+        style="@style/TextViews"
+        android:hint="Titel"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_AddValueToDateActivity_SelectedDate" />
+
+    <EditText
+        android:id="@+id/editText_AddValueToDateActivity_Value"
+        style="@style/TextViews"
         android:hint="Betrag"
         android:inputType="number"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_putOutgoing_SelectedDate" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_AddValueToDateActivity_Titel" />
+
+    <EditText
+        android:id="@+id/editText_AddValueToDateActivity_description"
+        style="@style/TextViews"
+        android:hint="description"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_AddValueToDateActivity_Value" />
 
 </android.support.constraint.ConstraintLayout>

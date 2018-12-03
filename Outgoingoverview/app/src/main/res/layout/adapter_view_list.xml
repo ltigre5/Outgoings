@@ -9,51 +9,61 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="35dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/textView_adapter_view_list_titel"
+            style="@style/TextViewsAdapterViewList"
+            android:text="description"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="35dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!--
         <TextView
             android:id="@+id/textView_adapter_view_list_ID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="TextView"
+            android:text=""
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
+-->
 
         <TextView
             android:id="@+id/textView_adapter_view_list_DATE"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="14dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
-            app:layout_constraintStart_toEndOf="@+id/textView_adapter_view_list_ID"
+            style="@style/TextViewsAdapterViewList"
+            android:text="Date"
+            app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView_adapter_view_list_VALUE"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
+            style="@style/TextViewsAdapterViewList"
+            android:text="Value"
             app:layout_constraintStart_toEndOf="@+id/textView_adapter_view_list_DATE"
             app:layout_constraintTop_toTopOf="parent" />
 
-
+<!--
         <TextView
             android:id="@+id/textView_adapter_view_list_DAY"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="TextView"
+            android:text=""
             app:layout_constraintStart_toEndOf="@+id/textView_adapter_view_list_ID"
             app:layout_constraintTop_toTopOf="parent"/>
         <TextView
@@ -62,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="TextView"
+            android:text=""
             app:layout_constraintStart_toEndOf="@+id/textView_adapter_view_list_DAY"
             app:layout_constraintTop_toTopOf="parent"/>
         <TextView
@@ -71,8 +81,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="TextView"
+            android:text=""
             app:layout_constraintStart_toEndOf="@+id/textView_adapter_view_list_MONTH"
             app:layout_constraintTop_toTopOf="parent"/>
+            -->
     </LinearLayout>
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

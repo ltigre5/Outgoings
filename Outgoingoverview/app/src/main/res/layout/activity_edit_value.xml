@@ -8,38 +8,52 @@
 
     <TextView
         android:id="@+id/textView_edit_value_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textSize="18sp"
-
+        style="@style/TextViews"
+        android:text="Date"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
+        android:id="@+id/editText_edit_value_Titel"
+        style="@style/TextViews"
+        android:inputType="text"
+        android:hint="titel"
+        app:layout_constraintTop_toBottomOf="@+id/textView_edit_value_date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
         android:id="@+id/editText_edit_value_value"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:ems="10"
+        style="@style/TextViews"
         android:inputType="number"
-        android:text="Name"
-        android:textSize="18sp"
-        app:layout_constraintStart_toEndOf="@+id/textView_edit_value_date"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:hint="Value"
+        app:layout_constraintTop_toBottomOf="@+id/editText_edit_value_Titel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/editText_edit_value_description"
+        style="@style/TextViews"
+        android:hint="description"
+        android:inputType="text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText_edit_value_value"
+        />
 
     <Button
-        android:id="@+id/button_edit_value_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:id="@+id/button_edit_value_save"
+        style="@style/Buttons"
         android:onClick="onClick_SaveNewValue"
         android:text="Save"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <Button
+        android:id="@+id/button_edit_value_delet"
+        style="@style/Buttons"
+        android:onClick="onClick_DeletItem"
+        android:text="Delet"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_edit_value_value" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.example.leand.outgoingoverview;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -19,10 +22,15 @@ public class MainActivity extends AppCompatActivity {
     TextView textView_MainActivity_totalValue;
     CalendarView calendarView_MainActivity_calendar;
     public static final String EXTRA_LONG_DATE = "long Date";
-    SelectedDate selectedDate;
+    SelectedDate selectedDateNew;
+    SelectedDate selectedDateOld;
+    int counterCalendar;
+    String string_Currency = "CHF";
 
     SimpleDateFormat sdf_Month = new SimpleDateFormat("MM");
     SimpleDateFormat sdf_Year = new SimpleDateFormat("yyyy");
+    DecimalFormat df = new DecimalFormat("0.00");
+
 
     // Deklaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -42,8 +50,13 @@ public class MainActivity extends AppCompatActivity {
         textView_MainActivity_SelectedDateValue = findViewById(R.id.textView_MainActivity_SelectedDateValue);
         calendarView_MainActivity_calendar = findViewById(R.id.calendarView_MainActivity_calendar);
 
+        counterCalendar = 0;
+
         //get values Of selected Date
-        selectedDate=new SelectedDate(calendarView_MainActivity_calendar.getDate());
+        selectedDateNew = new SelectedDate(calendarView_MainActivity_calendar.getDate());
+
+        //initialize old date vale
+        selectedDateOld = new SelectedDate(0);
 
         //show new selected values on mainactivity
         displayItemsOnActivity();
@@ -52,16 +65,30 @@ public class MainActivity extends AppCompatActivity {
         calendarView_MainActivity_calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+
                 //set selected values new
-                selectedDate.setDate_Date( new Date(year - 1900, month, dayOfMonth));
+                selectedDateNew.setDate_Date(new Date(year - 1900, month, dayOfMonth));
 
-                //show new selected values on mainactivity
-                displayItemsOnActivity();
+                if (counterCalendar < 2) {
 
-                //open AddValueToDateActivity and send Data
-                Intent intent = new Intent(MainActivity.this, AddValueToDateActivity.class);
-                intent.putExtra(EXTRA_LONG_DATE, selectedDate.getLong_Date());
-                startActivityForResult(intent, 1);
+                    //show new selected values on mainactivity
+                    displayItemsOnActivity();
+
+                    if (!selectedDateOld.getString_Date().equals(selectedDateNew.getString_Date())) {
+                        counterCalendar = 0;
+                    }
+
+                    counterCalendar++;
+                    selectedDateOld.setLong_Date(selectedDateNew.getLong_Date());
+                }
+                if (counterCalendar >= 2) {
+                    //open AddValueToDateActivity and send Data
+                    Intent intent = new Intent(MainActivity.this, AddValueToDateActivity.class);
+                    intent.putExtra(EXTRA_LONG_DATE, selectedDateNew.getLong_Date());
+                    startActivityForResult(intent, 1);
+
+                    counterCalendar = 0;
+                }
             }
         });
     }
@@ -87,13 +114,31 @@ public class MainActivity extends AppCompatActivity {
 
     //Delet all data in Database
     public void onClick_ClearAll(View view) {
-        myDb.deleteAll();
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        myDb.deleteAll();
+                        displayItemsOnActivity();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 
     //sums the value of the selected date
     private double sumAllValuesOfSelectedDay() {
         //show saved Value of selected Date
-        Cursor cursor = myDb.getRowWithDate(selectedDate.getLong_Date());
+        Cursor cursor = myDb.getRowWithDate(selectedDateNew.getLong_Date());
 
         //sum all values of this date
         double doubleAllValuesOfSelectedDate = 0;
@@ -108,20 +153,17 @@ public class MainActivity extends AppCompatActivity {
 
     //sums all values of the selected Month
     private Double sumAllValuesOfSelectedMonth() {
-        Cursor cursor = myDb.getAllRows();
+        Cursor cursor = myDb.getRowWithMonthYear(selectedDateNew.getInteger_Month(), selectedDateNew.getInteger_Year());
 
         Double doubleTotalValue = 0.0;
 
         if (cursor.moveToFirst()) {
-            Integer integerMonth = cursor.getInt(DBAdapter.COL_MONTH);
-            Integer integerYear = cursor.getInt(DBAdapter.COL_YEAR);
             do {
-                if (integerMonth.equals(selectedDate.getInteger_Month())&&integerYear.equals(selectedDate.getInteger_Year())) {
-                    doubleTotalValue += cursor.getDouble(DBAdapter.COL_VALUE);
-                }
+                doubleTotalValue += cursor.getDouble(DBAdapter.COL_VALUE);
             } while (cursor.moveToNext());
-        }
-        else doubleTotalValue=0.0;
+        } else doubleTotalValue = 0.0;
+
+        cursor.close();
         return doubleTotalValue;
     }
 
@@ -149,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
     //Opens new Activity which shows all values
     public void onClick_ShowAllvalues(View view) {
         Intent intent = new Intent(this, OutgoingsOfSelectedMonthActivity.class);
-        intent.putExtra("IntSelectedMonth", selectedDate.getInteger_Month());
+        intent.putExtra("LongSelectedDate", selectedDateNew.getLong_Date());
         startActivity(intent);
     }
 
@@ -159,13 +201,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void displayItemsOnActivity() {
         //set selected Date
-        textView_MainActivity_SelectedDate.setText(selectedDate.getString_Date());
+        textView_MainActivity_SelectedDate.setText("Date: " + selectedDateNew.getString_Date());
 
         //show sum of all values of this date
-        textView_MainActivity_SelectedDateValue.setText(Double.toString(sumAllValuesOfSelectedDay()));
+        textView_MainActivity_SelectedDateValue.setText("Total of the Day: " + df.format(sumAllValuesOfSelectedDay()) + string_Currency);
 
         //show total value of selected Month
-        textView_MainActivity_totalValue.setText(sumAllValuesOfSelectedMonth().toString());
+        textView_MainActivity_totalValue.setText("Total of the Month: " + df.format(sumAllValuesOfSelectedMonth()) + string_Currency);
     }
 
     // Displaying Values

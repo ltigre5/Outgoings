@@ -20,37 +20,23 @@
 
     <TextView
         android:id="@+id/textView_MainActivity_SelectedDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
+        style="@style/TextViews"
         android:inputType="text|textPersonName"
-        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/calendarView_MainActivity_calendar" />
 
     <TextView
         android:id="@+id/textView_MainActivity_SelectedDateValue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="8dp"
+        style="@style/TextViews"
         android:inputType="text|textPersonName"
-        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_MainActivity_SelectedDate" />
 
-
     <Button
         android:id="@+id/button_MainActivity_deletValues"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
+        style="@style/Buttons"
         android:onClick="onClick_ClearAll"
         android:text="Delet All"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -58,10 +44,7 @@
 
     <Button
         android:id="@+id/button_MainActivity_showAllValues"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        style="@style/Buttons"
         android:onClick="onClick_ShowAllvalues"
         android:text="Show values"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,14 +52,9 @@
 
     <TextView
         android:id="@+id/textView_MainActivity_totalValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="18sp"
+        style="@style/TextViews"
         android:text="TotalValueofMonth"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_MainActivity_showAllValues"
-        app:layout_constraintStart_toEndOf="@+id/button_MainActivity_deletValues" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_MainActivity_SelectedDateValue" />
 </android.support.constraint.ConstraintLayout>

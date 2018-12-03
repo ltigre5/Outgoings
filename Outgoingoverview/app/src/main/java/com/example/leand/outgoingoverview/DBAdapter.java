@@ -30,6 +30,8 @@ public class DBAdapter {
     public static final String KEY_DAY = "dayInInt";
     public static final String KEY_MONTH = "monthInInt";
     public static final String KEY_YEAR = "yearInInt";
+    public static final String KEY_DESCRIPTION = "description";
+    public static final String KEY_TITEL = "titel";
 
 
     // TODO: Setup your field numbers here (0 = KEY_ROWID, 1=...)
@@ -38,15 +40,17 @@ public class DBAdapter {
     public static final int COL_DAY = 3;
     public static final int COL_MONTH = 4;
     public static final int COL_YEAR = 5;
+    public static final int COL_DESCRIPTION = 6;
+    public static final int COL_TITEL = 7;
 
 
-    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_VALUE, KEY_DATE, KEY_DAY, KEY_MONTH, KEY_YEAR};
+    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_VALUE, KEY_DATE, KEY_DAY, KEY_MONTH, KEY_YEAR, KEY_DESCRIPTION, KEY_TITEL};
 
     // DB info: it's name, and the table we are using (just one).
     public static final String DATABASE_NAME = "MyDb";
     public static final String DATABASE_TABLE = "mainTable";
     // Track DB version if a new version of your app changes the format.
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 5;
 
     private static final String DATABASE_CREATE_SQL =
             "create table " + DATABASE_TABLE
@@ -64,9 +68,12 @@ public class DBAdapter {
                     // NOTE: All must be comma separated (end of line!) Last one must have NO comma!!
                     + KEY_DATE + " integer not null, "
                     + KEY_VALUE + " double not null, "
-                    + KEY_DAY + " double not null, "
-                    + KEY_MONTH + " double not null, "
-                    + KEY_YEAR + " double not null "
+                    + KEY_DAY + " integer not null, "
+                    + KEY_MONTH + " integer not null, "
+                    + KEY_YEAR + " integer not null, "
+                    + KEY_DESCRIPTION + " string, "
+                    + KEY_TITEL + " string not null "
+
 
                     // Rest  of creation:
                     + ");";
@@ -98,7 +105,7 @@ public class DBAdapter {
     }
 
     // Add a new set of values to the database.
-    public long insertRow(long dateInInt, double value, int day, int month, int year) {
+    public long insertRow(long dateInInt, double value, int day, int month, int year, String description, String titel) {
         /*
          * CHANGE 3:
          */
@@ -111,6 +118,8 @@ public class DBAdapter {
         initialValues.put(KEY_DAY, day);
         initialValues.put(KEY_MONTH, month);
         initialValues.put(KEY_YEAR, year);
+        initialValues.put(KEY_DESCRIPTION, description);
+        initialValues.put(KEY_TITEL, titel);
 
         // Insert it into the database.
         return db.insert(DATABASE_TABLE, null, initialValues);
@@ -168,7 +177,7 @@ public class DBAdapter {
     public Cursor getRowWithMonthYear(int intMonth, int int_Year) {
         String where = KEY_MONTH + "=" + intMonth + " AND " + KEY_YEAR + "=" + int_Year;
         Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
-                where, null, null, null, null, null);
+                where, null, null, null, KEY_DATE, null);
         if (c != null) {
             c.moveToFirst();
         }
@@ -176,7 +185,7 @@ public class DBAdapter {
     }
 
     // Change an existing row to be equal to new data.
-    public boolean updateRow(long rowId, String value, int date, int day, int month, int year) {
+    public boolean updateRow(long rowId, double value, int date, int day, int month, int year, String description, String titel) {
         String where = KEY_ROWID + "=" + rowId;
 
         /*
@@ -191,6 +200,28 @@ public class DBAdapter {
         newValues.put(KEY_DAY, day);
         newValues.put(KEY_MONTH, month);
         newValues.put(KEY_YEAR, year);
+        newValues.put(KEY_DESCRIPTION, description);
+        newValues.put(KEY_TITEL, titel);
+
+
+        // Insert it into the database.
+        return db.update(DATABASE_TABLE, newValues, where, null) != 0;
+    }
+
+    // Change an existing row to be equal to new data.
+    public boolean updateRow(long rowId, double value, String description, String titel) {
+        String where = KEY_ROWID + "=" + rowId;
+
+        /*
+         * CHANGE 4:
+         */
+        // TODO: Update data in the row with new fields.
+        // TODO: Also change the function's arguments to be what you need!
+        // Create row's data:
+        ContentValues newValues = new ContentValues();
+        newValues.put(KEY_VALUE, value);
+        newValues.put(KEY_DESCRIPTION, description);
+        newValues.put(KEY_TITEL, titel);
 
 
         // Insert it into the database.
@@ -198,9 +229,20 @@ public class DBAdapter {
     }
 
     public void updateValue(double newValue, int id) {
-
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBAdapter.KEY_VALUE, newValue);
+        db.update(DBAdapter.DATABASE_TABLE, contentValues, DBAdapter.KEY_ROWID + " = " + id, null);
+    }
+
+    public void updateDescription(String newDescriptioon, int id) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBAdapter.KEY_DESCRIPTION, newDescriptioon);
+        db.update(DBAdapter.DATABASE_TABLE, contentValues, DBAdapter.KEY_ROWID + " = " + id, null);
+    }
+
+    public void updateTitel(String newTitel, int id) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBAdapter.KEY_TITEL, newTitel);
         db.update(DBAdapter.DATABASE_TABLE, contentValues, DBAdapter.KEY_ROWID + " = " + id, null);
     }
 

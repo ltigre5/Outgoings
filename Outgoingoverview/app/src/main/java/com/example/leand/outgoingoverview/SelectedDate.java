@@ -8,6 +8,7 @@ public class SelectedDate {
     private Integer integer_Month;
     private Integer integer_day;
     private String string_Date;
+    private String string_Month;
     private Long long_Date;
     private Date date_Date;
 
@@ -19,6 +20,7 @@ public class SelectedDate {
     private SimpleDateFormat sdf_DateInNumbers = new SimpleDateFormat("dd/MM/yyyy");
     private SimpleDateFormat sdf_Day = new SimpleDateFormat("dd");
     private SimpleDateFormat sdf_Month = new SimpleDateFormat("MM");
+    private SimpleDateFormat sdf_MonthWriteOut = new SimpleDateFormat("MMMM");
     private SimpleDateFormat sdf_Year = new SimpleDateFormat("yyyy");
 
     // Formatter
@@ -44,6 +46,11 @@ public class SelectedDate {
 
     public void setLong_Date(Long long_Date) {
         this.long_Date = long_Date;
+    }
+
+    public String getString_Month() {
+        string_Month= sdf_MonthWriteOut.format(long_Date);
+        return string_Month;
     }
 
     public Integer getInteger_Year() {
