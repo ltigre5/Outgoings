@@ -1,91 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="35dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-        <TextView
-            android:id="@+id/textView_adapter_view_list_titel"
-            style="@style/TextViewsAdapterViewList"
-            android:text="description"
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/textView_adapter_view_list_titel"
+        style="@style/TextViewsAdapterViewListTitel"
+        android:text="description" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="35dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <!--
-        <TextView
-            android:id="@+id/textView_adapter_view_list_ID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text=""
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
--->
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/textView_adapter_view_list_DATE"
-            style="@style/TextViewsAdapterViewList"
-            android:text="Date"
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            style="@style/TextViewsAdapterViewListItems"
+            android:text="Date" />
 
         <TextView
             android:id="@+id/textView_adapter_view_list_VALUE"
-            style="@style/TextViewsAdapterViewList"
-            android:text="Value"
-            app:layout_constraintStart_toEndOf="@+id/textView_adapter_view_list_DATE"
-            app:layout_constraintTop_toTopOf="parent" />
-
-<!--
-        <TextView
-            android:id="@+id/textView_adapter_view_list_DAY"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text=""
-            app:layout_constraintStart_toEndOf="@+id/textView_adapter_view_list_ID"
-            app:layout_constraintTop_toTopOf="parent"/>
-        <TextView
-            android:id="@+id/textView_adapter_view_list_MONTH"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text=""
-            app:layout_constraintStart_toEndOf="@+id/textView_adapter_view_list_DAY"
-            app:layout_constraintTop_toTopOf="parent"/>
-        <TextView
-            android:id="@+id/textView_adapter_view_list_YEAR"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text=""
-            app:layout_constraintStart_toEndOf="@+id/textView_adapter_view_list_MONTH"
-            app:layout_constraintTop_toTopOf="parent"/>
-            -->
+            style="@style/TextViewsAdapterViewListItems"
+            android:text="Value" />
+        />
     </LinearLayout>
-    </LinearLayout>
-
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

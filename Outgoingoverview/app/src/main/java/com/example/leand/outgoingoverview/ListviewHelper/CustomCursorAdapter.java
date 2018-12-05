@@ -1,4 +1,4 @@
-package com.example.leand.outgoingoverview;
+package com.example.leand.outgoingoverview.ListviewHelper;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,19 +6,24 @@ import android.view.View;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
+import com.example.leand.outgoingoverview.R;
+
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 public class CustomCursorAdapter extends SimpleCursorAdapter {
     String string_Currency="CHF";
 
+
     //create Data Formatter
     SimpleDateFormat sdf_DateInNumbers = new SimpleDateFormat("dd/MM/yyyy");
     DecimalFormat df = new DecimalFormat("0.00");
 
     //constructor
-    public CustomCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+    public CustomCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags, String currency) {
         super(context, layout, c, from, to, flags);
+        string_Currency=currency;
     }
 
     @Override
@@ -66,4 +71,6 @@ public class CustomCursorAdapter extends SimpleCursorAdapter {
         textView_adapter_view_list_year.setText(string_year_index);
         */
     }
+
+
 }

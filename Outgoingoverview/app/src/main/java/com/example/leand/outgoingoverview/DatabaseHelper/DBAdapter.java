@@ -1,4 +1,4 @@
-package com.example.leand.outgoingoverview;
+package com.example.leand.outgoingoverview.DatabaseHelper;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -32,6 +32,7 @@ public class DBAdapter {
     public static final String KEY_YEAR = "yearInInt";
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_TITEL = "titel";
+    public static final String KEY_CURRENCY = "currency";
 
 
     // TODO: Setup your field numbers here (0 = KEY_ROWID, 1=...)
@@ -42,15 +43,16 @@ public class DBAdapter {
     public static final int COL_YEAR = 5;
     public static final int COL_DESCRIPTION = 6;
     public static final int COL_TITEL = 7;
+    public static final int COL_Currency= 8;
 
 
-    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_VALUE, KEY_DATE, KEY_DAY, KEY_MONTH, KEY_YEAR, KEY_DESCRIPTION, KEY_TITEL};
+    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_VALUE, KEY_DATE, KEY_DAY, KEY_MONTH, KEY_YEAR, KEY_DESCRIPTION, KEY_TITEL, KEY_CURRENCY};
 
     // DB info: it's name, and the table we are using (just one).
     public static final String DATABASE_NAME = "MyDb";
     public static final String DATABASE_TABLE = "mainTable";
     // Track DB version if a new version of your app changes the format.
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6;
 
     private static final String DATABASE_CREATE_SQL =
             "create table " + DATABASE_TABLE
@@ -72,7 +74,8 @@ public class DBAdapter {
                     + KEY_MONTH + " integer not null, "
                     + KEY_YEAR + " integer not null, "
                     + KEY_DESCRIPTION + " string, "
-                    + KEY_TITEL + " string not null "
+                    + KEY_TITEL + " string not null, "
+                    + KEY_CURRENCY + " string  "
 
 
                     // Rest  of creation:
@@ -140,6 +143,17 @@ public class DBAdapter {
             } while (c.moveToNext());
         }
         c.close();
+    }
+
+    // Returns Currency
+    public Cursor getFirstRow() {
+        String where = KEY_ROWID + "=" + 1;
+        Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
+                where, null, null, null, null, null);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
     }
 
     // Return all data in the database.
@@ -246,6 +260,19 @@ public class DBAdapter {
         db.update(DBAdapter.DATABASE_TABLE, contentValues, DBAdapter.KEY_ROWID + " = " + id, null);
     }
 
+    public void updateCurrency(String newCurrency) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBAdapter.KEY_CURRENCY, newCurrency);
+        db.update(DBAdapter.DATABASE_TABLE, contentValues, DBAdapter.KEY_ROWID + " = " + 1, null);
+    }
+
+    public long insertCurrency(String currency) {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_CURRENCY, currency);
+
+        // Insert it into the database.
+        return db.insert(DATABASE_TABLE, null, initialValues);
+    }
 
     /////////////////////////////////////////////////////////////////////
     //	Private Helper Classes:

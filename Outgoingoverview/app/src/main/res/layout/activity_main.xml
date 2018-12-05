@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Activitys.MainActivity">
 
     <CalendarView
         android:id="@+id/calendarView_MainActivity_calendar"
@@ -18,22 +18,74 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView_MainActivity_SelectedDate"
-        style="@style/TextViews"
-        android:inputType="text|textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+    <!-- Date -->
+    <LinearLayout
+        android:id="@+id/linearLayout_MainActivity_Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView_MainActivity_calendar" />
+        app:layout_constraintTop_toBottomOf="@+id/calendarView_MainActivity_calendar">
 
-    <TextView
-        android:id="@+id/textView_MainActivity_SelectedDateValue"
-        style="@style/TextViews"
-        android:inputType="text|textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
+        <TextView
+            android:id="@+id/textView_MainActivity_SelectedDateStatment"
+            style="@style/TextViewsMainStatments"
+            android:text="Date:"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_MainActivity_SelectedDate"
+            style="@style/TextViewsMainEditText"
+            android:text="Date"
+            app:layout_constraintStart_toEndOf="@+id/textView_MainActivity_SelectedDateStatment" />
+    </LinearLayout>
+
+    <!-- Total of Day -->
+    <LinearLayout
+        android:id="@+id/linearLayout_MainActivity_ValueDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_MainActivity_SelectedDate" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_MainActivity_Date">
 
+        <TextView
+            android:id="@+id/textView_MainActivity_SelectedDatValueStatment"
+            style="@style/TextViewsMainStatments"
+            android:text="Total Day:"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_MainActivity_SelectedDateValue"
+            style="@style/TextViewsMainEditText"
+            android:inputType="text|textPersonName"
+            android:text="TotalValueofDay"
+            app:layout_constraintStart_toEndOf="@+id/textView_MainActivity_SelectedDatValueStatment" />
+    </LinearLayout>
+
+    <!-- Total of Month -->
+    <LinearLayout
+        android:id="@+id/linearLayout_MainActivity_ValueMonth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_MainActivity_ValueDay">
+
+        <TextView
+            android:id="@+id/textView_MainActivity_TotalValueStatment"
+            style="@style/TextViewsMainStatments"
+            android:text="Total Month:"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textView_MainActivity_totalValue"
+            style="@style/TextViewsMainEditText"
+            android:text="TotalValueofMonth"
+            app:layout_constraintStart_toEndOf="@+id/textView_MainActivity_TotalValueStatment" />
+    </LinearLayout>
+
+    <!-- Delet all -->
     <Button
         android:id="@+id/button_MainActivity_deletValues"
         style="@style/Buttons"
@@ -42,19 +94,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- Properties -->
     <Button
-        android:id="@+id/button_MainActivity_showAllValues"
+        android:id="@+id/button_MainActivity_properties"
+        style="@style/Buttons"
+        android:onClick="onClick_OpenProperties"
+        android:text="Properties"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_MainActivity_Overview"
+        app:layout_constraintStart_toEndOf="@+id/button_MainActivity_deletValues" />
+
+    <!-- Show all Values -->
+    <Button
+        android:id="@+id/button_MainActivity_Overview"
         style="@style/Buttons"
         android:onClick="onClick_ShowAllvalues"
-        android:text="Show values"
+        android:text="Overview"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/textView_MainActivity_totalValue"
-        style="@style/TextViews"
-        android:text="TotalValueofMonth"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_MainActivity_SelectedDateValue" />
 </android.support.constraint.ConstraintLayout>

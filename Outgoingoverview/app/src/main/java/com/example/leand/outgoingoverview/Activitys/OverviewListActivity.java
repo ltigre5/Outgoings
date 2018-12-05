@@ -1,4 +1,4 @@
-package com.example.leand.outgoingoverview;
+package com.example.leand.outgoingoverview.Activitys;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,14 +10,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
+import com.example.leand.outgoingoverview.ListviewHelper.CustomCursorAdapter;
+import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
+import com.example.leand.outgoingoverview.R;
+import com.example.leand.outgoingoverview.Classes.SelectedDate;
 
-public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
-    TextView textView_out_goings_of_selected_month_Month;
-    TextView textView_out_goings_of_selected_month_totalValue;
+import java.text.DecimalFormat;
+
+public class OverviewListActivity extends AppCompatActivity {
+    TextView textView_OverviewListActivity_Month;
+    TextView textView_OverviewListActivity_totalValue;
     DBAdapter myDb;
-    ListView listView_outgoingsOfSelectedMonth;
+    ListView listView_OverviewListActivity;
     SelectedDate selectedDate;
     String string_Currency = "CHF";
 
@@ -30,15 +34,17 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_outgoings_of_selected_month);
+        setContentView(R.layout.activity_overview_list_);
 
         //open the Database
         openDB();
 
+        getCurrency();
+
         //definition of Items in MainActivity
-        listView_outgoingsOfSelectedMonth = findViewById(R.id.listView_outgoingsOfSelectedMonth);
-        textView_out_goings_of_selected_month_Month = findViewById(R.id.textView_out_goings_of_selected_month_Month);
-        textView_out_goings_of_selected_month_totalValue = findViewById(R.id.textView_out_goings_of_selected_month_TotalValue);
+        listView_OverviewListActivity = findViewById(R.id.listView_OverviewListActivity);
+        textView_OverviewListActivity_Month = findViewById(R.id.textView_OverviewListActivity_Month);
+        textView_OverviewListActivity_totalValue = findViewById(R.id.textView_OverviewListActivity_TotalValue);
 
         //get Intent from MainActivity
         Intent intent = getIntent();
@@ -58,11 +64,11 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
         Cursor cursor = myDb.getRowWithMonthYear(selectedDate.getInteger_Month(), selectedDate.getInteger_Year());
         String[] fromFieldsName = new String[]{DBAdapter.KEY_ROWID, DBAdapter.KEY_DATE, DBAdapter.KEY_VALUE};
         int[] toViewsID = new int[]{};
-        CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(this, R.layout.adapter_view_list, cursor, fromFieldsName, toViewsID, 0);
-        listView_outgoingsOfSelectedMonth.setAdapter(customCursorAdapter);
+        CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(this, R.layout.adapter_view_list, cursor, fromFieldsName, toViewsID, 0, string_Currency);
+        listView_OverviewListActivity.setAdapter(customCursorAdapter);
 
         //by clicking of Item get Database-ID of Position and open EditValueActivity and send ID
-        listView_outgoingsOfSelectedMonth.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView_OverviewListActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //get ID of selected Item from Databse
@@ -70,7 +76,7 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
                 Integer iD = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
 
                 //Open EditValueActivity and send ID
-                Intent intent = new Intent(OutgoingsOfSelectedMonthActivity.this, EditValueActivity.class);
+                Intent intent = new Intent(OverviewListActivity.this, EditValueActivity.class);
                 intent.putExtra("id", iD);
                 startActivityForResult(intent, RESULT_FIRST_USER);
             }
@@ -90,6 +96,16 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
 
     private void closeDB() {
         myDb.close();
+    }
+
+    private void getCurrency() {
+        Cursor cursor = myDb.getFirstRow();
+        if (!cursor.moveToFirst()) {
+            string_Currency = "CHF";
+        } else {
+            string_Currency = cursor.getString(cursor.getColumnIndexOrThrow("currency"));
+        }
+        cursor.close();
     }
 
     //sums all values of the selected Month
@@ -124,16 +140,11 @@ public class OutgoingsOfSelectedMonthActivity extends AppCompatActivity {
 
     // Come back from EditValueActivity
     //----------------------------------------------------------------------------------------------------------------------------------------------
-    // Set selected Values
-
-
-    // Set selected Values
-    //----------------------------------------------------------------------------------------------------------------------------------------------
     // Displaying Values
 
     public void displayItemsOnActivity() {
-        textView_out_goings_of_selected_month_Month.setText(selectedDate.getString_Month());
-        textView_out_goings_of_selected_month_totalValue.setText("Total of the Month: " + df.format(sumAllValuesOfSelectedMonth()) + string_Currency);
+        textView_OverviewListActivity_Month.setText(selectedDate.getString_Month());
+        textView_OverviewListActivity_totalValue.setText(df.format(sumAllValuesOfSelectedMonth()) + string_Currency);
         createArrayListOfAllValues();
     }
 

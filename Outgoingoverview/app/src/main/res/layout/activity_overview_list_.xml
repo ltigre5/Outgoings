@@ -4,20 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".OutgoingsOfSelectedMonthActivity">
-
-    <TextView
-        android:id="@+id/textView_out_goings_of_selected_month_TotalValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Total Value:"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    tools:context=".Activitys.OverviewListActivity">
 
     <ListView
-        android:id="@+id/listView_outgoingsOfSelectedMonth"
+        android:id="@+id/listView_OverviewListActivity"
         android:layout_width="368dp"
         android:layout_height="469dp"
         android:layout_marginStart="8dp"
@@ -28,11 +18,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView_out_goings_of_selected_month_Month"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:id="@+id/textView_out_goings_of_selected_month_TotalValueStatment"
+        style="@style/TextViewsOutgoingsOfSelectedMonthStatments"
+        android:text="Total:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <TextView
+        android:id="@+id/textView_OverviewListActivity_TotalValue"
+        style="@style/TextViewsOutgoingsOfSelectedMonth"
+        android:text="Total Value:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView_out_goings_of_selected_month_TotalValueStatment" />
+
+    <TextView
+        android:id="@+id/textView_OverviewListActivity_Month"
+        style="@style/TextViewsOutgoingsOfSelectedMonth"
         android:text="Month"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

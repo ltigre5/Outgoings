@@ -4,56 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activitys.EditValueActivity">
+    tools:context=".Activitys.AddNewItemActivity">
 
     <TextView
-        android:id="@+id/textView_EditValueActivity_date"
+        android:id="@+id/textView_AddNewItemActivity_SelectedDate"
         style="@style/TextViews"
         android:text="Date"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText_EditValueActivity_Titel"
+        android:id="@+id/editText_AddNewItemActivity_Titel"
         style="@style/TextViews"
         android:hint="Titel"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_EditValueActivity_date" />
+        app:layout_constraintTop_toBottomOf="@+id/textView_AddNewItemActivity_SelectedDate" />
 
     <EditText
-        android:id="@+id/editText_EditValueActivity_value"
+        android:id="@+id/editText_AddNewItemActivity_Value"
         style="@style/TextViews"
-        android:digits="10.01"
         android:hint="Value"
         android:inputType="numberDecimal"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_EditValueActivity_Titel" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_AddNewItemActivity_Titel" />
 
     <EditText
-        android:id="@+id/editText_EditValueActivity_description"
+        android:id="@+id/editText_AddNewItemActivity_description"
         style="@style/TextViews"
         android:hint="Description"
         android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_EditValueActivity_value" />
+        app:layout_constraintTop_toBottomOf="@+id/editText_AddNewItemActivity_Value" />
 
     <Button
-        android:id="@+id/button_edit_value_save"
+        android:id="@+id/button_AddNewItemActivity_SaveValue"
         style="@style/Buttons"
-        android:onClick="onClick_SaveNewValue"
+        android:onClick="onClick_SaveItem"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/button_edit_value_delet"
-        style="@style/Buttons"
-        android:onClick="onClick_DeletItem"
-        android:text="Delet"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

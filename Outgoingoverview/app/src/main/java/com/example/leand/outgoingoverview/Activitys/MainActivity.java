@@ -1,4 +1,4 @@
-package com.example.leand.outgoingoverview;
+package com.example.leand.outgoingoverview.Activitys;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,6 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
+
+import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
+import com.example.leand.outgoingoverview.R;
+import com.example.leand.outgoingoverview.Classes.SelectedDate;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -25,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     SelectedDate selectedDateNew;
     SelectedDate selectedDateOld;
     int counterCalendar;
-    String string_Currency = "CHF";
+    String string_Currency = "";
 
     SimpleDateFormat sdf_Month = new SimpleDateFormat("MM");
     SimpleDateFormat sdf_Year = new SimpleDateFormat("yyyy");
@@ -44,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
         //open the Database
         openDB();
 
+        //save Currency String
+        getCurrency();
+
         //definition of Items in MainActivity
         textView_MainActivity_totalValue = findViewById(R.id.textView_MainActivity_totalValue);
         textView_MainActivity_SelectedDate = findViewById(R.id.textView_MainActivity_SelectedDate);
@@ -61,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         //show new selected values on mainactivity
         displayItemsOnActivity();
 
-        //When clicked on a date, open AddValueToDateActivity and send Date to this activity
+        //When clicked on a date, open AddNewItemActivity and send Date to this activity
         calendarView_MainActivity_calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
@@ -82,8 +89,8 @@ public class MainActivity extends AppCompatActivity {
                     selectedDateOld.setLong_Date(selectedDateNew.getLong_Date());
                 }
                 if (counterCalendar >= 2) {
-                    //open AddValueToDateActivity and send Data
-                    Intent intent = new Intent(MainActivity.this, AddValueToDateActivity.class);
+                    //open AddNewItemActivity and send Data
+                    Intent intent = new Intent(MainActivity.this, AddNewItemActivity.class);
                     intent.putExtra(EXTRA_LONG_DATE, selectedDateNew.getLong_Date());
                     startActivityForResult(intent, 1);
 
@@ -110,6 +117,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void closeDB() {
         myDb.close();
+    }
+
+    private void getCurrency() {
+        Cursor cursor = myDb.getFirstRow();
+        if (!cursor.moveToFirst()) {
+            string_Currency = "CHF";
+        } else {
+            string_Currency = cursor.getString(cursor.getColumnIndexOrThrow("currency"));
+        }
+        cursor.close();
     }
 
     //Delet all data in Database
@@ -176,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Communicate with other Activitys
 
-    //Save Date and Value on Database if Value is saved from AddValueToDateActivity
+    //Save Date and Value on Database if Value is saved from AddNewItemActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -190,9 +207,14 @@ public class MainActivity extends AppCompatActivity {
 
     //Opens new Activity which shows all values
     public void onClick_ShowAllvalues(View view) {
-        Intent intent = new Intent(this, OutgoingsOfSelectedMonthActivity.class);
+        Intent intent = new Intent(this, OverviewListActivity.class);
         intent.putExtra("LongSelectedDate", selectedDateNew.getLong_Date());
         startActivity(intent);
+    }
+
+    public void onClick_OpenProperties(View view) {
+        Intent intent = new Intent(this, PropertiesActivity.class);
+        startActivityForResult(intent, 1);
     }
 
     // Communicate with other Activitys
@@ -200,15 +222,20 @@ public class MainActivity extends AppCompatActivity {
     // Displaying Values
 
     public void displayItemsOnActivity() {
+
+        //save Currency String
+        getCurrency();
+
         //set selected Date
-        textView_MainActivity_SelectedDate.setText("Date: " + selectedDateNew.getString_Date());
+        textView_MainActivity_SelectedDate.setText(selectedDateNew.getString_Date());
 
         //show sum of all values of this date
-        textView_MainActivity_SelectedDateValue.setText("Total of the Day: " + df.format(sumAllValuesOfSelectedDay()) + string_Currency);
+        textView_MainActivity_SelectedDateValue.setText(df.format(sumAllValuesOfSelectedDay()) + string_Currency);
 
         //show total value of selected Month
-        textView_MainActivity_totalValue.setText("Total of the Month: " + df.format(sumAllValuesOfSelectedMonth()) + string_Currency);
+        textView_MainActivity_totalValue.setText(df.format(sumAllValuesOfSelectedMonth()) + string_Currency);
     }
+
 
     // Displaying Values
     //----------------------------------------------------------------------------------------------------------------------------------------------
