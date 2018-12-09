@@ -1,24 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- Layout to show the Items -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <!-- TextView to show Titel -->
     <TextView
         android:id="@+id/textView_adapter_view_list_titel"
         style="@style/TextViewsAdapterViewListTitel"
         android:text="description" />
 
+    <!-- Layout for the Date and Value -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <!-- TextView to show Date -->
         <TextView
             android:id="@+id/textView_adapter_view_list_DATE"
             style="@style/TextViewsAdapterViewListItems"
             android:text="Date" />
 
+        <!-- TextView to show Value -->
         <TextView
             android:id="@+id/textView_adapter_view_list_VALUE"
             style="@style/TextViewsAdapterViewListItems"

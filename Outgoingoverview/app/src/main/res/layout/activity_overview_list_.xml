@@ -1,39 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!-- Top Layout -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/overviewListActivity_overview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activitys.OverviewListActivity">
 
+    <!-- Layout for All Filter Objects -->
+    <LinearLayout
+        android:id="@+id/overviewListActivity_Filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Layout for All OrderBy Objects -->
+        <LinearLayout
+            android:id="@+id/overviewListActivity_OrderBy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Spinner for OrderBy Date or value Objects -->
+            <Spinner
+                android:id="@+id/spinner_OverviewListActivity_OrderBy"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:entries="@array/order_by_arrays" />
+
+            <!-- Spinner for Ascending Descending Order Objects -->
+            <Spinner
+                android:id="@+id/spinner_OverviewListActivity_AscendingDescending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:entries="@array/ascending_descending" />
+
+        </LinearLayout>
+
+        <!-- Spinner for Items to be Shown, Month, Year or Date from to -->
+        <Spinner
+            android:id="@+id/spinner_OverviewListActivity_Show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/show_arrays" />
+
+        <!-- Layout for All Date Objects -->
+        <LinearLayout
+            android:id="@+id/overviewListActivity_Date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+            <!-- Statment Year: or from: -->
+            <TextView
+                android:id="@+id/textView_OverviewListActivity_YearFromStatment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Year:"
+                app:autoSizeTextType="uniform" />
+
+            <!-- Layout for YearFrom Objects -->
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <!-- Edittext for entering Year -->
+                <EditText
+                    android:id="@+id/editText_OverviewListActivity_Year"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="4" />
+
+                <!-- Edittext for entering From Date -->
+                <EditText
+                    android:id="@+id/editText_OverviewListActivity_From"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <!-- Stament Month: or to: -->
+            <TextView
+                android:id="@+id/textView_OverviewListActivity_MonthToStatment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Month:"
+                app:autoSizeTextType="uniform" />
+
+            <!-- Layout for MonthTo Objects -->
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <!-- EditText for Month -->
+                <EditText
+                    android:id="@+id/editText_OverviewListActivity_Month"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:maxLength="2" />
+
+                <!-- EditText for to: -->
+                <EditText
+                    android:id="@+id/editText_OverviewListActivity_To"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="false" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <!-- Button for show new Selection -->
+            <Button
+                android:id="@+id/button_OverviewListActivity_OK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick_FilterList"
+                android:text="OK" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- ListView for Filtered Items Selected -->
     <ListView
         android:id="@+id/listView_OverviewListActivity"
-        android:layout_width="368dp"
-        android:layout_height="469dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_weight="1" />
 
-    <TextView
-        android:id="@+id/textView_out_goings_of_selected_month_TotalValueStatment"
-        style="@style/TextViewsOutgoingsOfSelectedMonthStatments"
-        android:text="Total:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
-    <TextView
-        android:id="@+id/textView_OverviewListActivity_TotalValue"
-        style="@style/TextViewsOutgoingsOfSelectedMonth"
-        android:text="Total Value:"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView_out_goings_of_selected_month_TotalValueStatment" />
+    <!-- Layout for Bottom Items, total value -->
+    <LinearLayout
+        android:id="@+id/overviewListActivity_Bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textView_OverviewListActivity_Month"
-        style="@style/TextViewsOutgoingsOfSelectedMonth"
-        android:text="Month"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        <!-- Statment for Total: -->
+        <TextView
+            android:id="@+id/textView_OverviewListActivity_TotalValueStatment"
+            style="@style/TextViewsOutgoingsOfSelectedMonth"
+            android:text="Total:" />
+
+        <!-- TextView for Total value -->
+        <TextView
+            android:id="@+id/textView_OverviewListActivity_TotalValue"
+            style="@style/TextViewsOutgoingsOfSelectedMonth"
+            android:layout_weight="1"
+            android:text="Total Value:" />
+    </LinearLayout>
+</LinearLayout>
+
+

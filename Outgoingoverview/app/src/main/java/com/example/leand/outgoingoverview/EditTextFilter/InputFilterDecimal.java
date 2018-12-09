@@ -1,4 +1,4 @@
-package com.example.leand.outgoingoverview.EditTextDezimalFilter;
+package com.example.leand.outgoingoverview.EditTextFilter;
 
 import android.text.Spanned;
 import android.text.method.DigitsKeyListener;

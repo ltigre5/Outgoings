@@ -19,7 +19,8 @@
         <activity android:name=".Activitys.AddNewItemActivity" />
         <activity android:name=".Activitys.OverviewListActivity" />
         <activity android:name=".Activitys.EditValueActivity" />
-        <activity android:name=".Activitys.PropertiesActivity"></activity>
+        <activity android:name=".Activitys.ChangeCurrencyActivity" />
+        <activity android:name=".Activitys.AddRepeatedOutgoingsActivity"></activity>
     </application>
 
 </manifest>

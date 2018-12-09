@@ -1,4 +1,33 @@
 <resources>
     <string name="app_name">Outgoing overview</string>
     <string name="title_activity_edit_value">EditValueActivity</string>
+
+    <!-- Order by Spinner -->
+    <string name="order_by_date">Date</string>
+    <string name="order_by_value">Value</string>
+
+    <string-array name="order_by_arrays">
+        <item>@string/order_by_date</item>
+        <item>@string/order_by_value</item>
+    </string-array>
+
+    <!-- AscendingDescending by Spinner -->
+    <string name="order_by_ascending">Ascending</string>
+    <string name="order_by_descending">Descending</string>
+
+    <string-array name="ascending_descending">
+        <item>@string/order_by_ascending</item>
+        <item>@string/order_by_descending</item>
+    </string-array>
+
+    <!-- Show spinner -->
+    <string name="show_year">Year</string>
+    <string name="show_month">Month</string>
+    <string name="show_from_to">from-to</string>
+
+    <string-array name="show_arrays">
+        <item>@string/show_month</item>
+        <item>@string/show_year</item>
+        <item>@string/show_from_to</item>
+    </string-array>
 </resources>

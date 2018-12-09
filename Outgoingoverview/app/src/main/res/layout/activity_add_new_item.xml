@@ -1,49 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activitys.AddNewItemActivity">
 
+    <!-- TextView for Selected Date -->
     <TextView
         android:id="@+id/textView_AddNewItemActivity_SelectedDate"
         style="@style/TextViews"
-        android:text="Date"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:text="Date" />
 
+    <!-- EditText for Titel -->
     <EditText
         android:id="@+id/editText_AddNewItemActivity_Titel"
         style="@style/TextViews"
         android:hint="Titel"
-        android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_AddNewItemActivity_SelectedDate" />
+        android:inputType="text" />
 
-    <EditText
-        android:id="@+id/editText_AddNewItemActivity_Value"
-        style="@style/TextViews"
-        android:hint="Value"
-        android:inputType="numberDecimal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_AddNewItemActivity_Titel" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="horizontal">
+
+        <!-- EditText for Value -->
+        <EditText
+            android:id="@+id/editText_AddNewItemActivity_Value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Value"
+            android:inputType="numberDecimal" />
+
+        <!-- TextView to show Currency -->
+        <TextView
+            android:id="@+id/textView_AddNewItemActivity_Currency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Currency"
+            app:autoSizeTextType="uniform" />
+    </LinearLayout>
+
+    <!-- EditText for Description -->
     <EditText
         android:id="@+id/editText_AddNewItemActivity_description"
         style="@style/TextViews"
         android:hint="Description"
-        android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText_AddNewItemActivity_Value" />
+        android:inputType="text" />
 
-    <Button
-        android:id="@+id/button_AddNewItemActivity_SaveValue"
-        style="@style/Buttons"
-        android:onClick="onClick_SaveItem"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-</android.support.constraint.ConstraintLayout>
+    <!-- ListView for Filtered Items Selected -->
+    <ListView
+        android:id="@+id/listView_AddNewItemActivity"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Statment for Total: -->
+        <TextView
+            android:id="@+id/textView_AddNewItemActivity_TotalValueStatment"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="Total:" />
+
+        <!-- TextView for Total value -->
+        <TextView
+            android:id="@+id/textView_AddNewItemActivity_TotalValue"
+            android:textSize="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:text="Total Value" />
+
+        <!-- Button to save item -->
+        <Button
+            android:id="@+id/button_AddNewItemActivity_SaveValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick_SaveItem"
+            android:text="Save" />
+    </LinearLayout>
+
+
+</LinearLayout>
+
+

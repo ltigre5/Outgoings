@@ -8,9 +8,10 @@ public class SelectedDate {
     private Integer integer_Month;
     private Integer integer_day;
     private String string_Date;
+    private Integer integer_DateWithoutTime;
     private String string_Month;
     private Long long_Date;
-    private Date date_Date;
+
 
     // Deklaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -18,6 +19,7 @@ public class SelectedDate {
 
     //Date formatter
     private SimpleDateFormat sdf_DateInNumbers = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat sdf_DateWithoutTime = new SimpleDateFormat("yyyyMMdd");
     private SimpleDateFormat sdf_Day = new SimpleDateFormat("dd");
     private SimpleDateFormat sdf_Month = new SimpleDateFormat("MM");
     private SimpleDateFormat sdf_MonthWriteOut = new SimpleDateFormat("MMMM");
@@ -32,9 +34,6 @@ public class SelectedDate {
         this.long_Date = long_Date;
     }
 
-    public SelectedDate(Date date_Date) {
-        this(date_Date.getTime());
-    }
 
     // Constructor
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -73,8 +72,9 @@ public class SelectedDate {
         return string_Date;
     }
 
-    public void setDate_Date(Date date_Date) {
-        long_Date=date_Date.getTime();
+    public Integer getInteger_DateWithoutTime() {
+        integer_DateWithoutTime = Integer.parseInt(sdf_DateWithoutTime.format(long_Date));
+        return integer_DateWithoutTime;
     }
 
     // Getter and Setter

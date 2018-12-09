@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.leand.outgoingoverview.ListviewHelper.ListViewAdapter;
+
 // TO USE:
 // Change the package (at top) to match your project.
 // Search for "TODO", and make the appropriate changes.
@@ -33,6 +35,7 @@ public class DBAdapter {
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_TITEL = "titel";
     public static final String KEY_CURRENCY = "currency";
+    public static final String KEY_DATE_WITHOUT_TIME = "dateWithoutTime";
 
 
     // TODO: Setup your field numbers here (0 = KEY_ROWID, 1=...)
@@ -43,16 +46,17 @@ public class DBAdapter {
     public static final int COL_YEAR = 5;
     public static final int COL_DESCRIPTION = 6;
     public static final int COL_TITEL = 7;
-    public static final int COL_Currency= 8;
+    public static final int COL_Currency = 8;
+    public static final int COL_DATE_WITHOUT_TIME = 9;
 
 
-    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_VALUE, KEY_DATE, KEY_DAY, KEY_MONTH, KEY_YEAR, KEY_DESCRIPTION, KEY_TITEL, KEY_CURRENCY};
+    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_VALUE, KEY_DATE, KEY_DAY, KEY_MONTH, KEY_YEAR, KEY_DESCRIPTION, KEY_TITEL, KEY_CURRENCY, KEY_DATE_WITHOUT_TIME};
 
     // DB info: it's name, and the table we are using (just one).
     public static final String DATABASE_NAME = "MyDb";
     public static final String DATABASE_TABLE = "mainTable";
     // Track DB version if a new version of your app changes the format.
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 7;
 
     private static final String DATABASE_CREATE_SQL =
             "create table " + DATABASE_TABLE
@@ -75,7 +79,8 @@ public class DBAdapter {
                     + KEY_YEAR + " integer not null, "
                     + KEY_DESCRIPTION + " string, "
                     + KEY_TITEL + " string not null, "
-                    + KEY_CURRENCY + " string  "
+                    + KEY_CURRENCY + " string not null, "
+                    + KEY_DATE_WITHOUT_TIME + " integer not null "
 
 
                     // Rest  of creation:
@@ -108,7 +113,7 @@ public class DBAdapter {
     }
 
     // Add a new set of values to the database.
-    public long insertRow(long dateInInt, double value, int day, int month, int year, String description, String titel) {
+    public long insertRow(long dateInInt, double value, int day, int month, int year, String description, String titel, String currency, int dateWithoutTime) {
         /*
          * CHANGE 3:
          */
@@ -123,6 +128,9 @@ public class DBAdapter {
         initialValues.put(KEY_YEAR, year);
         initialValues.put(KEY_DESCRIPTION, description);
         initialValues.put(KEY_TITEL, titel);
+        initialValues.put(KEY_CURRENCY, currency);
+        initialValues.put(KEY_DATE_WITHOUT_TIME, dateWithoutTime);
+
 
         // Insert it into the database.
         return db.insert(DATABASE_TABLE, null, initialValues);
@@ -145,16 +153,8 @@ public class DBAdapter {
         c.close();
     }
 
-    // Returns Currency
-    public Cursor getFirstRow() {
-        String where = KEY_ROWID + "=" + 1;
-        Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
-                where, null, null, null, null, null);
-        if (c != null) {
-            c.moveToFirst();
-        }
-        return c;
-    }
+    //-----------------------------------------------------------------------------------------------------------------------------------------
+    //getRows Methods
 
     // Return all data in the database.
     public Cursor getAllRows() {
@@ -178,8 +178,8 @@ public class DBAdapter {
         return c;
     }
 
-    public Cursor getRowWithDate(long longRowDate) {
-        String where = KEY_DATE + "=" + longRowDate;
+    public Cursor getRowWithDate(int dateWithoutTime) {
+        String where = KEY_DATE_WITHOUT_TIME + "=" + dateWithoutTime;
         Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
                 where, null, null, null, null, null);
         if (c != null) {
@@ -188,18 +188,48 @@ public class DBAdapter {
         return c;
     }
 
-    public Cursor getRowWithMonthYear(int intMonth, int int_Year) {
-        String where = KEY_MONTH + "=" + intMonth + " AND " + KEY_YEAR + "=" + int_Year;
+    public Cursor getRowWithYear(int int_Year, String string_OrderBy, String string_AscendingDescending) {
+        String where = KEY_YEAR + "=" + int_Year;
+        String orderBy = string_OrderBy + string_AscendingDescending;
         Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
-                where, null, null, null, KEY_DATE, null);
+                where, null, null, null, orderBy, null);
         if (c != null) {
             c.moveToFirst();
         }
         return c;
     }
 
+    public Cursor getRowWithMonthYear(int intMonth, int int_Year, String string_OrderBy, String string_AscendingDescending) {
+        String where = KEY_MONTH + "=" + intMonth + " AND " + KEY_YEAR + "=" + int_Year;
+        String orderBy = string_OrderBy + string_AscendingDescending;
+        Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
+                where, null, null, null, orderBy, null);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
+
+    public Cursor getRowWithMonthYear(int intMonth, int int_Year, String string_OrderBy) {
+        return getRowWithMonthYear(intMonth, int_Year, string_OrderBy, ListViewAdapter.ASCENDING);
+    }
+
+    public Cursor getRowWithStartEndDay(long longRowStartDate, long longRowEndDate, String string_OrderBy, String string_AscendingDescending) {
+        String where = KEY_DATE + " BETWEEN " + (longRowStartDate-1) + " AND " + longRowEndDate;
+        String orderBy = string_OrderBy + string_AscendingDescending;
+        Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
+                where, null, null, null, orderBy, null);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
+
+    //getRows Methods
+    //-----------------------------------------------------------------------------------------------------------------------------------------
+
     // Change an existing row to be equal to new data.
-    public boolean updateRow(long rowId, double value, int date, int day, int month, int year, String description, String titel) {
+    public boolean updateRow(long rowId, double value, int date, int day, int month, int year, String description, String titel, int dateWithoutTime) {
         String where = KEY_ROWID + "=" + rowId;
 
         /*
@@ -216,7 +246,7 @@ public class DBAdapter {
         newValues.put(KEY_YEAR, year);
         newValues.put(KEY_DESCRIPTION, description);
         newValues.put(KEY_TITEL, titel);
-
+        newValues.put(KEY_DATE_WITHOUT_TIME, titel);
 
         // Insert it into the database.
         return db.update(DATABASE_TABLE, newValues, where, null) != 0;
@@ -263,7 +293,7 @@ public class DBAdapter {
     public void updateCurrency(String newCurrency) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBAdapter.KEY_CURRENCY, newCurrency);
-        db.update(DBAdapter.DATABASE_TABLE, contentValues, DBAdapter.KEY_ROWID + " = " + 1, null);
+        db.update(DBAdapter.DATABASE_TABLE, contentValues, null, null);
     }
 
     public long insertCurrency(String currency) {

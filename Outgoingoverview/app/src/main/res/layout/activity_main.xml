@@ -1,115 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activitys.MainActivity">
 
+    <!-- Calendar to add new Item -->
     <CalendarView
         android:id="@+id/calendarView_MainActivity_calendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:visibility="visible"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp" />
 
-    <!-- Date -->
-    <LinearLayout
-        android:id="@+id/linearLayout_MainActivity_Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView_MainActivity_calendar">
 
-        <TextView
-            android:id="@+id/textView_MainActivity_SelectedDateStatment"
-            style="@style/TextViewsMainStatments"
-            android:text="Date:"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/textView_MainActivity_SelectedDate"
-            style="@style/TextViewsMainEditText"
-            android:text="Date"
-            app:layout_constraintStart_toEndOf="@+id/textView_MainActivity_SelectedDateStatment" />
-    </LinearLayout>
-
-    <!-- Total of Day -->
+    <!-- Layout for Total of Day -->
     <LinearLayout
         android:id="@+id/linearLayout_MainActivity_ValueDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout_MainActivity_Date">
+        android:layout_marginLeft="8dp"
+        android:orientation="horizontal">
 
+        <!-- Statment for Total Day: -->
         <TextView
             android:id="@+id/textView_MainActivity_SelectedDatValueStatment"
             style="@style/TextViewsMainStatments"
-            android:text="Total Day:"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="Total Day:" />
 
+        <!-- TextView to show Value of the Day -->
         <TextView
             android:id="@+id/textView_MainActivity_SelectedDateValue"
             style="@style/TextViewsMainEditText"
             android:inputType="text|textPersonName"
-            android:text="TotalValueofDay"
-            app:layout_constraintStart_toEndOf="@+id/textView_MainActivity_SelectedDatValueStatment" />
+            android:text="TotalValueofDay" />
     </LinearLayout>
 
-    <!-- Total of Month -->
+    <!-- Layout for Total of Month -->
     <LinearLayout
         android:id="@+id/linearLayout_MainActivity_ValueMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout_MainActivity_ValueDay">
+        android:layout_marginLeft="8dp"
+        android:orientation="horizontal">
 
+        <!-- Statment for Total Month: -->
         <TextView
             android:id="@+id/textView_MainActivity_TotalValueStatment"
             style="@style/TextViewsMainStatments"
-            android:text="Total Month:"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:text="Total Month:" />
 
+        <!-- TextView to show total value of the month -->
         <TextView
             android:id="@+id/textView_MainActivity_totalValue"
             style="@style/TextViewsMainEditText"
-            android:text="TotalValueofMonth"
-            app:layout_constraintStart_toEndOf="@+id/textView_MainActivity_TotalValueStatment" />
+            android:text="TotalValueofMonth" />
+
+
     </LinearLayout>
 
-    <!-- Delet all -->
-    <Button
-        android:id="@+id/button_MainActivity_deletValues"
-        style="@style/Buttons"
-        android:onClick="onClick_ClearAll"
-        android:text="Delet All"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="bottom">
+        <!-- Button to Delet all Items -->
 
-    <!-- Properties -->
-    <Button
-        android:id="@+id/button_MainActivity_properties"
-        style="@style/Buttons"
-        android:onClick="onClick_OpenProperties"
-        android:text="Properties"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_MainActivity_Overview"
-        app:layout_constraintStart_toEndOf="@+id/button_MainActivity_deletValues" />
+        <Button
+            android:id="@+id/button_MainActivity_AddRepeatedOutgoing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:onClick="onClick_ClearAll"
+            android:text="Add Repeated Outgoing" />
 
-    <!-- Show all Values -->
-    <Button
-        android:id="@+id/button_MainActivity_Overview"
-        style="@style/Buttons"
-        android:onClick="onClick_ShowAllvalues"
-        android:text="Overview"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-</android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <!-- Button to Delet all Items -->
+            <Button
+                android:id="@+id/button_MainActivity_deletValues"
+                style="@style/Buttons"
+                android:layout_alignParentLeft="true"
+                android:onClick="onClick_ClearAll"
+                android:text="Delet All" />
+
+            <!-- Button to Change Currency -->
+            <Button
+                android:id="@+id/button_MainActivity_ChangeCurrency"
+                style="@style/Buttons"
+                android:layout_centerHorizontal="true"
+                android:onClick="onClick_OpenChangeCurrency"
+                android:text="Currency"
+                android:visibility="invisible" />
+
+            <!-- Button to Show Items -->
+            <Button
+                android:id="@+id/button_MainActivity_Overview"
+                style="@style/Buttons"
+                android:layout_alignParentRight="true"
+                android:onClick="onClick_ShowAllvalues"
+                android:text="Overview" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+
