@@ -1,48 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activitys.EditValueActivity">
 
-
+    <!-- Layout for the Items to edit -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/general_MatchParent"
         android:orientation="vertical">
-
 
         <!-- TextView for Date -->
         <TextView
             android:id="@+id/textView_EditValueActivity_Date"
-            style="@style/TextViews"
-            android:text="Date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            style="@style/general_Top_MatchParent"
+            android:text="Date" />
 
         <!-- EditText for Titel -->
         <EditText
             android:id="@+id/editText_EditValueActivity_Titel"
-            style="@style/TextViews"
+            style="@style/general_Middle_MatchParent"
             android:hint="Titel"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_EditValueActivity_Date" />
+            android:inputType="text" />
 
+        <!-- Layout for the Value -->
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
+            style="@style/general_Middle_MatchParent"
             android:orientation="horizontal">
 
             <!-- EditText for Value -->
             <EditText
                 android:id="@+id/editText_EditValueActivity_Value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/general_WrapContent"
                 android:layout_weight="1"
                 android:hint="Value"
                 android:inputType="numberDecimal" />
@@ -50,43 +40,41 @@
             <!-- TextView to show Currency -->
             <TextView
                 android:id="@+id/textView_EditValueActivity_Currency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Currency"
-                app:autoSizeTextType="uniform" />
+                style="@style/general_WrapContent"
+                android:text="Currency" />
 
         </LinearLayout>
-
 
         <!-- EditText for Description -->
         <EditText
             android:id="@+id/editText_EditValueActivity_Description"
-            style="@style/TextViews"
+            style="@style/general_Middle_MatchParent"
             android:hint="Description"
-            android:inputType="text"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editText_EditValueActivity_Value" />
+            android:inputType="text" />
 
 
     </LinearLayout>
 
+    <!-- Layout for the Bottom -->
+    <RelativeLayout
+        style="@style/general_Bottom_MatchParent"
+        android:layout_weight="1"
+        android:gravity="bottom">
 
-    <!-- Button to delet Item -->
-    <Button
-        android:id="@+id/button_edit_value_delet"
-        style="@style/Buttons"
-        android:onClick="onClick_DeletItem"
-        android:text="Delet"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <!-- Button to delet Item -->
+        <Button
+            android:id="@+id/button_edit_value_delet"
+            style="@style/general_WrapContent"
+            android:layout_alignParentStart="true"
+            android:onClick="onClick_DeletItem"
+            android:text="Delet" />
 
-    <!-- Button to save values -->
-    <Button
-        android:id="@+id/button_edit_value_save"
-        style="@style/Buttons"
-        android:onClick="onClick_SaveNewValue"
-        android:text="Save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        <!-- Button to save values -->
+        <Button
+            android:id="@+id/button_edit_value_save"
+            style="@style/general_WrapContent"
+            android:layout_alignParentEnd="true"
+            android:onClick="onClick_SaveNewValue"
+            android:text="Save" />
+    </RelativeLayout>
+</LinearLayout>

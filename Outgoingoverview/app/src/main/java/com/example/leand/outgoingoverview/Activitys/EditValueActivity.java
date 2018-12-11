@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.leand.outgoingoverview.Classes.SelectedDate;
 import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
 import com.example.leand.outgoingoverview.EditTextFilter.InputFilterDecimal;
 import com.example.leand.outgoingoverview.R;
@@ -19,22 +20,14 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
 public class EditValueActivity extends AppCompatActivity {
-    private DBAdapter myDb;
 
-    private EditText editText_EditValueActivity_Value;
-    private EditText editText_EditValueActivity_Description;
-    private EditText editText_EditValueActivity_Titel;
-    private TextView textView_EditValueActivity_Date;
-    private TextView textView_EditValueActivity_Currency;
+    private EditText editText_EditValueActivity_Value, editText_EditValueActivity_Description, editText_EditValueActivity_Titel;
+    private TextView textView_EditValueActivity_Date, textView_EditValueActivity_Currency;
+    private SelectedDate selectedDate;
 
     private Integer interger_ID;
-    private String string_Date;
-    private String string_oldValue;
-    private String string_oldTitel;
-    private String string_oldDescription;
-    private String string_Currency;
+    private String string_oldValue, string_oldTitel, string_oldDescription, string_Currency;
 
-    private SimpleDateFormat sdf_DateInNumbers = new SimpleDateFormat("dd/MM/yyyy");
     private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
     // Declaration
@@ -46,8 +39,6 @@ public class EditValueActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_value);
 
-        //open the Database
-        openDB();
 
         //definition of Items in Activity
         textView_EditValueActivity_Date = findViewById(R.id.textView_EditValueActivity_Date);
@@ -56,19 +47,21 @@ public class EditValueActivity extends AppCompatActivity {
         editText_EditValueActivity_Description = findViewById(R.id.editText_EditValueActivity_Description);
         textView_EditValueActivity_Currency = findViewById(R.id.textView_EditValueActivity_Currency);
 
+        //Initilaize selected Date
+        selectedDate=new SelectedDate();
 
         //get Database-ID from OverviewListActivity
         Intent caller = getIntent();
         interger_ID = caller.getIntExtra(OverviewListActivity.EXTRA_INTEGER_ID, -1);
 
         //get Row to edit with ID
-        Cursor cursor = myDb.getRowWithID(interger_ID);
+        Cursor cursor = MainActivity.myDbMain.getRowWithID(interger_ID);
 
         //get Currency
         getCurrency();
 
         //get old values to Edit
-        string_Date = longToStringDate(cursor.getLong(DBAdapter.COL_DATE));
+        selectedDate.setLong_Date(cursor.getLong(DBAdapter.COL_DATE));
         string_oldValue = decimalFormat.format(cursor.getDouble(DBAdapter.COL_VALUE));
         string_oldTitel = cursor.getString(DBAdapter.COL_TITEL);
         string_oldDescription = cursor.getString(DBAdapter.COL_DESCRIPTION);
@@ -92,7 +85,7 @@ public class EditValueActivity extends AppCompatActivity {
         String newTitel = editText_EditValueActivity_Titel.getText().toString();
 
         //update the Database
-        myDb.updateRow(interger_ID, newValue, newDescription, newTitel);
+        MainActivity.myDbMain.updateRow(interger_ID, newValue, newDescription, newTitel);
 
         //return to OverviewListActivity
         Intent intent = new Intent();
@@ -109,7 +102,7 @@ public class EditValueActivity extends AppCompatActivity {
                     case DialogInterface.BUTTON_POSITIVE:
 
                         //Yes button clicked, delet row in Database
-                        myDb.deleteRow(interger_ID);
+                        MainActivity.myDbMain.deleteRow(interger_ID);
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);
                         finish();
@@ -125,54 +118,27 @@ public class EditValueActivity extends AppCompatActivity {
 
         //set the message to show in the DialogWindow
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+        builder.setMessage(getString(R.string.dialog_question)).setPositiveButton(getString(R.string.dialog_yes), dialogClickListener)
+                .setNegativeButton(getString(R.string.dialog_no), dialogClickListener).show();
     }
 
     //onClick Methods
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Database Methods
 
-    //Close Database when Activity is closed
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        closeDB();
-    }
-
-    //open Database
-    private void openDB() {
-        myDb = new DBAdapter(this);
-        myDb.open();
-    }
-
-    //close Database
-    private void closeDB() {
-        myDb.close();
-    }
 
     private void getCurrency() {
-        Cursor cursor = myDb.getAllRows();
+        Cursor cursor = MainActivity.myDbMain.getAllRows();
 
         if (cursor.moveToFirst()) {
             string_Currency = cursor.getString(cursor.getColumnIndexOrThrow("currency"));
         } else {
-            string_Currency = "CHF";
+            string_Currency = "";
         }
         cursor.close();
     }
 
     // Database Methods
-    //----------------------------------------------------------------------------------------------------------------------------------------------
-    // Convert Values
-
-    //Makes String Date out of long
-    private String longToStringDate(long longDate) {
-        String date = sdf_DateInNumbers.format(longDate);
-        return date;
-    }
-
-    // Convert Values
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Displaying Values
 
@@ -180,7 +146,7 @@ public class EditValueActivity extends AppCompatActivity {
     public void displayItemsOnActivity() {
         editText_EditValueActivity_Value.setText(string_oldValue);
         editText_EditValueActivity_Value.setSelection(editText_EditValueActivity_Value.getText().length());
-        textView_EditValueActivity_Date.setText(string_Date);
+        textView_EditValueActivity_Date.setText(selectedDate.getString_WeekDayOfDate()+" "+selectedDate.getString_Date());
         editText_EditValueActivity_Titel.setText(string_oldTitel);
         editText_EditValueActivity_Description.setText(string_oldDescription);
         textView_EditValueActivity_Currency.setText(string_Currency);

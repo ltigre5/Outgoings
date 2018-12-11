@@ -2,7 +2,6 @@
 
 <!-- Top Layout -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/overviewListActivity_overview"
     android:layout_width="match_parent"
@@ -13,31 +12,26 @@
     <!-- Layout for All Filter Objects -->
     <LinearLayout
         android:id="@+id/overviewListActivity_Filter"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/general_Top_MatchParent"
         android:orientation="vertical">
 
         <!-- Layout for All OrderBy Objects -->
         <LinearLayout
             android:id="@+id/overviewListActivity_OrderBy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/general_MatchParent"
             android:orientation="horizontal">
 
             <!-- Spinner for OrderBy Date or value Objects -->
             <Spinner
                 android:id="@+id/spinner_OverviewListActivity_OrderBy"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/general_WrapContent"
                 android:layout_weight="4"
                 android:entries="@array/order_by_arrays" />
 
             <!-- Spinner for Ascending Descending Order Objects -->
             <Spinner
                 android:id="@+id/spinner_OverviewListActivity_AscendingDescending"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/general_WrapContent"
                 android:entries="@array/ascending_descending" />
 
         </LinearLayout>
@@ -45,31 +39,26 @@
         <!-- Spinner for Items to be Shown, Month, Year or Date from to -->
         <Spinner
             android:id="@+id/spinner_OverviewListActivity_Show"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/general_MatchParent"
             android:entries="@array/show_arrays" />
 
         <!-- Layout for All Date Objects -->
         <LinearLayout
             android:id="@+id/overviewListActivity_Date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/general_MatchParent"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="horizontal">
 
-            <!-- Statment Year: or from: -->
+            <!-- Statment for Year: or from: -->
             <TextView
                 android:id="@+id/textView_OverviewListActivity_YearFromStatment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Year:"
-                app:autoSizeTextType="uniform" />
+                style="@style/general_WrapContent"
+                android:text="Year:" />
 
             <!-- Layout for YearFrom Objects -->
             <android.support.constraint.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/general_WrapContent"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
@@ -90,18 +79,15 @@
 
             </android.support.constraint.ConstraintLayout>
 
-            <!-- Stament Month: or to: -->
+            <!-- Stament for Month: or to: -->
             <TextView
                 android:id="@+id/textView_OverviewListActivity_MonthToStatment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Month:"
-                app:autoSizeTextType="uniform" />
+                style="@style/general_WrapContent"
+                android:text="Month:" />
 
             <!-- Layout for MonthTo Objects -->
             <android.support.constraint.ConstraintLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/general_WrapContent"
                 android:layout_weight="1">
 
                 <!-- EditText for Month -->
@@ -124,8 +110,7 @@
             <!-- Button for show new Selection -->
             <Button
                 android:id="@+id/button_OverviewListActivity_OK"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/general_WrapContent"
                 android:onClick="onClick_FilterList"
                 android:text="OK" />
 
@@ -136,30 +121,25 @@
     <!-- ListView for Filtered Items Selected -->
     <ListView
         android:id="@+id/listView_OverviewListActivity"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        style="@style/general_Middle_MatchParent"
         android:layout_weight="1" />
 
     <!-- Layout for Bottom Items, total value -->
     <LinearLayout
         android:id="@+id/overviewListActivity_Bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/general_Bottom_MatchParent"
         android:orientation="horizontal">
 
         <!-- Statment for Total: -->
         <TextView
             android:id="@+id/textView_OverviewListActivity_TotalValueStatment"
-            style="@style/TextViewsOutgoingsOfSelectedMonth"
+            style="@style/general_WrapContent"
             android:text="Total:" />
 
         <!-- TextView for Total value -->
         <TextView
             android:id="@+id/textView_OverviewListActivity_TotalValue"
-            style="@style/TextViewsOutgoingsOfSelectedMonth"
+            style="@style/general_WrapContent"
             android:layout_weight="1"
             android:text="Total Value:" />
     </LinearLayout>

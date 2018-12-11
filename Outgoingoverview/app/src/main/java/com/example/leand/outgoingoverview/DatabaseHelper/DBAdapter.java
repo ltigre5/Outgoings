@@ -7,12 +7,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.leand.outgoingoverview.Classes.SelectedDate;
 import com.example.leand.outgoingoverview.ListviewHelper.ListViewAdapter;
+
+import java.text.SimpleDateFormat;
 
 // TO USE:
 // Change the package (at top) to match your project.
 // Search for "TODO", and make the appropriate changes.
 public class DBAdapter {
+
+    SelectedDate selectedDate = new SelectedDate();
+    SelectedDate selectedStartDate = new SelectedDate();
+    SelectedDate selectedEndDate = new SelectedDate();
 
     /////////////////////////////////////////////////////////////////////
     //	Constants & Data
@@ -36,6 +43,13 @@ public class DBAdapter {
     public static final String KEY_TITEL = "titel";
     public static final String KEY_CURRENCY = "currency";
     public static final String KEY_DATE_WITHOUT_TIME = "dateWithoutTime";
+    public static final String KEY_TITLE_REPEATED = "titleRepeated";
+    public static final String KEY_END_DATE = "endDateLong";
+    public static final String KEY_END_DATE_WITHOUT_TIME = "endDateWithoutTime";
+    public static final String KEY_EVERY = "every";
+    public static final String KEY_START_DATE = "startDateLong";
+    public static final String KEY_START_DATE_WITHOUT_TIME = "startDateWithoutTime";
+
 
 
     // TODO: Setup your field numbers here (0 = KEY_ROWID, 1=...)
@@ -48,15 +62,21 @@ public class DBAdapter {
     public static final int COL_TITEL = 7;
     public static final int COL_Currency = 8;
     public static final int COL_DATE_WITHOUT_TIME = 9;
+    public static final int COL_TITLE_REPEATED = 10;
+    public static final int COL_END_DATE = 11;
+    public static final int COL_EVERY = 12;
+    public static final int COL_START_DATE = 13;
+    public static final int COL_END_DATE_WITHOUT_TIME = 14;
+    public static final int COL_START_DATE_WITHOUT_TIME = 15;
 
 
-    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_VALUE, KEY_DATE, KEY_DAY, KEY_MONTH, KEY_YEAR, KEY_DESCRIPTION, KEY_TITEL, KEY_CURRENCY, KEY_DATE_WITHOUT_TIME};
+    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_VALUE, KEY_DATE, KEY_DAY, KEY_MONTH, KEY_YEAR, KEY_DESCRIPTION, KEY_TITEL, KEY_CURRENCY, KEY_DATE_WITHOUT_TIME, KEY_TITLE_REPEATED, KEY_END_DATE, KEY_EVERY, KEY_START_DATE,KEY_END_DATE_WITHOUT_TIME,KEY_START_DATE_WITHOUT_TIME};
 
     // DB info: it's name, and the table we are using (just one).
     public static final String DATABASE_NAME = "MyDb";
     public static final String DATABASE_TABLE = "mainTable";
     // Track DB version if a new version of your app changes the format.
-    public static final int DATABASE_VERSION = 7;
+    public static final int DATABASE_VERSION = 12;
 
     private static final String DATABASE_CREATE_SQL =
             "create table " + DATABASE_TABLE
@@ -80,7 +100,14 @@ public class DBAdapter {
                     + KEY_DESCRIPTION + " string, "
                     + KEY_TITEL + " string not null, "
                     + KEY_CURRENCY + " string not null, "
-                    + KEY_DATE_WITHOUT_TIME + " integer not null "
+                    + KEY_DATE_WITHOUT_TIME + " integer not null, "
+                    + KEY_TITLE_REPEATED + " string, "
+                    + KEY_END_DATE + " integer ,"
+                    + KEY_EVERY + " string, "
+                    + KEY_START_DATE + " integer ,"
+                    + KEY_START_DATE_WITHOUT_TIME + " integer, "
+                    + KEY_END_DATE_WITHOUT_TIME + " integer "
+
 
 
                     // Rest  of creation:
@@ -113,23 +140,61 @@ public class DBAdapter {
     }
 
     // Add a new set of values to the database.
-    public long insertRow(long dateInInt, double value, int day, int month, int year, String description, String titel, String currency, int dateWithoutTime) {
+    public long insertRow(long dateInLong, double value, String description, String titel, String currency) {
         /*
          * CHANGE 3:
          */
         // TODO: Update data in the row with new fields.
         // TODO: Also change the function's arguments to be what you need!
         // Create row's data:
+
+        selectedDate.setLong_Date(dateInLong);
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_DATE, dateInInt);
+        initialValues.put(KEY_DATE, dateInLong);
         initialValues.put(KEY_VALUE, value);
-        initialValues.put(KEY_DAY, day);
-        initialValues.put(KEY_MONTH, month);
-        initialValues.put(KEY_YEAR, year);
+        initialValues.put(KEY_DAY, selectedDate.getInteger_day());
+        initialValues.put(KEY_MONTH, selectedDate.getInteger_Month());
+        initialValues.put(KEY_YEAR, selectedDate.getInteger_Year());
         initialValues.put(KEY_DESCRIPTION, description);
         initialValues.put(KEY_TITEL, titel);
         initialValues.put(KEY_CURRENCY, currency);
-        initialValues.put(KEY_DATE_WITHOUT_TIME, dateWithoutTime);
+        initialValues.put(KEY_DATE_WITHOUT_TIME, selectedDate.getInteger_DateWithoutTime());
+
+
+        // Insert it into the database.
+        return db.insert(DATABASE_TABLE, null, initialValues);
+    }
+
+
+    // Add a new sets of Repeated Item to the database.
+    public long insertRowRepeatedItem(long dateInLong, double value, String description, String titleRepeated, String currency, long endDate, String every, long startDate) {
+        /*
+         * CHANGE 3:
+         */
+        // TODO: Update data in the row with new fields.
+        // TODO: Also change the function's arguments to be what you need!
+        // Create row's data:
+
+        selectedDate.setLong_Date(dateInLong);
+        selectedStartDate.setLong_Date(startDate);
+        selectedEndDate.setLong_Date(endDate);
+
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(KEY_DATE, dateInLong);
+        initialValues.put(KEY_VALUE, value);
+        initialValues.put(KEY_DAY, selectedDate.getInteger_day());
+        initialValues.put(KEY_MONTH, selectedDate.getInteger_Month());
+        initialValues.put(KEY_YEAR, selectedDate.getInteger_Year());
+        initialValues.put(KEY_DESCRIPTION, description);
+        initialValues.put(KEY_TITLE_REPEATED, titleRepeated);
+        initialValues.put(KEY_CURRENCY, currency);
+        initialValues.put(KEY_DATE_WITHOUT_TIME, selectedDate.getInteger_DateWithoutTime());
+        initialValues.put(KEY_TITEL, titleRepeated);
+        initialValues.put(KEY_END_DATE, endDate);
+        initialValues.put(KEY_EVERY, every);
+        initialValues.put(KEY_START_DATE, startDate);
+        initialValues.put(KEY_END_DATE_WITHOUT_TIME,selectedEndDate.getInteger_DateWithoutTime());
+        initialValues.put(KEY_START_DATE_WITHOUT_TIME,selectedStartDate.getInteger_DateWithoutTime());
 
 
         // Insert it into the database.
@@ -139,6 +204,12 @@ public class DBAdapter {
     // Delete a row from the database, by rowId (primary key)
     public boolean deleteRow(long rowId) {
         String where = KEY_ROWID + "=" + rowId;
+        return db.delete(DATABASE_TABLE, where, null) != 0;
+    }
+
+    // Delete rows from the database, by repeated title
+    public boolean deleteRowWithRepeatedItem(String title, int startDateWithoutTime, int endDateWithoutTime, String description, double value) {
+        String where = KEY_TITLE_REPEATED + "='" + title + "' AND " + KEY_START_DATE_WITHOUT_TIME + "=" + startDateWithoutTime + " AND " + KEY_END_DATE_WITHOUT_TIME + "=" + endDateWithoutTime + " AND " + KEY_DESCRIPTION + "='" + description + "' AND " + KEY_VALUE + "=" + value;
         return db.delete(DATABASE_TABLE, where, null) != 0;
     }
 
@@ -178,6 +249,19 @@ public class DBAdapter {
         return c;
     }
 
+
+    // Get row with Repeated Title
+    public Cursor getAllRowsRepeatedItemNotDuplicated() {
+        String where = KEY_END_DATE + " IS NOT NULL";
+        String groupBy = KEY_START_DATE_WITHOUT_TIME + ", " + KEY_END_DATE_WITHOUT_TIME + ", " + KEY_EVERY + ", " + KEY_TITLE_REPEATED;
+        Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
+                where, null, groupBy, null, null, null);
+        if (c != null) {
+            c.moveToFirst();
+        }
+        return c;
+    }
+
     public Cursor getRowWithDate(int dateWithoutTime) {
         String where = KEY_DATE_WITHOUT_TIME + "=" + dateWithoutTime;
         Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
@@ -210,12 +294,12 @@ public class DBAdapter {
         return c;
     }
 
-    public Cursor getRowWithMonthYear(int intMonth, int int_Year, String string_OrderBy) {
-        return getRowWithMonthYear(intMonth, int_Year, string_OrderBy, ListViewAdapter.ASCENDING);
+    public Cursor getRowWithMonthYear(int intMonth, int int_Year) {
+        return getRowWithMonthYear(intMonth, int_Year, DBAdapter.KEY_DATE, ListViewAdapter.ASCENDING);
     }
 
-    public Cursor getRowWithStartEndDay(long longRowStartDate, long longRowEndDate, String string_OrderBy, String string_AscendingDescending) {
-        String where = KEY_DATE + " BETWEEN " + (longRowStartDate-1) + " AND " + longRowEndDate;
+    public Cursor getRowWithStartEndDay(int startDateWithoutTime, int endDateWithoutTime, String string_OrderBy, String string_AscendingDescending) {
+        String where = KEY_DATE_WITHOUT_TIME + " BETWEEN " + startDateWithoutTime + " AND " + endDateWithoutTime;
         String orderBy = string_OrderBy + string_AscendingDescending;
         Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
                 where, null, null, null, orderBy, null);
@@ -227,30 +311,6 @@ public class DBAdapter {
 
     //getRows Methods
     //-----------------------------------------------------------------------------------------------------------------------------------------
-
-    // Change an existing row to be equal to new data.
-    public boolean updateRow(long rowId, double value, int date, int day, int month, int year, String description, String titel, int dateWithoutTime) {
-        String where = KEY_ROWID + "=" + rowId;
-
-        /*
-         * CHANGE 4:
-         */
-        // TODO: Update data in the row with new fields.
-        // TODO: Also change the function's arguments to be what you need!
-        // Create row's data:
-        ContentValues newValues = new ContentValues();
-        newValues.put(KEY_VALUE, value);
-        newValues.put(KEY_DATE, date);
-        newValues.put(KEY_DAY, day);
-        newValues.put(KEY_MONTH, month);
-        newValues.put(KEY_YEAR, year);
-        newValues.put(KEY_DESCRIPTION, description);
-        newValues.put(KEY_TITEL, titel);
-        newValues.put(KEY_DATE_WITHOUT_TIME, titel);
-
-        // Insert it into the database.
-        return db.update(DATABASE_TABLE, newValues, where, null) != 0;
-    }
 
     // Change an existing row to be equal to new data.
     public boolean updateRow(long rowId, double value, String description, String titel) {
@@ -272,23 +332,6 @@ public class DBAdapter {
         return db.update(DATABASE_TABLE, newValues, where, null) != 0;
     }
 
-    public void updateValue(double newValue, int id) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBAdapter.KEY_VALUE, newValue);
-        db.update(DBAdapter.DATABASE_TABLE, contentValues, DBAdapter.KEY_ROWID + " = " + id, null);
-    }
-
-    public void updateDescription(String newDescriptioon, int id) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBAdapter.KEY_DESCRIPTION, newDescriptioon);
-        db.update(DBAdapter.DATABASE_TABLE, contentValues, DBAdapter.KEY_ROWID + " = " + id, null);
-    }
-
-    public void updateTitel(String newTitel, int id) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBAdapter.KEY_TITEL, newTitel);
-        db.update(DBAdapter.DATABASE_TABLE, contentValues, DBAdapter.KEY_ROWID + " = " + id, null);
-    }
 
     public void updateCurrency(String newCurrency) {
         ContentValues contentValues = new ContentValues();
@@ -296,13 +339,6 @@ public class DBAdapter {
         db.update(DBAdapter.DATABASE_TABLE, contentValues, null, null);
     }
 
-    public long insertCurrency(String currency) {
-        ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_CURRENCY, currency);
-
-        // Insert it into the database.
-        return db.insert(DATABASE_TABLE, null, initialValues);
-    }
 
     /////////////////////////////////////////////////////////////////////
     //	Private Helper Classes:

@@ -21,19 +21,15 @@ import com.example.leand.outgoingoverview.Classes.SelectedDate;
 import static com.example.leand.outgoingoverview.Activitys.OverviewListActivity.EXTRA_INTEGER_ID;
 
 public class AddNewItemActivity extends AppCompatActivity {
-    private DBAdapter myDb;
 
-    private TextView textView_AddNewItemActivity_SelectedDate;
-    private TextView textView_AddNewItemActivity_Currency;
-    private TextView textView_AddNewItemActivity_TotalValue;
-    private EditText editText_AddNewItemActivity_Value;
-    private EditText editText_AddNewItemActivity_Description;
-    private EditText editText_AddNewItemActivity_Titel;
+
+    private TextView textView_AddNewItemActivity_SelectedDate, textView_AddNewItemActivity_Currency, textView_AddNewItemActivity_TotalValue;
+    private EditText editText_AddNewItemActivity_Value, editText_AddNewItemActivity_Description, editText_AddNewItemActivity_Titel;
+    private ListView listView_AddNewItemActivity;
 
     private SelectedDate selectedDate;
-    private String string_Currency = "";
     private ListViewAdapter listViewAdapter;
-    private ListView listView_AddNewItemActivity;
+    private String string_Currency = "";
 
 
     // Declaration
@@ -44,9 +40,6 @@ public class AddNewItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_item);
-
-        //open Database
-        openDB();
 
         //get Currency
         getCurrency();
@@ -98,7 +91,7 @@ public class AddNewItemActivity extends AppCompatActivity {
             string_Description = editText_AddNewItemActivity_Description.getText().toString();
             double_Value = Double.parseDouble(editText_AddNewItemActivity_Value.getText().toString());
 
-            addNewItemInDatabase(selectedDate.getLong_Date(), double_Value, selectedDate.getInteger_day(), selectedDate.getInteger_Month(), selectedDate.getInteger_Year(), string_Description, string_Titel, string_Currency, selectedDate.getInteger_DateWithoutTime());
+            addNewItemInDatabase(selectedDate.getLong_Date(), double_Value, string_Description, string_Titel, string_Currency);
         }
 
         //return to MainActivity
@@ -112,35 +105,19 @@ public class AddNewItemActivity extends AppCompatActivity {
     // Database methods
 
     //Adds Date and value to Database
-    private void addNewItemInDatabase(long longDate, double value, int int_Day, int int_Month, int int_Year, String description, String titel, String currency, int dateWithoutTime) {
-        myDb.insertRow(longDate, value, int_Day, int_Month, int_Year, description, titel, currency, dateWithoutTime);
+    private void addNewItemInDatabase(long longDate, double value, String description, String titel, String currency) {
+        MainActivity.myDbMain.insertRow(longDate, value, description, titel, currency);
     }
 
-    //Close Database when Activity is closed
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        closeDB();
-    }
 
-    //open Database
-    private void openDB() {
-        myDb = new DBAdapter(this);
-        myDb.open();
-    }
-
-    //close Database
-    private void closeDB() {
-        myDb.close();
-    }
 
     private void getCurrency() {
-        Cursor cursor = myDb.getAllRows();
+        Cursor cursor = MainActivity.myDbMain.getAllRows();
 
         if (cursor.moveToFirst()) {
-            string_Currency = cursor.getString(cursor.getColumnIndexOrThrow("currency"));
+            string_Currency = cursor.getString(cursor.getColumnIndexOrThrow(DBAdapter.KEY_CURRENCY));
         } else {
-            string_Currency = "CHF";
+            string_Currency = "";
         }
         cursor.close();
     }
@@ -192,10 +169,18 @@ public class AddNewItemActivity extends AppCompatActivity {
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                 Integer integer_iD = cursor.getInt(cursor.getColumnIndexOrThrow(DBAdapter.KEY_ROWID));
 
-                //Open EditValueActivity and send ID
-                Intent intent = new Intent(AddNewItemActivity.this, EditValueActivity.class);
-                intent.putExtra(EXTRA_INTEGER_ID, integer_iD);
-                startActivityForResult(intent, RESULT_FIRST_USER);
+                //Open Activity to edit item and send ID
+                if (cursor.isNull(DBAdapter.COL_END_DATE)) {
+                    //Open EditValueActivity and send ID
+                    Intent intent = new Intent(AddNewItemActivity.this, EditValueActivity.class);
+                    intent.putExtra(EXTRA_INTEGER_ID, integer_iD);
+                    startActivityForResult(intent, RESULT_FIRST_USER);
+                } else {
+                    //Open EditRepeatedOutgoingsActivity and send ID
+                    Intent intent = new Intent(AddNewItemActivity.this, EditRepeatedOutgoingsActivity.class);
+                    intent.putExtra(EXTRA_INTEGER_ID, integer_iD);
+                    startActivityForResult(intent, RESULT_FIRST_USER);
+                }
             }
         });
     }
@@ -206,7 +191,7 @@ public class AddNewItemActivity extends AppCompatActivity {
 
     //show Values on Activity
     public void displayItemsOnActivity() {
-        textView_AddNewItemActivity_SelectedDate.setText(selectedDate.getString_Date());
+        textView_AddNewItemActivity_SelectedDate.setText(selectedDate.getString_WeekDayOfDate()+" "+selectedDate.getString_Date());
         textView_AddNewItemActivity_Currency.setText(string_Currency);
         textView_AddNewItemActivity_TotalValue.setText(sumAllValues().toString());
     }

@@ -1,7 +1,7 @@
 package com.example.leand.outgoingoverview.Classes;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
 public class SelectedDate {
     private Integer integer_Year;
@@ -11,6 +11,7 @@ public class SelectedDate {
     private Integer integer_DateWithoutTime;
     private String string_Month;
     private Long long_Date;
+    private Calendar calendar;
 
 
     // Deklaration
@@ -24,31 +25,42 @@ public class SelectedDate {
     private SimpleDateFormat sdf_Month = new SimpleDateFormat("MM");
     private SimpleDateFormat sdf_MonthWriteOut = new SimpleDateFormat("MMMM");
     private SimpleDateFormat sdf_Year = new SimpleDateFormat("yyyy");
+    private SimpleDateFormat sdf_WeekdayOfDate = new SimpleDateFormat("EEEE");
+
+
 
     // Formatter
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Constructor
 
     //constructor
+    public SelectedDate() {
+        calendar = Calendar.getInstance();
+        this.long_Date = calendar.getTimeInMillis();
+    }
+
     public SelectedDate(long long_Date) {
+        this();
         this.long_Date = long_Date;
+    }
+
+    public SelectedDate(Integer year, Integer month, Integer dayOfMonth) {
+        this();
+        calendar.set(year, month, dayOfMonth);
+        this.long_Date = calendar.getTimeInMillis();
     }
 
 
     // Constructor
     //----------------------------------------------------------------------------------------------------------------------------------------------
-    // Getter and Setter
+    // Getter
 
     public Long getLong_Date() {
         return long_Date;
     }
 
-    public void setLong_Date(Long long_Date) {
-        this.long_Date = long_Date;
-    }
-
     public String getString_Month() {
-        string_Month= sdf_MonthWriteOut.format(long_Date);
+        string_Month = sdf_MonthWriteOut.format(long_Date);
         return string_Month;
     }
 
@@ -67,17 +79,36 @@ public class SelectedDate {
         return integer_day;
     }
 
-    public String getString_Date() {
-        string_Date = sdf_DateInNumbers.format(long_Date);
-        return string_Date;
-    }
 
     public Integer getInteger_DateWithoutTime() {
         integer_DateWithoutTime = Integer.parseInt(sdf_DateWithoutTime.format(long_Date));
         return integer_DateWithoutTime;
     }
 
-    // Getter and Setter
+    public String getString_Date() {
+        string_Date = sdf_DateInNumbers.format(long_Date);
+        return string_Date;
+    }
+
+    public String getString_WeekDayOfDate() {
+        string_Date = sdf_WeekdayOfDate.format(long_Date);
+        return string_Date;
+    }
+
+    // Getter
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // Setter
+
+    public void setLong_Date(Long long_Date) {
+        this.long_Date = long_Date;
+    }
+
+    public void setLong_Date(Integer year, Integer month, Integer dayOfMonth) {
+        calendar.set(year, month, dayOfMonth);
+        this.long_Date = calendar.getTimeInMillis();
+    }
+
+    // Setter
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // OnCreate
 

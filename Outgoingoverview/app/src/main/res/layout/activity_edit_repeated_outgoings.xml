@@ -5,11 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activitys.AddRepeatedOutgoingsActivity">
-
+    tools:context=".Activitys.EditRepeatedOutgoingsActivity">
     <!-- EditText for Titel -->
     <EditText
-        android:id="@+id/editText_AddReapeatedValueActivity_Titel"
+        android:id="@+id/editText_EditRepeatedOutgoingsActivity_Titel"
         style="@style/general_Top_MatchParent"
         android:hint="Titel"
         android:inputType="text" />
@@ -20,23 +19,24 @@
 
         <!-- EditText Value -->
         <EditText
-            android:id="@+id/editText_AddReapeatedValueActivity_Value"
+            android:id="@+id/editText_EditRepeatedOutgoingsActivity_Value"
             style="@style/general_WrapContent"
-            android:layout_weight="1"
-            android:hint="Value" />
+            android:inputType="numberDecimal"
+            android:hint="Value"
+            android:layout_weight="1" />
 
         <!-- TextView to show Currency -->
         <TextView
-            android:id="@+id/textView_AddReapeatedValueActivity_Currency"
+            android:id="@+id/textView_EditRepeatedOutgoingsActivity_Currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="Currency"
             app:autoSizeTextType="uniform" />
     </LinearLayout>
 
     <!-- EditText for Titel -->
     <EditText
-        android:id="@+id/editText_AddReapeatedValueActivity_Description"
+        android:id="@+id/editText_EditRepeatedOutgoingsActivity_Description"
         style="@style/general_Middle_MatchParent"
         android:hint="Description"
         android:inputType="text" />
@@ -50,28 +50,28 @@
 
         <!-- Statment for Start: -->
         <TextView
-            android:id="@+id/textView_AddReapeatedValueActivity_StartStatment"
+            android:id="@+id/textView_EditRepeatedOutgoingsActivity_StartStatment"
             style="@style/general_WrapContent"
             android:text="Start:"
             app:autoSizeTextType="uniform" />
 
         <!-- Edittext for Start -->
         <EditText
-            android:id="@+id/editText_AddReapeatedValueActivity_Start"
+            android:id="@+id/editText_EditRepeatedOutgoingsActivity_Start"
             style="@style/general_WrapContent"
             android:layout_weight="1"
             android:focusable="false" />
 
         <!-- Stament for End: -->
         <TextView
-            android:id="@+id/textView_AddReapeatedValueActivity_EndStatment"
+            android:id="@+id/textView_EditRepeatedOutgoingsActivity_EndStatment"
             style="@style/general_WrapContent"
             android:text="End:"
             app:autoSizeTextType="uniform" />
 
         <!-- EditText for End -->
         <EditText
-            android:id="@+id/editText_AddReapeatedValueActivity_End"
+            android:id="@+id/editText_EditRepeatedOutgoingsActivity_End"
             style="@style/general_WrapContent"
             android:layout_weight="1"
             android:focusable="false" />
@@ -79,26 +79,33 @@
 
     <!-- Spinner for repeat every Year, Month, Week, Day -->
     <Spinner
-        android:id="@+id/spinner_AddReapeatedValueActivity_RepeatBy"
+        android:id="@+id/spinner_EditRepeatedOutgoingsActivity_RepeatBy"
         style="@style/general_Middle_MatchParent"
         android:entries="@array/repeated_arrays" />
 
-    <!-- ListView for Repeated Outgoings -->
-    <ListView
-        android:id="@+id/listView_AddReapeatedValueActivity"
-        style="@style/general_Middle_MatchParent"
-        android:layout_weight="1" />
 
     <!-- Layout for the Bottom -->
-    <RelativeLayout style="@style/general_Bottom_MatchParent">
+    <RelativeLayout
+        style="@style/general_Bottom_MatchParent"
+        android:layout_weight="1"
+        android:gravity="bottom">
 
         <!-- Button for save repeated Outgoing -->
         <Button
-            android:id="@+id/button_AddReapeatedValueActivity_Save"
+            android:id="@+id/button_EditRepeatedOutgoingsActivity_Save"
             style="@style/general_WrapContent"
-            android:layout_centerInParent="true"
+            android:layout_alignParentEnd="true"
             android:onClick="onClick_SaveReapeatedValues"
             android:text="Save" />
+
+        <Button
+            android:id="@+id/button_EditRepeatedOutgoingsActivity_Delet"
+            style="@style/general_WrapContent"
+            android:layout_alignParentStart="true"
+            android:onClick="onClick_DeletReapeatedValuees"
+            android:text="Delet"/>
+
+
 
     </RelativeLayout>
 </LinearLayout>

@@ -1,38 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activitys.AddNewItemActivity">
+    tools:context=".Activitys.AddNewItemActivity"
+    >
 
     <!-- TextView for Selected Date -->
     <TextView
         android:id="@+id/textView_AddNewItemActivity_SelectedDate"
-        style="@style/TextViews"
+        style="@style/general_Top_MatchParent"
         android:text="Date" />
 
     <!-- EditText for Titel -->
     <EditText
         android:id="@+id/editText_AddNewItemActivity_Titel"
-        style="@style/TextViews"
+        style="@style/general_Middle_MatchParent"
         android:hint="Titel"
         android:inputType="text" />
 
-
+    <!-- Layout for Value -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        style="@style/general_Middle_MatchParent"
         android:orientation="horizontal">
 
         <!-- EditText for Value -->
         <EditText
             android:id="@+id/editText_AddNewItemActivity_Value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/general_WrapContent"
             android:layout_weight="1"
             android:hint="Value"
             android:inputType="numberDecimal" />
@@ -40,50 +37,39 @@
         <!-- TextView to show Currency -->
         <TextView
             android:id="@+id/textView_AddNewItemActivity_Currency"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Currency"
-            app:autoSizeTextType="uniform" />
+            style="@style/general_WrapContent"
+            android:text="Currency" />
     </LinearLayout>
 
     <!-- EditText for Description -->
     <EditText
         android:id="@+id/editText_AddNewItemActivity_description"
-        style="@style/TextViews"
+        style="@style/general_Middle_MatchParent"
         android:hint="Description"
         android:inputType="text" />
 
     <!-- ListView for Filtered Items Selected -->
     <ListView
         android:id="@+id/listView_AddNewItemActivity"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        style="@style/general_Middle_MatchParent"
         android:layout_weight="1" />
 
-
+    <!-- Layout for the Bottom -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/general_Bottom_MatchParent"
         android:orientation="horizontal">
 
         <!-- Statment for Total: -->
         <TextView
             android:id="@+id/textView_AddNewItemActivity_TotalValueStatment"
-            android:textSize="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/general_WrapContent"
             android:layout_gravity="bottom"
             android:text="Total:" />
 
         <!-- TextView for Total value -->
         <TextView
             android:id="@+id/textView_AddNewItemActivity_TotalValue"
-            android:textSize="20dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/general_WrapContent"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:text="Total Value" />
@@ -91,8 +77,7 @@
         <!-- Button to save item -->
         <Button
             android:id="@+id/button_AddNewItemActivity_SaveValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/general_WrapContent"
             android:onClick="onClick_SaveItem"
             android:text="Save" />
     </LinearLayout>

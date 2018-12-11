@@ -3,11 +3,11 @@ package com.example.leand.outgoingoverview.ListviewHelper;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.example.leand.outgoingoverview.Activitys.MainActivity;
 import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
 import com.example.leand.outgoingoverview.R;
 
 public class ListViewAdapter {
-    private DBAdapter myDb;
     private Context context;
     private Cursor cursor;
     private String string_Currency;
@@ -21,42 +21,45 @@ public class ListViewAdapter {
 
     public ListViewAdapter(Integer integer_month, Integer integer_Year, String string_OrderBy, String string_Currency, Context context, String string_AscendDescend) {
         this.context = context;
-        openDB();
         this.string_Currency = string_Currency;
-        this.cursor = myDb.getRowWithMonthYear(integer_month, integer_Year, string_OrderBy, string_AscendDescend);
+        this.cursor = MainActivity.myDbMain.getRowWithMonthYear(integer_month, integer_Year, string_OrderBy, string_AscendDescend);
     }
+
+    public ListViewAdapter(Context context, String string_Currency) {
+        this.context = context;
+        this.string_Currency = string_Currency;
+        this.cursor = MainActivity.myDbMain.getAllRows();
+    }
+
 
     // Constructor
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Database methods
 
-    private void openDB() {
-        myDb = new DBAdapter(context);
-        myDb.open();
-    }
-
-    public void closeDB() {
-        myDb.close();
-    }
 
     // Database methods
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Set Cursor
 
     public void setCursorMonthYear(Integer integer_month, Integer integer_Year, String string_OrderBy, String string_AscendDescend) {
-        this.cursor = myDb.getRowWithMonthYear(integer_month, integer_Year, string_OrderBy, string_AscendDescend);
+        this.cursor = MainActivity.myDbMain.getRowWithMonthYear(integer_month, integer_Year, string_OrderBy, string_AscendDescend);
     }
 
     public void setCursorYear(Integer integer_Year, String string_OrderBy, String string_AscendDescend) {
-        this.cursor = myDb.getRowWithYear(integer_Year, string_OrderBy, string_AscendDescend);
+        this.cursor = MainActivity.myDbMain.getRowWithYear(integer_Year, string_OrderBy, string_AscendDescend);
     }
 
-    public void setCursorStartEndDate(long longRowStartDate, long longRowEndDate, String string_OrderBy, String string_AscendDescend) {
-        this.cursor = myDb.getRowWithStartEndDay(longRowStartDate, longRowEndDate, string_OrderBy, string_AscendDescend);
+    public void setCursorStartEndDate(int startDateWithoutTime, int endDateWithoutTime, String string_OrderBy, String string_AscendDescend) {
+        this.cursor = MainActivity.myDbMain.getRowWithStartEndDay(startDateWithoutTime, endDateWithoutTime, string_OrderBy, string_AscendDescend);
     }
 
     public void setCursorDate(int dateWithoutTime) {
-        this.cursor = myDb.getRowWithDate(dateWithoutTime);
+        this.cursor = MainActivity.myDbMain.getRowWithDate(dateWithoutTime);
+    }
+
+
+    public void setCursorAllWithEndDateNotDuplicate() {
+        this.cursor = MainActivity.myDbMain.getAllRowsRepeatedItemNotDuplicated();
     }
 
     // Set Cursor

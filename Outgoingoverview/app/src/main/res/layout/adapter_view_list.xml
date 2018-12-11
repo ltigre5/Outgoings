@@ -9,26 +9,43 @@
     <!-- TextView to show Titel -->
     <TextView
         android:id="@+id/textView_adapter_view_list_titel"
-        style="@style/TextViewsAdapterViewListTitel"
-        android:text="description" />
+        style="@style/general_Top_MatchParent"
+        android:text="Description"
+        android:textStyle="bold" />
 
     <!-- Layout for the Date and Value -->
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        style="@style/general_Bottom_MatchParent"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- TextView to show Date -->
+            <TextView
+                android:id="@+id/textView_adapter_view_list_WeekDay"
+                style="@style/general_WrapContent"
+                android:text="Week Day" />
+
+            <!-- TextView to show Date -->
+            <TextView
+                android:id="@+id/textView_adapter_view_list_DATE"
+                style="@style/general_Middle_WrapContent"
+                android:text="Date" />
+
+            <!-- TextView to show Value -->
+            <TextView
+                android:id="@+id/textView_adapter_view_list_VALUE"
+                style="@style/general_Middle_WrapContent"
+                android:text="Value" />
+        </LinearLayout>
         <!-- TextView to show Date -->
-        <TextView
-            android:id="@+id/textView_adapter_view_list_DATE"
-            style="@style/TextViewsAdapterViewListItems"
-            android:text="Date" />
 
-        <!-- TextView to show Value -->
         <TextView
-            android:id="@+id/textView_adapter_view_list_VALUE"
-            style="@style/TextViewsAdapterViewListItems"
-            android:text="Value" />
-        />
+            android:id="@+id/textView_adapter_view_list_Repeated"
+            style="@style/general_MatchParent"
+            android:text="Repeated" />
+
     </LinearLayout>
 </LinearLayout>

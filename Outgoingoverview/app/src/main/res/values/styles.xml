@@ -1,5 +1,6 @@
 <resources>
 
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -17,80 +18,42 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <!-- Buttons -->
-    <style name="Buttons">
-        <item name="android:textSize">18dp</item>
+    <!-- general Styles for wrapContent-->
+    <style name="general_WrapContent">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="general_Middle_WrapContent" parent="general_WrapContent">
         <item name="android:layout_marginEnd">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_marginStart">8dp</item>
     </style>
 
-    <!-- Buttons -->
-    <style name="ButtonsMain" parent="Buttons">
-        <item name="android:textSize">18dp</item>
-        <item name="android:layout_marginEnd">0dp</item>
-        <item name="android:layout_marginBottom">0dp</item>
-        <item name="android:layout_marginStart">0dp</item>
-    </style>
-
-    <!-- TextViews -->
-    <style name="TextViews">
-        <item name="android:textSize">18dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_marginEnd">8dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:layout_marginStart">8dp</item>
+    <style name="general_Top_WrapContent" parent="general_Middle_WrapContent">
         <item name="android:layout_marginTop">8dp</item>
     </style>
 
-    <!-- Main Statments -->
-    <style name="TextViewsMainStatments" parent="TextViews">
-        <item name="android:textSize">18dp</item>
-        <item name="android:layout_width">120dp</item>
-        <item name="android:layout_marginEnd">0dp</item>
-        <item name="android:layout_marginBottom">0dp</item>
-        <item name="android:layout_marginStart">0dp</item>
-        <item name="android:layout_marginTop">0dp</item>
+    <style name="general_Bottom_WrapContent" parent="general_Middle_WrapContent">
+        <item name="android:layout_marginBottom">8dp</item>
     </style>
 
-    <!-- Main EditText -->
-    <style name="TextViewsMainEditText" parent="TextViews">
-        <item name="android:textSize">18dp</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_marginEnd">0dp</item>
-        <item name="android:layout_marginBottom">0dp</item>
-        <item name="android:layout_marginStart">0dp</item>
-        <item name="android:layout_marginTop">0dp</item>
+    <!-- general Styles for MatchParent-->
+    <style name="general_MatchParent">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
     </style>
 
-    <!-- ViewList Titels -->
-    <style name="TextViewsAdapterViewListTitel" parent="TextViews">
-        <item name="android:textSize">12dp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:layout_marginBottom">0dp</item>
+    <style name="general_Middle_MatchParent" parent="general_MatchParent">
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginStart">8dp</item>
     </style>
 
-    <!-- ViewList Items -->
-    <style name="TextViewsAdapterViewListItems" parent="TextViews">
-        <item name="android:textSize">10dp</item>
-        <item name="android:layout_marginTop">0dp</item>
-        <item name="android:layout_width">wrap_content</item>
+    <style name="general_Top_MatchParent" parent="general_Middle_MatchParent">
+        <item name="android:layout_marginTop">8dp</item>
     </style>
 
-    <!-- Outgoings of selected Month Statments -->
-    <style name="TextViewsOutgoingsOfSelectedMonthStatments" parent="TextViews">
-        <item name="android:textSize">16dp</item>
-        <item name="android:layout_width">wrap_content</item>
-    </style>
-
-    <!-- TextViews Outgoings of selected Month -->
-    <style name="TextViewsOutgoingsOfSelectedMonth" parent="TextViews">
-        <item name="android:textSize">16dp</item>
-        <item name="android:layout_marginTop">0dp</item>
-        <item name="android:layout_width">wrap_content</item>
+    <style name="general_Bottom_MatchParent" parent="general_Middle_MatchParent">
+        <item name="android:layout_marginBottom">8dp</item>
     </style>
 
 </resources>

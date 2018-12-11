@@ -17,24 +17,18 @@ import com.example.leand.outgoingoverview.R;
 import com.example.leand.outgoingoverview.Classes.SelectedDate;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
-    private DBAdapter myDb;
-    private TextView textView_MainActivity_SelectedDateValue;
-    private TextView textView_MainActivity_totalValue;
+    public static DBAdapter myDbMain;
+    private TextView textView_MainActivity_SelectedDateValue, textView_MainActivity_totalValue;
     private Button button_MainActivity_changeValue;
 
-    private CalendarView calendarView_MainActivity_calendar;
-
     public static final String EXTRA_LONG_DATE = "long Date";
-    private SelectedDate selectedDateNew;
-    private SelectedDate selectedDateOld;
+
+    private SelectedDate selectedDateNew, selectedDateOld;
+
     private int counterCalendar;
     private String string_Currency = "";
-    private Calendar calendar;
 
     DecimalFormat df = new DecimalFormat("0.00");
 
@@ -53,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         //definition of Items in Activity
         textView_MainActivity_totalValue = findViewById(R.id.textView_MainActivity_totalValue);
         textView_MainActivity_SelectedDateValue = findViewById(R.id.textView_MainActivity_SelectedDateValue);
-        calendarView_MainActivity_calendar = findViewById(R.id.calendarView_MainActivity_calendar);
+        CalendarView calendarView_MainActivity_calendar = findViewById(R.id.calendarView_MainActivity_calendar);
         button_MainActivity_changeValue = findViewById(R.id.button_MainActivity_ChangeCurrency);
 
         //counter for double tab on calendar
@@ -61,9 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
         //get values Of selected Date
         selectedDateNew = new SelectedDate(calendarView_MainActivity_calendar.getDate());
-
-        //set Calendar to get long out of year, month, day
-        calendar = Calendar.getInstance();
 
         //initialize old date value
         selectedDateOld = new SelectedDate(0);
@@ -75,9 +66,9 @@ public class MainActivity extends AppCompatActivity {
         calendarView_MainActivity_calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                calendar.set(year, month, dayOfMonth);
+
                 //set selected values new
-                selectedDateNew.setLong_Date(calendar.getTimeInMillis());
+                selectedDateNew.setLong_Date(year, month, dayOfMonth);
 
                 //if new Date selected, show values of this date
                 if (counterCalendar < 2) {
@@ -109,10 +100,15 @@ public class MainActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // onClick Methods
 
+    public void onClick_OpenRepaetedOutgoing(View view) {
+        Intent intent = new Intent(this, AddRepeatedOutgoingsActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
     //Opens OverviewListActivity, which shows a list of all Dates with values
     public void onClick_ShowAllvalues(View view) {
         Intent intent = new Intent(this, OverviewListActivity.class);
-        intent.putExtra("LongSelectedDate", selectedDateNew.getLong_Date());
+        intent.putExtra(EXTRA_LONG_DATE, selectedDateNew.getLong_Date());
         startActivity(intent);
     }
 
@@ -130,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         //Yes button clicked, delet all Data in Database
-                        myDb.deleteAll();
+                        myDbMain.deleteAll();
                         displayItemsOnActivity();
                         break;
 
@@ -160,30 +156,37 @@ public class MainActivity extends AppCompatActivity {
 
     //open Database
     private void openDB() {
-        myDb = new DBAdapter(this);
-        myDb.open();
+        myDbMain = new DBAdapter(this);
+        myDbMain.open();
     }
 
     //close Database
     private void closeDB() {
-        myDb.close();
+        myDbMain.close();
     }
 
     //get the Currency out of Database
     private void getCurrency() {
-        Cursor cursor = myDb.getAllRows();
+        Cursor cursor = myDbMain.getAllRows();
 
         if (cursor.moveToFirst()) {
-            string_Currency = cursor.getString(cursor.getColumnIndexOrThrow("currency"));
+            string_Currency = cursor.getString(cursor.getColumnIndexOrThrow(DBAdapter.KEY_CURRENCY));
             button_MainActivity_changeValue.setVisibility(View.VISIBLE);
-        } else {            button_MainActivity_changeValue.setVisibility(View.INVISIBLE);
+            if (string_Currency.equals("")) {
+                button_MainActivity_changeValue.setText(getString(R.string.button_addCurrency));
+            } else {
+                button_MainActivity_changeValue.setText(getString(R.string.button_changeCurrency));
+            }
+        } else {
+            button_MainActivity_changeValue.setVisibility(View.INVISIBLE);
+            string_Currency = "";
         }
         cursor.close();
     }
 
     //sums the value of the selected date
     private double sumAllValuesOfSelectedDay() {
-        Cursor cursor = myDb.getRowWithDate(selectedDateNew.getInteger_DateWithoutTime());
+        Cursor cursor = myDbMain.getRowWithDate(selectedDateNew.getInteger_DateWithoutTime());
         double doubleAllValuesOfSelectedDate = 0.0;
 
         if (cursor.moveToFirst()) {
@@ -198,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
     //sums all values of the selected Month
     private Double sumAllValuesOfSelectedMonth() {
-        Cursor cursor = myDb.getRowWithMonthYear(selectedDateNew.getInteger_Month(), selectedDateNew.getInteger_Year(), DBAdapter.KEY_DATE);
+        Cursor cursor = myDbMain.getRowWithMonthYear(selectedDateNew.getInteger_Month(), selectedDateNew.getInteger_Year());
         Double doubleTotalValue = 0.0;
 
         if (cursor.moveToFirst()) {
@@ -223,6 +226,8 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == 1) {
                 //show new Values on Activity
                 displayItemsOnActivity();
+            } else if (resultCode == RESULT_CANCELED) {
+                displayItemsOnActivity();
             }
         }
     }
@@ -242,6 +247,7 @@ public class MainActivity extends AppCompatActivity {
         //show total value of selected Month
         textView_MainActivity_totalValue.setText(df.format(sumAllValuesOfSelectedMonth()) + string_Currency);
     }
+
 
     // Displaying Values
     //----------------------------------------------------------------------------------------------------------------------------------------------
