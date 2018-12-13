@@ -11,10 +11,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="0dp"
-        android:textStyle="bold"
         android:gravity="center"
         android:text="@string/appwidget_outgoing"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:textStyle="bold" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,18 +28,20 @@
 
         <Button
             android:id="@+id/button_AddNewOutgoingWidget_AddNew"
-            style="@style/general_Margin_0"
+            style="@style/general_Margin"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/appwidget_button_addNew" />
+            android:text="@string/appwidget_button_addNew"
+            android:background="@drawable/widget_custom_button"/>
 
         <Button
             android:id="@+id/button_AddNewOutgoingWidget_AddNewRepeated"
-            style="@style/general_Margin_0"
+            style="@style/general_Margin"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/appwidget_button_addNewRepeated" />
+            android:text="@string/appwidget_button_addNewRepeated"
+            android:background="@drawable/widget_custom_button"/>
     </LinearLayout>
 </LinearLayout>
