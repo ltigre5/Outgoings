@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
-    <item android:state_pressed="true" >
+    <!-- Image if Button is Pressed -->
+    <item android:state_pressed="true"
+        >
         <shape>
             <gradient
                 android:startColor="#A9A9A9"
                 android:endColor="#A9A9A9"
                 android:angle="270" />
             <stroke
-                android:width="3dp"
-                android:color="#A9A9A9" />
+                android:width="12dp"
+                android:color="@android:color/transparent" />
             <corners
                 android:radius="3dp" />
             <padding
@@ -18,18 +21,20 @@
                 android:top="10dp"
                 android:right="10dp"
                 android:bottom="10dp" />
+
         </shape>
     </item>
 
-    <item android:state_focused="true" >
+    <!-- Image if Button is Focused -->
+    <item android:state_focused="true">
         <shape>
             <gradient
                 android:endColor="#A9A9A9"
                 android:startColor="#A9A9A9"
                 android:angle="270" />
             <stroke
-                android:width="3dp"
-                android:color="#A9A9A9" />
+                android:width="10dp"
+                android:color="@android:color/transparent" />
             <corners
                 android:radius="3dp" />
             <padding
@@ -37,9 +42,16 @@
                 android:top="10dp"
                 android:right="10dp"
                 android:bottom="10dp" />
+            <margin
+                android:left="10dp"
+                android:top="10dp"
+                android:right="10dp"
+                android:bottom="10dp"
+                />
         </shape>
     </item>
 
+    <!-- default Image of Button -->
     <item>
         <shape>
             <gradient
@@ -47,8 +59,8 @@
                 android:startColor="#A9A9A9"
                 android:angle="270" />
             <stroke
-                android:width="3dp"
-                android:color="#A9A9A9" />
+                android:width="10dp"
+                android:color="@android:color/transparent" />
             <corners
                 android:radius="3dp" />
             <padding
@@ -56,6 +68,12 @@
                 android:top="10dp"
                 android:right="10dp"
                 android:bottom="10dp" />
+            <margin
+                android:left="10dp"
+                android:top="10dp"
+                android:right="10dp"
+                android:bottom="10dp"
+                />
         </shape>
     </item>
 </selector>

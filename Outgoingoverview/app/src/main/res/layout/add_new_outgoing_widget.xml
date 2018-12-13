@@ -33,7 +33,8 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/appwidget_button_addNew"
-            android:background="@drawable/widget_custom_button"/>
+            android:textColor="@android:color/white"
+            android:background="@drawable/custom_button"/>
 
         <Button
             android:id="@+id/button_AddNewOutgoingWidget_AddNewRepeated"
@@ -42,6 +43,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="@string/appwidget_button_addNewRepeated"
-            android:background="@drawable/widget_custom_button"/>
+            android:textColor="@android:color/white"
+            android:background="@drawable/custom_button"/>
     </LinearLayout>
 </LinearLayout>

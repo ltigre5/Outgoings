@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activitys.AddNewItemActivity"
-    >
+    tools:context=".Activitys.AddNewItemActivity">
+
+    <include
+        android:id="@+id/toolbar_MainActivity"
+        layout="@layout/toolbar_main_activity">
+    </include>
 
     <!-- TextView for Selected Date -->
     <TextView
@@ -14,12 +17,25 @@
         style="@style/general_Top_MatchParent"
         android:text="Date" />
 
-    <!-- EditText for Titel -->
-    <EditText
-        android:id="@+id/editText_AddNewItemActivity_Titel"
-        style="@style/general_Middle_MatchParent"
-        android:hint="@string/hint_title"
-        android:inputType="text" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- EditText for Titel -->
+        <EditText
+            android:id="@+id/editText_AddNewItemActivity_Title"
+            style="@style/general_Middle_MatchParent"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:hint="@string/hint_title"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/button_AddNewItemActivity_ChooseColor"
+            style="@style/button_Color_Chooser"
+            android:background="@drawable/button_color_chooser" />
+    </LinearLayout>
+
 
     <!-- Layout for Value -->
     <LinearLayout
@@ -46,8 +62,7 @@
         android:id="@+id/editText_AddNewItemActivity_description"
         style="@style/general_Middle_MatchParent"
         android:hint="@string/hint_description"
-        android:inputType="textMultiLine"
-        />
+        android:inputType="textMultiLine" />
 
     <!-- ListView for Filtered Items Selected -->
     <ListView
@@ -78,7 +93,7 @@
         <!-- Button to save item -->
         <Button
             android:id="@+id/button_AddNewItemActivity_SaveValue"
-            style="@style/general_WrapContent"
+            style="@style/button_WrapContent"
             android:onClick="onClick_SaveItem"
             android:text="@string/button_save" />
     </LinearLayout>

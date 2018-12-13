@@ -6,6 +6,11 @@
     android:orientation="vertical"
     tools:context=".Activitys.ChangeCurrencyActivity">
 
+    <include
+        android:id="@+id/toolbar_MainActivity"
+        layout="@layout/toolbar_main_activity">
+    </include>
+
     <!-- Layout for Currency -->
     <LinearLayout
         style="@style/general_Top_MatchParent"
@@ -35,7 +40,7 @@
         <!-- Button to save Currency -->
         <Button
             android:id="@+id/button_AddNewItemActivity_SaveValue"
-            style="@style/general_WrapContent"
+            style="@style/button_WrapContent"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:onClick="onClick_SaveItem"

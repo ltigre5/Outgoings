@@ -3,6 +3,7 @@ package com.example.leand.outgoingoverview.Activitys;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,6 +21,10 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_currency);
+
+        //Set Toolbar
+        Toolbar toolbar=findViewById(R.id.toolbar_MainActivity);
+        setSupportActionBar(toolbar);
 
         editText_ChangeCurrency_Currency = findViewById(R.id.editText_Properties_Currency);
     }

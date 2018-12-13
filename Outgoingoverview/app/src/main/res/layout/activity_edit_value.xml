@@ -6,6 +6,11 @@
     android:orientation="vertical"
     tools:context=".Activitys.EditValueActivity">
 
+    <include
+        android:id="@+id/toolbar_MainActivity"
+        layout="@layout/toolbar_main_activity">
+    </include>
+
     <!-- Layout for the Items to edit -->
     <LinearLayout
         style="@style/general_MatchParent"
@@ -17,12 +22,24 @@
             style="@style/general_Top_MatchParent"
             android:text="Date" />
 
-        <!-- EditText for Titel -->
-        <EditText
-            android:id="@+id/editText_EditValueActivity_Titel"
-            style="@style/general_Middle_MatchParent"
-            android:hint="@string/hint_title"
-            android:inputType="text" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- EditText for Titel -->
+            <EditText
+                android:id="@+id/editText_EditValueActivity_Titel"
+                style="@style/general_Middle_MatchParent"
+                android:layout_weight="1"
+                android:hint="@string/hint_title"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/button_EditValueActivity_ChooseColor"
+                style="@style/button_Color_Chooser"
+                android:background="@drawable/button_color_chooser" />
+
+        </LinearLayout>
 
         <!-- Layout for the Value -->
         <LinearLayout
@@ -64,7 +81,7 @@
         <!-- Button to delet Item -->
         <Button
             android:id="@+id/button_edit_value_delet"
-            style="@style/general_WrapContent"
+            style="@style/button_WrapContent"
             android:layout_alignParentStart="true"
             android:onClick="onClick_DeletItem"
             android:text="@string/button_delet" />
@@ -72,7 +89,7 @@
         <!-- Button to save values -->
         <Button
             android:id="@+id/button_edit_value_save"
-            style="@style/general_WrapContent"
+            style="@style/button_WrapContent"
             android:layout_alignParentEnd="true"
             android:onClick="onClick_SaveNewValue"
             android:text="@string/button_save" />

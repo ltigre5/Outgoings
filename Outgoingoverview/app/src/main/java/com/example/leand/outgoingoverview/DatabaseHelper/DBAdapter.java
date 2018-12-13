@@ -48,6 +48,7 @@ public class DBAdapter {
     public static final String KEY_EVERY = "every";
     public static final String KEY_START_DATE = "startDateLong";
     public static final String KEY_START_DATE_WITHOUT_TIME = "startDateWithoutTime";
+    public static final String KEY_TITLE_COLOR = "titleColor";
 
 
     // TODO: Setup your field numbers here (0 = KEY_ROWID, 1=...)
@@ -66,15 +67,16 @@ public class DBAdapter {
     public static final int COL_START_DATE = 13;
     public static final int COL_END_DATE_WITHOUT_TIME = 14;
     public static final int COL_START_DATE_WITHOUT_TIME = 15;
+    public static final int COL_TITLE_COLOR = 16;
 
 
-    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_VALUE, KEY_DATE, KEY_DAY, KEY_MONTH, KEY_YEAR, KEY_DESCRIPTION, KEY_TITEL, KEY_CURRENCY, KEY_DATE_WITHOUT_TIME, KEY_TITLE_REPEATED, KEY_END_DATE, KEY_EVERY, KEY_START_DATE, KEY_END_DATE_WITHOUT_TIME, KEY_START_DATE_WITHOUT_TIME};
+    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_VALUE, KEY_DATE, KEY_DAY, KEY_MONTH, KEY_YEAR, KEY_DESCRIPTION, KEY_TITEL, KEY_CURRENCY, KEY_DATE_WITHOUT_TIME, KEY_TITLE_REPEATED, KEY_END_DATE, KEY_EVERY, KEY_START_DATE, KEY_END_DATE_WITHOUT_TIME, KEY_START_DATE_WITHOUT_TIME, KEY_TITLE_COLOR};
 
     // DB info: it's name, and the table we are using (just one).
     public static final String DATABASE_NAME = "MyDb";
     public static final String DATABASE_TABLE = "mainTable";
     // Track DB version if a new version of your app changes the format.
-    public static final int DATABASE_VERSION = 12;
+    public static final int DATABASE_VERSION = 13;
 
     private static final String DATABASE_CREATE_SQL =
             "create table " + DATABASE_TABLE
@@ -104,8 +106,8 @@ public class DBAdapter {
                     + KEY_EVERY + " string, "
                     + KEY_START_DATE + " integer ,"
                     + KEY_START_DATE_WITHOUT_TIME + " integer, "
-                    + KEY_END_DATE_WITHOUT_TIME + " integer "
-
+                    + KEY_END_DATE_WITHOUT_TIME + " integer, "
+                    + KEY_TITLE_COLOR + " integer "
 
                     // Rest  of creation:
                     + ");";
@@ -137,7 +139,7 @@ public class DBAdapter {
     }
 
     // Add a new set of values to the database.
-    public long insertRow(long dateInLong, double value, String description, String titel, String currency) {
+    public long insertRow(long dateInLong, double value, String description, String title, String currency, int titleColour) {
         /*
          * CHANGE 3:
          */
@@ -153,9 +155,10 @@ public class DBAdapter {
         initialValues.put(KEY_MONTH, selectedDate.getInteger_Month());
         initialValues.put(KEY_YEAR, selectedDate.getInteger_Year());
         initialValues.put(KEY_DESCRIPTION, description);
-        initialValues.put(KEY_TITEL, titel);
+        initialValues.put(KEY_TITEL, title);
         initialValues.put(KEY_CURRENCY, currency);
         initialValues.put(KEY_DATE_WITHOUT_TIME, selectedDate.getInteger_DateWithoutTime());
+        initialValues.put(KEY_TITLE_COLOR, titleColour);
 
 
         // Insert it into the database.
@@ -164,7 +167,7 @@ public class DBAdapter {
 
 
     // Add a new sets of Repeated Item to the database.
-    public long insertRowRepeatedItem(long dateInLong, double value, String description, String titleRepeated, String currency, long endDate, String every, long startDate) {
+    public long insertRowRepeatedItem(long dateInLong, double value, String description, String titleRepeated, String currency, long endDate, String every, long startDate, int titleColour) {
         /*
          * CHANGE 3:
          */
@@ -192,6 +195,7 @@ public class DBAdapter {
         initialValues.put(KEY_START_DATE, startDate);
         initialValues.put(KEY_END_DATE_WITHOUT_TIME, selectedEndDate.getInteger_DateWithoutTime());
         initialValues.put(KEY_START_DATE_WITHOUT_TIME, selectedStartDate.getInteger_DateWithoutTime());
+        initialValues.put(KEY_TITLE_COLOR, titleColour);
 
 
         // Insert it into the database.
@@ -340,7 +344,7 @@ public class DBAdapter {
     //-----------------------------------------------------------------------------------------------------------------------------------------
 
     // Change an existing row to be equal to new data.
-    public boolean updateRow(long rowId, double value, String description, String titel) {
+    public boolean updateRow(long rowId, double value, String description, String title, int titleColor) {
         String where = KEY_ROWID + "=" + rowId;
 
         /*
@@ -352,7 +356,8 @@ public class DBAdapter {
         ContentValues newValues = new ContentValues();
         newValues.put(KEY_VALUE, value);
         newValues.put(KEY_DESCRIPTION, description);
-        newValues.put(KEY_TITEL, titel);
+        newValues.put(KEY_TITEL, title);
+        newValues.put(KEY_TITLE_COLOR, titleColor);
 
 
         // Insert it into the database.

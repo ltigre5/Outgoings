@@ -5,7 +5,10 @@ import android.database.Cursor;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -39,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Set Toolbar
+        Toolbar toolbar=findViewById(R.id.toolbar_MainActivity);
+        setSupportActionBar(toolbar);
 
         AddRepeatedItemsActivity.MainActivRepeated = true;
         AddNewItemActivity.MainActiv = true;
@@ -120,6 +127,22 @@ public class MainActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // onClick Methods
 
+    //Create the Menubar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // On Menu info selected open Info Activty
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent= new Intent(this, InfoActivity.class);
+        startActivity(intent);
+
+        return super.onOptionsItemSelected(item);
+    }
 
     public void onClick_OpenRepaetedOutgoing(View view) {
         Intent intent = new Intent(this, AddRepeatedItemsActivity.class);

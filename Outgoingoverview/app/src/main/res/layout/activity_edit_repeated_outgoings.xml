@@ -6,12 +6,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activitys.EditRepeatedOutgoingsActivity">
-    <!-- EditText for Titel -->
-    <EditText
-        android:id="@+id/editText_EditRepeatedOutgoingsActivity_Titel"
-        style="@style/general_Top_MatchParent"
-        android:hint="@string/hint_title"
-        android:inputType="text" />
+
+    <include
+        android:id="@+id/toolbar_MainActivity"
+        layout="@layout/toolbar_main_activity">
+    </include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- EditText for Titel -->
+        <EditText
+            android:id="@+id/editText_EditRepeatedOutgoingsActivity_Titel"
+            style="@style/general_Top_MatchParent"
+            android:layout_weight="1"
+            android:hint="@string/hint_title"
+            android:inputType="text"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/button_EditRepeatedOutgoingsActivity_ChooseColor"
+            style="@style/button_Color_Chooser"
+            android:background="@drawable/button_color_chooser" />
+
+    </LinearLayout>
 
     <!-- Layout for Currency -->
     <LinearLayout style="@style/general_Middle_MatchParent">
@@ -21,9 +40,9 @@
         <EditText
             android:id="@+id/editText_EditRepeatedOutgoingsActivity_Value"
             style="@style/general_WrapContent"
-            android:inputType="numberDecimal"
+            android:layout_weight="1"
             android:hint="@string/hint_value"
-            android:layout_weight="1" />
+            android:inputType="numberDecimal" />
 
         <!-- TextView to show Currency -->
         <TextView
@@ -93,18 +112,17 @@
         <!-- Button for save repeated Outgoing -->
         <Button
             android:id="@+id/button_EditRepeatedOutgoingsActivity_Save"
-            style="@style/general_WrapContent"
+            style="@style/button_WrapContent"
             android:layout_alignParentEnd="true"
             android:onClick="onClick_SaveReapeatedValues"
             android:text="@string/button_save" />
 
         <Button
             android:id="@+id/button_EditRepeatedOutgoingsActivity_Delet"
-            style="@style/general_WrapContent"
+            style="@style/button_WrapContent"
             android:layout_alignParentStart="true"
             android:onClick="onClick_DeletReapeatedValuees"
-            android:text="@string/button_delet"/>
-
+            android:text="@string/button_delet" />
 
 
     </RelativeLayout>

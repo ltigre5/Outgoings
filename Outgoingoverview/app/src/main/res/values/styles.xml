@@ -1,12 +1,12 @@
 <resources>
 
-
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">#505050</item>
+        <item name="colorPrimaryDark">#3C3C3C</item>
+        <item name="colorAccent">#030083</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -56,6 +56,7 @@
         <item name="android:layout_marginBottom">8dp</item>
     </style>
 
+    <!-- general Styles for Margin-->
     <style name="general_Margin">
         <item name="android:layout_marginStart">6dp</item>
         <item name="android:layout_marginEnd">6dp</item>
@@ -73,6 +74,26 @@
         <item name="android:layout_marginBottom">0dp</item>
         <item name="android:layout_marginStart">0dp</item>
         <item name="android:layout_marginEnd">0dp</item>
+    </style>
+
+    <style name="button_Color_Chooser">
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_gravity">bottom</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:padding">20dp</item>
+    </style>
+
+    <!-- general Styles for Buttons-->
+    <style name="button_WrapContent" parent="general_WrapContent">
+        <item name="android:textColor">@android:color/white</item>
+    <item name="android:background">@drawable/custom_button</item>
+    </style>
+
+    <!-- general Styles for Buttons-->
+    <style name="button_Middle_MatchParent" parent="general_Middle_MatchParent">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@drawable/custom_button</item>
     </style>
 
 </resources>

@@ -5,10 +5,11 @@ import android.database.Cursor;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,13 +22,16 @@ import com.example.leand.outgoingoverview.ListviewHelper.ListViewAdapter;
 import com.example.leand.outgoingoverview.R;
 import com.example.leand.outgoingoverview.Classes.SelectedDate;
 
+import yuku.ambilwarna.AmbilWarnaDialog;
+
 import static com.example.leand.outgoingoverview.Activitys.OverviewListActivity.EXTRA_INTEGER_ID;
 
 public class AddNewItemActivity extends AppCompatActivity {
     private TextView textView_AddNewItemActivity_SelectedDate, textView_AddNewItemActivity_Currency, textView_AddNewItemActivity_TotalValue;
-    private EditText editText_AddNewItemActivity_Value, editText_AddNewItemActivity_Description, editText_AddNewItemActivity_Titel;
+    private EditText editText_AddNewItemActivity_Value, editText_AddNewItemActivity_Description, editText_AddNewItemActivity_Title;
     private ListView listView_AddNewItemActivity;
     private ListViewAdapter listViewAdapter;
+    private Button button_AddNewItemActivity_ChooseColor;
 
     private GeneralHelper generalHelper;
     private SelectedDate selectedDate;
@@ -35,7 +39,7 @@ public class AddNewItemActivity extends AppCompatActivity {
 
     private double double_Value;
     private String string_Description, string_Title;
-
+    private int int_titleColor =0xff000000; //for black
 
     public static boolean MainActiv = false;
 
@@ -48,14 +52,19 @@ public class AddNewItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_item);
 
+        //Set Toolbar
+        Toolbar toolbar=findViewById(R.id.toolbar_MainActivity);
+        setSupportActionBar(toolbar);
+
         //definition of Items in Activity
         textView_AddNewItemActivity_SelectedDate = findViewById(R.id.textView_AddNewItemActivity_SelectedDate);
         editText_AddNewItemActivity_Value = findViewById(R.id.editText_AddNewItemActivity_Value);
         editText_AddNewItemActivity_Description = findViewById(R.id.editText_AddNewItemActivity_description);
-        editText_AddNewItemActivity_Titel = findViewById(R.id.editText_AddNewItemActivity_Titel);
+        editText_AddNewItemActivity_Title = findViewById(R.id.editText_AddNewItemActivity_Title);
         textView_AddNewItemActivity_Currency = findViewById(R.id.textView_AddNewItemActivity_Currency);
         listView_AddNewItemActivity = findViewById(R.id.listView_AddNewItemActivity);
         textView_AddNewItemActivity_TotalValue = findViewById(R.id.textView_AddNewItemActivity_TotalValue);
+        button_AddNewItemActivity_ChooseColor= findViewById(R.id.button_AddNewItemActivity_ChooseColor);
 
         //set Filter for Value Input, only allow 2 digits after point and 14 before point
         editText_AddNewItemActivity_Value.setFilters(new InputFilter[]{new InputFilterDecimal(14, 2)});
@@ -89,6 +98,14 @@ public class AddNewItemActivity extends AppCompatActivity {
             displayItemsOnActivity();
         }
 
+        //set ColorPicker for Button to Edit title color
+        button_AddNewItemActivity_ChooseColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openColorPicker();
+            }
+        });
+
     }
 
     // OnCreate
@@ -99,16 +116,16 @@ public class AddNewItemActivity extends AppCompatActivity {
     public void onClick_SaveItem(View view) {
 
         //if nothing entered dont save value
-        if (editText_AddNewItemActivity_Value.getText().toString().equals("") && editText_AddNewItemActivity_Description.getText().toString().equals("") && editText_AddNewItemActivity_Titel.getText().toString().equals("")) {
+        if (editText_AddNewItemActivity_Value.getText().toString().equals("") && editText_AddNewItemActivity_Description.getText().toString().equals("") && editText_AddNewItemActivity_Title.getText().toString().equals("")) {
             finish();
-        } else if (editText_AddNewItemActivity_Description.getText().toString().equals("") && editText_AddNewItemActivity_Titel.getText().toString().equals("")) {
+        } else if (editText_AddNewItemActivity_Description.getText().toString().equals("") && editText_AddNewItemActivity_Title.getText().toString().equals("")) {
             Toast.makeText(AddNewItemActivity.this, getString(R.string.toast_enterATitleAndValue),
                     Toast.LENGTH_LONG).show();
         }
         //else save values on Database
         else {
-            if (!editText_AddNewItemActivity_Titel.getText().toString().equals("")) {
-                string_Title = editText_AddNewItemActivity_Titel.getText().toString();
+            if (!editText_AddNewItemActivity_Title.getText().toString().equals("")) {
+                string_Title = editText_AddNewItemActivity_Title.getText().toString();
             }
 
             if (!editText_AddNewItemActivity_Description.getText().toString().equals("")) {
@@ -120,10 +137,31 @@ public class AddNewItemActivity extends AppCompatActivity {
             }
 
             addNewItemRepeated();
-
         }
         displayItemsOnActivity();
+        int_titleColor = 0xff000000;
+        button_AddNewItemActivity_ChooseColor.setBackgroundColor(int_titleColor);
     }
+
+    //ColorPicker to Edit title color
+    public void openColorPicker(){
+        AmbilWarnaDialog colorPicker= new AmbilWarnaDialog(this, int_titleColor, true, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+
+            }
+
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+                button_AddNewItemActivity_ChooseColor.setBackgroundColor(color);
+                int_titleColor=color;
+                editText_AddNewItemActivity_Title.setTextColor(color);
+            }
+        });
+        colorPicker.show();
+
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -145,7 +183,7 @@ public class AddNewItemActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
 
         } else {
-            MainActivity.myDbMain.insertRow(selectedDate.getLong_Date(), double_Value, string_Description, string_Title, string_Currency);
+            MainActivity.myDbMain.insertRow(selectedDate.getLong_Date(), double_Value, string_Description, string_Title, string_Currency, int_titleColor);
         }
 
     }
@@ -205,7 +243,7 @@ public class AddNewItemActivity extends AppCompatActivity {
     //show Values on Activity
     public void displayItemsOnActivity() {
         editText_AddNewItemActivity_Description.setText("");
-        editText_AddNewItemActivity_Titel.setText("");
+        editText_AddNewItemActivity_Title.setText("");
         editText_AddNewItemActivity_Value.setText("");
 
         textView_AddNewItemActivity_SelectedDate.setText(selectedDate.getString_WeekDayOfDate() + " " + selectedDate.getString_Date());

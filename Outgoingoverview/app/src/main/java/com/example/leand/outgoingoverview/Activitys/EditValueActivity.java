@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,14 +19,19 @@ import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
 import com.example.leand.outgoingoverview.EditTextFilter.InputFilterDecimal;
 import com.example.leand.outgoingoverview.R;
 
+import yuku.ambilwarna.AmbilWarnaDialog;
+
 public class EditValueActivity extends AppCompatActivity {
 
     private EditText editText_EditValueActivity_Value, editText_EditValueActivity_Description, editText_EditValueActivity_Titel;
     private TextView textView_EditValueActivity_Date, textView_EditValueActivity_Currency;
+    private Button button_EditValueActivity_ChooseColor;
     private SelectedDate selectedDate;
 
     private Integer interger_ID;
     private String string_oldValue, string_oldTitel, string_oldDescription, string_Currency;
+    private int int_titleColor =0xff000000; //for black
+
 
     private GeneralHelper generalHelper;
 
@@ -37,6 +44,9 @@ public class EditValueActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_value);
 
+        Toolbar toolbar=findViewById(R.id.toolbar_MainActivity);
+        setSupportActionBar(toolbar);
+
 
         //definition of Items in Activity
         textView_EditValueActivity_Date = findViewById(R.id.textView_EditValueActivity_Date);
@@ -44,6 +54,7 @@ public class EditValueActivity extends AppCompatActivity {
         editText_EditValueActivity_Titel = findViewById(R.id.editText_EditValueActivity_Titel);
         editText_EditValueActivity_Description = findViewById(R.id.editText_EditValueActivity_Description);
         textView_EditValueActivity_Currency = findViewById(R.id.textView_EditValueActivity_Currency);
+        button_EditValueActivity_ChooseColor=findViewById(R.id.button_EditValueActivity_ChooseColor);
 
         //Initilaize selected Date
         selectedDate=new SelectedDate();
@@ -72,6 +83,14 @@ public class EditValueActivity extends AppCompatActivity {
 
         //set Filter for Value Input, only allow 2 digits after point and 14 befor point
         editText_EditValueActivity_Value.setFilters(new InputFilter[]{new InputFilterDecimal(14, 2)});
+
+        //set ColorPicker for Button to Edit title color
+        button_EditValueActivity_ChooseColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openColorPicker();
+            }
+        });
     }
 
     // onCreate
@@ -86,7 +105,7 @@ public class EditValueActivity extends AppCompatActivity {
         String newTitel = editText_EditValueActivity_Titel.getText().toString();
 
         //update the Database
-        MainActivity.myDbMain.updateRow(interger_ID, newValue, newDescription, newTitel);
+        MainActivity.myDbMain.updateRow(interger_ID, newValue, newDescription, newTitel,int_titleColor);
 
         //return to OverviewListActivity
         Intent intent = new Intent();
@@ -121,6 +140,25 @@ public class EditValueActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.dialog_question)).setPositiveButton(getString(R.string.dialog_yes), dialogClickListener)
                 .setNegativeButton(getString(R.string.dialog_no), dialogClickListener).show();
+    }
+
+    //ColorPicker to Edit title color
+    public void openColorPicker(){
+        AmbilWarnaDialog colorPicker= new AmbilWarnaDialog(this, int_titleColor, true, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+            }
+
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+                button_EditValueActivity_ChooseColor.setBackgroundColor(color);
+                int_titleColor=color;
+                editText_EditValueActivity_Titel.setTextColor(color);
+            }
+        });
+
+        colorPicker.show();
     }
 
     //onClick Methods

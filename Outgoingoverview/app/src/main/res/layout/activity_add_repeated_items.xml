@@ -7,12 +7,30 @@
     android:orientation="vertical"
     tools:context=".Activitys.AddRepeatedItemsActivity">
 
-    <!-- EditText for Titel -->
-    <EditText
-        android:id="@+id/editText_AddReapeatedValueActivity_Titel"
-        style="@style/general_Top_MatchParent"
-        android:hint="@string/hint_title"
-        android:inputType="text" />
+    <include
+        android:id="@+id/toolbar_MainActivity"
+        layout="@layout/toolbar_main_activity">
+    </include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- EditText for Titel -->
+        <EditText
+            android:id="@+id/editText_AddReapeatedValueActivity_Title"
+            style="@style/general_Top_MatchParent"
+            android:layout_weight="1"
+            android:hint="@string/hint_title"
+            android:inputType="text"
+            android:textStyle="bold" />
+
+        <!-- Button to choose Title Color -->
+        <Button
+            android:id="@+id/button_AddReapeatedValueActivity_ChooseColor"
+            style="@style/button_Color_Chooser"
+            android:background="@drawable/button_color_chooser" />
+    </LinearLayout>
 
     <!-- Layout for Currency -->
     <LinearLayout style="@style/general_Middle_MatchParent">
@@ -23,8 +41,8 @@
             android:id="@+id/editText_AddReapeatedValueActivity_Value"
             style="@style/general_WrapContent"
             android:layout_weight="1"
-            android:inputType="numberDecimal"
-            android:hint="@string/hint_value" />
+            android:hint="@string/hint_value"
+            android:inputType="numberDecimal" />
 
         <!-- TextView to show Currency -->
         <TextView
@@ -96,7 +114,7 @@
         <!-- Button for save repeated Outgoing -->
         <Button
             android:id="@+id/button_AddReapeatedValueActivity_Save"
-            style="@style/general_WrapContent"
+            style="@style/button_WrapContent"
             android:layout_centerInParent="true"
             android:onClick="onClick_SaveReapeatedValues"
             android:text="@string/button_save" />

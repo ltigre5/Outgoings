@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Outgoing overview</string>
-    <string name="title_activity_edit_value">EditValueActivity</string>
 
     <!-- Order by Spinner -->
     <string name="order_by_date">Datum</string>
@@ -24,7 +23,7 @@
     <!-- Show spinner -->
     <string name="show_year">Jahr</string>
     <string name="show_month">Monat</string>
-    <string name="show_from_to">von...bis</string>
+    <string name="show_from_to">Von...bis</string>
 
     <string-array name="show_arrays">
         <item>@string/show_month</item>
@@ -91,6 +90,12 @@
     <string name="statment_currency">Währung</string>
     <string name="hint_3LetterCode">3-Buchstaben Code</string>
     <string name="button_delet">Löschen</string>
+    <string name="appwidget_button_addNew">Neu</string>
+    <string name="appwidget_button_addNewRepeated">Wiederholende</string>
+    <string name="appwidget_outgoing">Ausgabe</string>
+    <string name="toast_itemsAlreadyExists">Position Existiert bereits</string>
+    <string name="toast_enterATitleAndValue">Titel und Wert eingeben</string>
+    <string name="menu_info">Info</string>
 
 
 </resources>

@@ -9,6 +9,11 @@
     android:orientation="vertical"
     tools:context=".Activitys.OverviewListActivity">
 
+    <include
+        android:id="@+id/toolbar_MainActivity"
+        layout="@layout/toolbar_main_activity">
+    </include>
+
     <!-- Layout for All Filter Objects -->
     <LinearLayout
         android:id="@+id/overviewListActivity_Filter"
@@ -25,6 +30,7 @@
             <Spinner
                 android:id="@+id/spinner_OverviewListActivity_OrderBy"
                 style="@style/general_WrapContent"
+                android:layout_width="0dp"
                 android:layout_weight="4"
                 android:entries="@array/order_by_arrays" />
 
@@ -45,7 +51,8 @@
         <LinearLayout
             android:id="@+id/overviewListActivity_Date"
             style="@style/general_MatchParent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <!-- Layout for Year and from -->
             <LinearLayout
@@ -58,11 +65,13 @@
                 <TextView
                     android:id="@+id/textView_OverviewListActivity_YearFromStatment"
                     style="@style/general_WrapContent"
-                    android:text="@string/statment_year" />
+                    android:text="@string/statment_year"
+                    />
 
                 <!-- Layout for YearFrom Objects -->
                 <android.support.constraint.ConstraintLayout
                     style="@style/general_WrapContent"
+                    android:layout_width="0dp"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
@@ -117,7 +126,7 @@
             <!-- Button for show new Selection -->
             <Button
                 android:id="@+id/button_OverviewListActivity_OK"
-                style="@style/general_WrapContent"
+                style="@style/button_WrapContent"
                 android:onClick="onClick_FilterList"
                 android:text="@string/button_ok" />
         </LinearLayout>
@@ -133,28 +142,27 @@
     <LinearLayout
         android:id="@+id/overviewListActivity_Bottom"
         style="@style/general_Bottom_MatchParent"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <!-- Statment for Total: -->
         <TextView
             android:id="@+id/textView_OverviewListActivity_TotalValueStatment"
             style="@style/general_WrapContent"
-            android:text="@string/statment_total"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            android:text="@string/statment_total" />
 
         <!-- TextView for Total value -->
         <TextView
             android:id="@+id/textView_OverviewListActivity_TotalValue"
             style="@style/general_WrapContent"
+            android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:text="Total Value:"
-            android:layout_gravity="bottom"/>
+            android:text="Total Value:" />
 
         <!-- Button to Delet all Items -->
         <Button
             android:id="@+id/button_MainActivity_deletValues"
-            style="@style/general_WrapContent"
+            style="@style/button_WrapContent"
             android:layout_alignParentStart="true"
             android:onClick="onClick_ClearAll"
             android:text="@string/button_deletAll" />

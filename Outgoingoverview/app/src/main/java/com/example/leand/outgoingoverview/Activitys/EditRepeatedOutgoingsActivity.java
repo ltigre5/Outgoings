@@ -9,10 +9,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -27,11 +29,14 @@ import com.example.leand.outgoingoverview.R;
 import java.util.Calendar;
 import java.util.Objects;
 
+import yuku.ambilwarna.AmbilWarnaDialog;
+
 public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private EditText editText_EditRepeatedOutgoingsActivity_Start, editText_EditRepeatedOutgoingsActivity_End, editText_EditRepeatedOutgoingsActivity_Value;
     private EditText editText_EditRepeatedOutgoingsActivity_Titel, editText_EditRepeatedOutgoingsActivity_Description;
     private TextView textView_EditRepeatedOutgoingsActivity_Currency;
+    private Button button_EditRepeatedOutgoingsActivity_ChooseColor;
     private Spinner spinner_EditRepeatedOutgoingsActivity_RepeatBy;
 
     private SelectedDate selectedDate, selectedDateNew_Start, selectedDateNew_End, selectedDateOld_Start, selectedDateOld_End;
@@ -52,6 +57,7 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
     private String string_oldValue;
     private String string_oldTitel;
     private String string_oldDescription;
+    private int int_titleColor = 0xff000000; //for black
 
     int year, month, day;
 
@@ -61,6 +67,9 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_repeated_outgoings);
 
+        //Set Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar_MainActivity);
+        setSupportActionBar(toolbar);
 
         //definition of Items in Activity
         editText_EditRepeatedOutgoingsActivity_Start = findViewById(R.id.editText_EditRepeatedOutgoingsActivity_Start);
@@ -70,6 +79,7 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
         spinner_EditRepeatedOutgoingsActivity_RepeatBy = findViewById(R.id.spinner_EditRepeatedOutgoingsActivity_RepeatBy);
         editText_EditRepeatedOutgoingsActivity_Description = findViewById(R.id.editText_EditRepeatedOutgoingsActivity_Description);
         editText_EditRepeatedOutgoingsActivity_Titel = findViewById(R.id.editText_EditRepeatedOutgoingsActivity_Titel);
+        button_EditRepeatedOutgoingsActivity_ChooseColor = findViewById(R.id.button_EditRepeatedOutgoingsActivity_ChooseColor);
 
         //Initialize Start and End Date for DatePicker
         selectedDate = new SelectedDate();
@@ -86,7 +96,7 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
         Cursor cursor = MainActivity.myDbMain.getRowWithID(interger_ID);
 
         //Initialize General Helper
-        generalHelper= new GeneralHelper();
+        generalHelper = new GeneralHelper();
 
         //get old values to Edit
         selectedDateNew_Start.setLong_Date((cursor.getLong(DBAdapter.COL_START_DATE)));
@@ -112,7 +122,7 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
         string_Every = cursor.getString(cursor.getColumnIndexOrThrow(DBAdapter.KEY_EVERY));
 
         //get the Currency
-        string_Currency=generalHelper.getCurrency();
+        string_Currency = generalHelper.getCurrency();
 
 
         //set Filter for Value Input, only allow 2 digits after point and 14 befor point
@@ -123,14 +133,21 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
 
         displayItemsOnActivity();
 
+        //set ColorPicker for Button to Edit title color
+        button_EditRepeatedOutgoingsActivity_ChooseColor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openColorPicker();
+            }
+        });
 
         //set OnclickListener with Datepicker for Start Date
         editText_EditRepeatedOutgoingsActivity_Start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    year = selectedDateOld_Start.getInteger_Year();
-                    month = selectedDateOld_Start.getInteger_Month() - 1;
-                    day = selectedDateOld_Start.getInteger_day();
+                year = selectedDateOld_Start.getInteger_Year();
+                month = selectedDateOld_Start.getInteger_Month() - 1;
+                day = selectedDateOld_Start.getInteger_day();
 
 
                 DatePickerDialog dialog = new DatePickerDialog(
@@ -156,9 +173,9 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
         editText_EditRepeatedOutgoingsActivity_End.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    year = selectedDateOld_End.getInteger_Year();
-                    month = selectedDateOld_End.getInteger_Month() - 1;
-                    day = selectedDateOld_End.getInteger_day();
+                year = selectedDateOld_End.getInteger_Year();
+                month = selectedDateOld_End.getInteger_Month() - 1;
+                day = selectedDateOld_End.getInteger_day();
 
 
                 DatePickerDialog dialog = new DatePickerDialog(
@@ -212,6 +229,25 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(R.string.dialog_question)).setPositiveButton(getString(R.string.dialog_yes), dialogClickListener)
                 .setNegativeButton(getString(R.string.dialog_no), dialogClickListener).show();
+    }
+
+    //ColorPicker to Edit title color
+    public void openColorPicker() {
+        AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(this, int_titleColor, true, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+
+            @Override
+            public void onCancel(AmbilWarnaDialog dialog) {
+            }
+
+            @Override
+            public void onOk(AmbilWarnaDialog dialog, int color) {
+                button_EditRepeatedOutgoingsActivity_ChooseColor.setBackgroundColor(color);
+                int_titleColor = color;
+                editText_EditRepeatedOutgoingsActivity_Titel.setTextColor(color);
+            }
+        });
+        colorPicker.show();
+
     }
 
     public void onClick_SaveReapeatedValues(View view) {
@@ -276,7 +312,7 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
 
     //Adds Date and value to Database
     private void addNewItemRepeatedFirst() {
-        MainActivity.myDbMain.insertRowRepeatedItem(selectedDate.getLong_Date(), double_Value, string_Description, string_TitleRepeated, string_Currency, selectedDateNew_End.getLong_Date(), string_EveryForList, selectedDateNew_Start.getLong_Date());
+        MainActivity.myDbMain.insertRowRepeatedItem(selectedDate.getLong_Date(), double_Value, string_Description, string_TitleRepeated, string_Currency, selectedDateNew_End.getLong_Date(), string_EveryForList, selectedDateNew_Start.getLong_Date(), int_titleColor);
     }
 
 

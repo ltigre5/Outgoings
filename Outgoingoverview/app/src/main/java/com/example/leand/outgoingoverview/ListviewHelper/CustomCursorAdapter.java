@@ -105,6 +105,7 @@ public class CustomCursorAdapter extends SimpleCursorAdapter {
         long long_Date = cursor.getLong(cursor.getColumnIndexOrThrow(DBAdapter.KEY_DATE));
         double double_Value = cursor.getDouble(cursor.getColumnIndexOrThrow(DBAdapter.KEY_VALUE));
         String string_Title = cursor.getString(cursor.getColumnIndexOrThrow(DBAdapter.KEY_TITEL));
+        int int_titleColor= cursor.getInt(cursor.getColumnIndexOrThrow(DBAdapter.KEY_TITLE_COLOR));
 
         //Convert Values in needed format
         String string_WeekDay = generalHelper.longDateToWeekday.format(long_Date);
@@ -116,6 +117,8 @@ public class CustomCursorAdapter extends SimpleCursorAdapter {
         textView_AdapterViewList_date.setText(string_Date);
         textView_AdapterViewList_value.setText(string_Value);
         textView_AdapterViewList_WeekDay.setText(string_WeekDay);
+
+        textView_AdapterViewList_title.setTextColor(int_titleColor);
 
         return v;
     }

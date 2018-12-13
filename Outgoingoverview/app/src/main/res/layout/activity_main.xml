@@ -6,6 +6,11 @@
     android:orientation="vertical"
     tools:context=".Activitys.MainActivity">
 
+    <include
+       android:id="@+id/toolbar_MainActivity"
+        layout="@layout/toolbar_main_activity">
+    </include>
+
     <!-- Calendar to add new Item -->
     <CalendarView
         android:id="@+id/calendarView_MainActivity_calendar"
@@ -67,9 +72,10 @@
 
         <Button
             android:id="@+id/button_MainActivity_AddRepeatedOutgoing"
-            style="@style/general_Middle_MatchParent"
+            style="@style/button_Middle_MatchParent"
             android:onClick="onClick_OpenRepaetedOutgoing"
-            android:text="@string/label_addRepeatedOutgoing" />
+            android:text="@string/label_addRepeatedOutgoing"
+            android:background="@drawable/custom_button"/>
     </RelativeLayout>
 
     <!-- Layout for the Bottom -->
@@ -80,19 +86,21 @@
         <!-- Button to Change Currency -->
         <Button
             android:id="@+id/button_MainActivity_ChangeCurrency"
-            style="@style/general_WrapContent"
+            style="@style/button_WrapContent"
             android:layout_alignParentStart="true"
             android:onClick="onClick_OpenChangeCurrency"
             android:text="@string/button_addCurrency"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            android:background="@drawable/custom_button"/>
 
         <!-- Button to Show Items -->
         <Button
             android:id="@+id/button_MainActivity_Overview"
-            style="@style/general_WrapContent"
+            style="@style/button_WrapContent"
             android:layout_alignParentEnd="true"
             android:onClick="onClick_ShowAllvalues"
-            android:text="@string/button_overview" />
+            android:text="@string/button_overview"
+            />
     </RelativeLayout>
 </LinearLayout>
 
