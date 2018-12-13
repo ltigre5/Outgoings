@@ -1,36 +1,35 @@
 package com.example.leand.outgoingoverview.Activitys;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
+import com.example.leand.outgoingoverview.Classes.GeneralHelper;
 import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
 import com.example.leand.outgoingoverview.R;
 import com.example.leand.outgoingoverview.Classes.SelectedDate;
 
-import java.text.DecimalFormat;
-
 public class MainActivity extends AppCompatActivity {
     public static DBAdapter myDbMain;
+
     private TextView textView_MainActivity_SelectedDateValue, textView_MainActivity_totalValue;
     private Button button_MainActivity_changeValue;
 
-    public static final String EXTRA_LONG_DATE = "long Date";
-
+    private GeneralHelper generalHelper;
     private SelectedDate selectedDateNew, selectedDateOld;
 
     private int counterCalendar;
     private String string_Currency = "";
 
-    DecimalFormat df = new DecimalFormat("0.00");
+    public static final String EXTRA_LONG_DATE = "long Date";
+    public static final String EXTRA_INT_DIRECT_OPEN_ACTIVITY = "direct Open Activity";
 
     // Declaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -40,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AddRepeatedItemsActivity.MainActivRepeated = true;
+        AddNewItemActivity.MainActiv = true;
+
+        //get Date from MainActivity
+        Intent caller = getIntent();
+        int int_directOpenActvity = caller.getIntExtra(MainActivity.EXTRA_INT_DIRECT_OPEN_ACTIVITY, -1);
 
         //open the Database
         openDB();
@@ -59,8 +65,22 @@ public class MainActivity extends AppCompatActivity {
         //initialize old date value
         selectedDateOld = new SelectedDate(0);
 
-        //show values on mainactivity
+        //Initialize General Helper
+        generalHelper = new GeneralHelper();
+
+        //show values on mainActivity
         displayItemsOnActivity();
+
+        //Open AddRepeatedActivity or AddNewActivity if started from Widget
+        if (int_directOpenActvity == 1) {
+            Intent intent = new Intent(MainActivity.this, AddNewItemActivity.class);
+            intent.putExtra(EXTRA_LONG_DATE, selectedDateNew.getLong_Date());
+            startActivityForResult(intent, 1);
+
+        } else if (int_directOpenActvity == 2) {
+            Intent intent = new Intent(MainActivity.this, AddRepeatedItemsActivity.class);
+            startActivityForResult(intent, 1);
+        }
 
         //When clicked on a date twice, open AddNewItemActivity and send Date to this activity
         calendarView_MainActivity_calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -100,8 +120,9 @@ public class MainActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // onClick Methods
 
+
     public void onClick_OpenRepaetedOutgoing(View view) {
-        Intent intent = new Intent(this, AddRepeatedOutgoingsActivity.class);
+        Intent intent = new Intent(this, AddRepeatedItemsActivity.class);
         startActivityForResult(intent, 1);
     }
 
@@ -109,38 +130,13 @@ public class MainActivity extends AppCompatActivity {
     public void onClick_ShowAllvalues(View view) {
         Intent intent = new Intent(this, OverviewListActivity.class);
         intent.putExtra(EXTRA_LONG_DATE, selectedDateNew.getLong_Date());
-        startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     //Opens ChangeCurrencyActivity, where you can change the Currency
     public void onClick_OpenChangeCurrency(View view) {
         Intent intent = new Intent(this, ChangeCurrencyActivity.class);
         startActivityForResult(intent, 1);
-    }
-
-    //Delet all data in Database
-    public void onClick_ClearAll(View view) {
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE:
-                        //Yes button clicked, delet all Data in Database
-                        myDbMain.deleteAll();
-                        displayItemsOnActivity();
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //No button clicked, do nothing
-                        break;
-                }
-            }
-        };
-
-        //set the message to show in the DialogWindow
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
     }
 
     // onClick Methods
@@ -184,36 +180,6 @@ public class MainActivity extends AppCompatActivity {
         cursor.close();
     }
 
-    //sums the value of the selected date
-    private double sumAllValuesOfSelectedDay() {
-        Cursor cursor = myDbMain.getRowWithDate(selectedDateNew.getInteger_DateWithoutTime());
-        double doubleAllValuesOfSelectedDate = 0.0;
-
-        if (cursor.moveToFirst()) {
-            do {
-                doubleAllValuesOfSelectedDate += cursor.getDouble(DBAdapter.COL_VALUE);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return doubleAllValuesOfSelectedDate;
-    }
-
-    //sums all values of the selected Month
-    private Double sumAllValuesOfSelectedMonth() {
-        Cursor cursor = myDbMain.getRowWithMonthYear(selectedDateNew.getInteger_Month(), selectedDateNew.getInteger_Year());
-        Double doubleTotalValue = 0.0;
-
-        if (cursor.moveToFirst()) {
-            do {
-                doubleTotalValue += cursor.getDouble(DBAdapter.COL_VALUE);
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        return doubleTotalValue;
-    }
-
     // Database Methods
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Communicate with other Activitys
@@ -226,11 +192,12 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == 1) {
                 //show new Values on Activity
                 displayItemsOnActivity();
-            } else if (resultCode == RESULT_CANCELED) {
+            } else {
                 displayItemsOnActivity();
             }
         }
     }
+
 
     // Communicate with other Activitys
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -242,12 +209,11 @@ public class MainActivity extends AppCompatActivity {
         getCurrency();
 
         //show sum of all values of this date
-        textView_MainActivity_SelectedDateValue.setText(df.format(sumAllValuesOfSelectedDay()) + string_Currency);
+        textView_MainActivity_SelectedDateValue.setText(generalHelper.currencyFormat.format(generalHelper.sumAllValuesOfSelectedDay(selectedDateNew)) + string_Currency);
 
         //show total value of selected Month
-        textView_MainActivity_totalValue.setText(df.format(sumAllValuesOfSelectedMonth()) + string_Currency);
+        textView_MainActivity_totalValue.setText(generalHelper.currencyFormat.format(generalHelper.sumAllValuesOfSelectedMonth(selectedDateNew)) + string_Currency);
     }
-
 
     // Displaying Values
     //----------------------------------------------------------------------------------------------------------------------------------------------

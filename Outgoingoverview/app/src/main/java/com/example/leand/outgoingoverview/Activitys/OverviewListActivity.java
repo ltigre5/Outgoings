@@ -1,12 +1,13 @@
 package com.example.leand.outgoingoverview.Activitys;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,37 +23,36 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.leand.outgoingoverview.Classes.GeneralHelper;
 import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
 import com.example.leand.outgoingoverview.ListviewHelper.ListViewAdapter;
 import com.example.leand.outgoingoverview.R;
 import com.example.leand.outgoingoverview.Classes.SelectedDate;
 
-import java.text.DecimalFormat;
-import java.util.Calendar;
 import java.util.Objects;
 
 public class OverviewListActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private Button button_OverviewListActivity_OK;
-    private EditText editText_OverviewListActivity_Year, editText_OverviewListActivity_Month;
-    private EditText editText_OverviewListActivity_From, editText_OverviewListActivity_To;
+    private TextView textView_OverviewListActivity_totalValue, textView_OverviewListActivity_MonthToStatment, textView_OverviewListActivity_YearFromStatment;
+    private EditText editText_OverviewListActivity_Year, editText_OverviewListActivity_Month, editText_OverviewListActivity_From, editText_OverviewListActivity_To;
     private Spinner spinner_OverviewListActivity_OrderBy, spinner_OverviewListActivity_Show, spinner_OverviewListActivity_AscendingDescending;
     private ListView listView_OverviewListActivity;
-    private TextView textView_OverviewListActivity_totalValue, textView_OverviewListActivity_MonthToStatment, textView_OverviewListActivity_YearFromStatment;
 
-    private SelectedDate selectedDate, selectedDate_Start, selectedDate_End;
-    private String string_Currency = "", string_OrderBy_DateValue = "", string_OrderBy_AscendingDescending = "";
-    private String string_FilterFor;
-    private String SPINNER_YEAR, SPINNER_MONTH, SPINNER_FROMTO, SPINNER_ASCENDING, SPINNER_DESCENDING, SPINNER_VALUE, SPINNER_DATE;
-    private Integer integer_OrderBy_Year, integer_OrderBy_Month;
-
-    public static final String EXTRA_INTEGER_ID = "Integer ID";
-    ListViewAdapter listViewAdapter;
-
-    DecimalFormat df = new DecimalFormat("0.00");
+    private ListViewAdapter listViewAdapter;
     private DatePickerDialog.OnDateSetListener mDateSetListenerStart, mDateSetListenerEnd;
 
+    private SelectedDate selectedDate_Start;
+    private SelectedDate selectedDate_End;
+    private GeneralHelper generalHelper;
+
+    private String string_Currency, string_OrderBy_DateValue = DBAdapter.KEY_DATE, string_OrderBy_AscendingDescending = DBAdapter.ASCENDING;
+    private String string_FilterFor;
+    private String SPINNER_YEAR, SPINNER_MONTH, SPINNER_FROM_TO, SPINNER_ASCENDING, SPINNER_DESCENDING, SPINNER_VALUE, SPINNER_DATE;
+    private Integer integer_OrderBy_Year, integer_OrderBy_Month;
     private int year, month, day;
+
+    public static final String EXTRA_INTEGER_ID = "Integer ID";
 
     // Declaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -62,9 +62,6 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview_list_);
-
-        //save Currency String
-        getCurrency();
 
         //definition of Items in MainActivity
         listView_OverviewListActivity = findViewById(R.id.listView_OverviewListActivity);
@@ -80,36 +77,40 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
         editText_OverviewListActivity_From = findViewById(R.id.editText_OverviewListActivity_From);
         button_OverviewListActivity_OK = findViewById(R.id.button_OverviewListActivity_OK);
 
-        //get Intent from MainActivity
-        Intent intent = getIntent();
-        selectedDate = new SelectedDate(intent.getLongExtra(MainActivity.EXTRA_LONG_DATE, -1));
-        integer_OrderBy_Month = selectedDate.getInteger_Month();
-        integer_OrderBy_Year = selectedDate.getInteger_Year();
-
-        //create new listViewAdapter
-        listViewAdapter = new ListViewAdapter(selectedDate.getInteger_Month(), selectedDate.getInteger_Year(), DBAdapter.KEY_DATE, string_Currency, this, ListViewAdapter.ASCENDING);
-
-        //Initialize Start and End Date for DatePicker
-        selectedDate_Start = new SelectedDate();
-        selectedDate_End = new SelectedDate();
-
-        //get selected Month and Year to Filter the list
-        integer_OrderBy_Month = selectedDate.getInteger_Month();
-        integer_OrderBy_Year = selectedDate.getInteger_Year();
-        editText_OverviewListActivity_Month.setText(integer_OrderBy_Month.toString());
-        editText_OverviewListActivity_Year.setText(integer_OrderBy_Year.toString());
-
-        //define Spinners values
+        //get Spinner string Ressource
         SPINNER_YEAR = getResources().getString(R.string.show_year);
         SPINNER_MONTH = getResources().getString(R.string.show_month);
-        SPINNER_FROMTO = getResources().getString(R.string.show_from_to);
+        SPINNER_FROM_TO = getResources().getString(R.string.show_from_to);
         SPINNER_ASCENDING = getResources().getString(R.string.order_by_ascending);
         SPINNER_DESCENDING = getResources().getString(R.string.order_by_descending);
         SPINNER_VALUE = getResources().getString(R.string.order_by_value);
         SPINNER_DATE = getResources().getString(R.string.order_by_date);
         string_FilterFor = getResources().getString(R.string.show_month);
 
-        //create Spinners and arrayList
+        //get Intent from MainActivity
+        Intent intent = getIntent();
+        SelectedDate selectedDate = new SelectedDate(intent.getLongExtra(MainActivity.EXTRA_LONG_DATE, -1));
+        integer_OrderBy_Month = selectedDate.getInteger_Month();
+        integer_OrderBy_Year = selectedDate.getInteger_Year();
+
+        //create new listViewAdapter
+        listViewAdapter = new ListViewAdapter(selectedDate.getInteger_Month(), selectedDate.getInteger_Year(), DBAdapter.KEY_DATE, this, DBAdapter.ASCENDING);
+
+        //Initialize Start and End Date for DatePicker
+        selectedDate_Start = new SelectedDate();
+        selectedDate_End = new SelectedDate();
+
+        //Initialize General Helper
+        generalHelper = new GeneralHelper();
+
+        //get selected Month and Year to Filter the list
+        editText_OverviewListActivity_Month.setText(integer_OrderBy_Month.toString());
+        editText_OverviewListActivity_Year.setText(integer_OrderBy_Year.toString());
+
+        //save Currency String
+        string_Currency = generalHelper.getCurrency();
+
+        //create List and Spinner
         createArrayList();
         createSpinnerOrderBy();
         createSpinnerAscendingDescending();
@@ -118,22 +119,13 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
         //shows all Items On Activity
         displayItemsOnActivity();
 
-
         //set OnclickListener with Datepicker for Start Date
         editText_OverviewListActivity_From.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (editText_OverviewListActivity_From.getText().toString().equals("")) {
-                    Calendar cal = Calendar.getInstance();
-                    year = cal.get(Calendar.YEAR);
-                    month = cal.get(Calendar.MONTH);
-                    day = cal.get(Calendar.DAY_OF_MONTH);
-
-                } else {
-                    year = selectedDate_Start.getInteger_Year();
-                    month = selectedDate_Start.getInteger_Month() - 1;
-                    day = selectedDate_Start.getInteger_day();
-                }
+                year = selectedDate_Start.getInteger_Year();
+                month = selectedDate_Start.getInteger_Month() - 1;
+                day = selectedDate_Start.getInteger_day();
 
                 DatePickerDialog dialog = new DatePickerDialog(
                         OverviewListActivity.this,
@@ -158,17 +150,9 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
         editText_OverviewListActivity_To.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (editText_OverviewListActivity_To.getText().toString().equals("")) {
-                    Calendar cal = Calendar.getInstance();
-                    year = cal.get(Calendar.YEAR);
-                    month = cal.get(Calendar.MONTH);
-                    day = cal.get(Calendar.DAY_OF_MONTH);
-
-                } else {
-                    year = selectedDate_End.getInteger_Year();
-                    month = selectedDate_End.getInteger_Month() - 1;
-                    day = selectedDate_End.getInteger_day();
-                }
+                year = selectedDate_End.getInteger_Year();
+                month = selectedDate_End.getInteger_Month() - 1;
+                day = selectedDate_End.getInteger_day();
 
                 DatePickerDialog dialog = new DatePickerDialog(
                         OverviewListActivity.this,
@@ -190,11 +174,11 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
         };
     }
 
-
     // OnCreate
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // onClick Methods
 
+    //get Values to Filter for
     public void onClick_FilterList(View view) {
         if (string_FilterFor.equals(SPINNER_YEAR)) {
             if (!editText_OverviewListActivity_Year.getText().toString().equals("")) {
@@ -209,37 +193,32 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
         displayItemsOnActivity();
     }
 
+    //Delete all data in Database
+    public void onClick_ClearAll(View view) {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+
+                        //Yes button clicked, delet all Data in Database
+                        MainActivity.myDbMain.deleteAll();
+                        displayItemsOnActivity();
+                        break;
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        //No button clicked, do nothing
+                        break;
+                }
+            }
+        };
+
+        //set the message to show in the DialogWindow
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(getString(R.string.dialog_question)).setPositiveButton(getString(R.string.dialog_yes), dialogClickListener)
+                .setNegativeButton(getString(R.string.dialog_no), dialogClickListener).show();
+    }
+
     // onClick Methods
-    // ----------------------------------------------------------------------------------------------------------------------------------------------
-    // Database methods
-
-
-    //gets Currency out of Database
-    private void getCurrency() {
-        Cursor cursor = MainActivity.myDbMain.getAllRows();
-        if (cursor.moveToFirst()) {
-            string_Currency = cursor.getString(cursor.getColumnIndexOrThrow(DBAdapter.KEY_CURRENCY));
-        } else {
-            string_Currency = "";
-        }
-        cursor.close();
-    }
-
-    //sums all values of the selected Month
-    private Double sumAllValues() {
-        Cursor cursor = listViewAdapter.getCursor();
-        Double doubleTotalValue = 0.0;
-
-        if (cursor.moveToFirst()) {
-            do {
-                doubleTotalValue += cursor.getDouble(DBAdapter.COL_VALUE);
-            } while (cursor.moveToNext());
-        } else doubleTotalValue = 0.0;
-
-        return doubleTotalValue;
-    }
-
-    // Database methods
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Communicate with other Activitys
 
@@ -248,6 +227,8 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
+                displayItemsOnActivity();
+            } else {
                 displayItemsOnActivity();
             }
         }
@@ -297,60 +278,56 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
         //see if it should be ordered ascending or descending
         else if (parent.getId() == R.id.spinner_OverviewListActivity_AscendingDescending) {
             if (parent.getItemAtPosition(position).toString().equals(SPINNER_ASCENDING)) {
-                string_OrderBy_AscendingDescending = ListViewAdapter.ASCENDING;
+                string_OrderBy_AscendingDescending = DBAdapter.ASCENDING;
 
             } else if (parent.getItemAtPosition(position).toString().equals(SPINNER_DESCENDING)) {
-                string_OrderBy_AscendingDescending = ListViewAdapter.DESCENDING;
+                string_OrderBy_AscendingDescending = DBAdapter.DESCENDING;
             }
         }
+
         // set the layout if it should be filtered by year, by month or from start and end Day
         else if (parent.getId() == R.id.spinner_OverviewListActivity_Show)
             if (parent.getItemAtPosition(position).toString().equals(SPINNER_YEAR)) {
-                editText_OverviewListActivity_From.setLayoutParams(new ConstraintLayout.LayoutParams(0, 0));
-                editText_OverviewListActivity_To.setLayoutParams(new ConstraintLayout.LayoutParams(0, 0));
-                editText_OverviewListActivity_Year.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                editText_OverviewListActivity_Month.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 button_OverviewListActivity_OK.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                editText_OverviewListActivity_Year.setVisibility(View.VISIBLE);
                 editText_OverviewListActivity_Month.setVisibility(View.INVISIBLE);
+                editText_OverviewListActivity_To.setVisibility(View.INVISIBLE);
+                editText_OverviewListActivity_From.setVisibility(View.INVISIBLE);
+
                 textView_OverviewListActivity_MonthToStatment.setVisibility(View.INVISIBLE);
                 textView_OverviewListActivity_YearFromStatment.setText(getString(R.string.statment_year));
                 editText_OverviewListActivity_Year.setText(integer_OrderBy_Year.toString());
                 string_FilterFor = SPINNER_YEAR;
 
             } else if (parent.getItemAtPosition(position).toString().equals(SPINNER_MONTH)) {
-                editText_OverviewListActivity_From.setLayoutParams(new ConstraintLayout.LayoutParams(0, 0));
-                editText_OverviewListActivity_To.setLayoutParams(new ConstraintLayout.LayoutParams(0, 0));
-                editText_OverviewListActivity_Year.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                editText_OverviewListActivity_Month.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 button_OverviewListActivity_OK.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+
+                editText_OverviewListActivity_Year.setVisibility(View.VISIBLE);
                 editText_OverviewListActivity_Month.setVisibility(View.VISIBLE);
+                editText_OverviewListActivity_To.setVisibility(View.INVISIBLE);
+                editText_OverviewListActivity_From.setVisibility(View.INVISIBLE);
+
                 textView_OverviewListActivity_MonthToStatment.setVisibility(View.VISIBLE);
                 textView_OverviewListActivity_MonthToStatment.setText(getString(R.string.statment_month));
                 textView_OverviewListActivity_YearFromStatment.setText(getString(R.string.statment_year));
-                if (string_FilterFor.equals(SPINNER_YEAR)) {
-                    editText_OverviewListActivity_Year.setText(integer_OrderBy_Year.toString());
-                    editText_OverviewListActivity_Month.setText("");
-                } else if (string_FilterFor.equals(SPINNER_FROMTO)) {
-                    editText_OverviewListActivity_Year.setText("");
-                    editText_OverviewListActivity_Month.setText("");
-                } else {
-                    editText_OverviewListActivity_Year.setText(integer_OrderBy_Year.toString());
-                    editText_OverviewListActivity_Month.setText(integer_OrderBy_Month.toString());
-                }
+                editText_OverviewListActivity_Year.setText(integer_OrderBy_Year.toString());
+                editText_OverviewListActivity_Month.setText(integer_OrderBy_Month.toString());
                 string_FilterFor = SPINNER_MONTH;
 
-            } else if (parent.getItemAtPosition(position).toString().equals(SPINNER_FROMTO)) {
-                editText_OverviewListActivity_From.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                editText_OverviewListActivity_To.setLayoutParams(new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                editText_OverviewListActivity_Year.setLayoutParams(new ConstraintLayout.LayoutParams(0, 0));
-                editText_OverviewListActivity_Month.setLayoutParams(new ConstraintLayout.LayoutParams(0, 0));
+            } else if (parent.getItemAtPosition(position).toString().equals(SPINNER_FROM_TO)) {
                 button_OverviewListActivity_OK.setLayoutParams(new LinearLayout.LayoutParams(0, 0));
+
+                editText_OverviewListActivity_Year.setVisibility(View.INVISIBLE);
+                editText_OverviewListActivity_Month.setVisibility(View.INVISIBLE);
+                editText_OverviewListActivity_To.setVisibility(View.VISIBLE);
+                editText_OverviewListActivity_From.setVisibility(View.VISIBLE);
+
                 textView_OverviewListActivity_MonthToStatment.setText(getString(R.string.statment_to));
                 textView_OverviewListActivity_YearFromStatment.setText(getString(R.string.statment_from));
                 editText_OverviewListActivity_From.setText(selectedDate_Start.getString_Date());
                 editText_OverviewListActivity_To.setText(selectedDate_End.getString_Date());
-                string_FilterFor = SPINNER_FROMTO;
-
+                string_FilterFor = SPINNER_FROM_TO;
             }
 
         //show new Total on display
@@ -367,7 +344,7 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
     // List Methods
 
     //Creates Arraylist of all values for ListView and adds an onClick Method which opens EditValueActivity and tranfers Databse-ID of selected Value
-    private void createArrayList() {
+    public void createArrayList() {
         listView_OverviewListActivity.setAdapter(listViewAdapter.getListViewAdapter());
 
         //by clicking of Item get Database-ID of Position and open EditValueActivity and send ID
@@ -375,7 +352,7 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //get ID of selected Item from Databse
+                //get ID of selected Item from Database
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                 Integer integer_iD = cursor.getInt(cursor.getColumnIndexOrThrow(DBAdapter.KEY_ROWID));
 
@@ -400,11 +377,11 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
 
     //show Values on Activity
     public void displayItemsOnActivity() {
-        //Actualize Cursor
+        //Actualize Cursor and shows Toast message
         if (string_FilterFor.equals(SPINNER_YEAR)) {
             listViewAdapter.setCursorYear(integer_OrderBy_Year, string_OrderBy_DateValue, string_OrderBy_AscendingDescending);
             if (editText_OverviewListActivity_Year.getText().toString().equals("")) {
-                Toast.makeText(OverviewListActivity.this,  getString(R.string.toast_noYear),
+                Toast.makeText(OverviewListActivity.this, getString(R.string.toast_noYear),
                         Toast.LENGTH_LONG).show();
             }
 
@@ -412,27 +389,28 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
             listViewAdapter.setCursorMonthYear(integer_OrderBy_Month, integer_OrderBy_Year, string_OrderBy_DateValue, string_OrderBy_AscendingDescending);
 
             if (editText_OverviewListActivity_Year.getText().toString().equals("") && editText_OverviewListActivity_Month.getText().toString().equals("")) {
-                Toast.makeText(OverviewListActivity.this,  getString(R.string.toast_noYearMonth),
+                Toast.makeText(OverviewListActivity.this, getString(R.string.toast_noYearMonth),
                         Toast.LENGTH_LONG).show();
             } else if (editText_OverviewListActivity_Month.getText().toString().equals("")) {
-                Toast.makeText(OverviewListActivity.this,  getString(R.string.toast_noMonth),
+                Toast.makeText(OverviewListActivity.this, getString(R.string.toast_noMonth),
                         Toast.LENGTH_LONG).show();
             } else if (editText_OverviewListActivity_Year.getText().toString().equals("")) {
-                Toast.makeText(OverviewListActivity.this,  getString(R.string.toast_noYear),
+                Toast.makeText(OverviewListActivity.this, getString(R.string.toast_noYear),
                         Toast.LENGTH_LONG).show();
             } else if (Integer.parseInt(editText_OverviewListActivity_Month.getText().toString()) < 1 || Integer.parseInt(editText_OverviewListActivity_Month.getText().toString()) > 12) {
-                Toast.makeText(OverviewListActivity.this,  getString(R.string.toast_invalidMonth),
+                Toast.makeText(OverviewListActivity.this, getString(R.string.toast_invalidMonth),
                         Toast.LENGTH_LONG).show();
             }
 
-        } else if (string_FilterFor.equals(SPINNER_FROMTO)) {
+        } else if (string_FilterFor.equals(SPINNER_FROM_TO)) {
             listViewAdapter.setCursorStartEndDate(selectedDate_Start.getInteger_DateWithoutTime(), selectedDate_End.getInteger_DateWithoutTime(), string_OrderBy_DateValue, string_OrderBy_AscendingDescending);
-
         }
+
         //Actualize listView
         listView_OverviewListActivity.setAdapter(listViewAdapter.getListViewAdapter());
 
-        textView_OverviewListActivity_totalValue.setText(df.format(sumAllValues()) + string_Currency);
+        //Actualize Total Value
+        textView_OverviewListActivity_totalValue.setText(generalHelper.currencyFormat.format(generalHelper.sumAllValues(listViewAdapter)) + string_Currency);
     }
 
     // Displaying Values

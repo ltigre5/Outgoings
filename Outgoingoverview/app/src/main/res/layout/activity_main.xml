@@ -24,7 +24,7 @@
             style="@style/general_WrapContent"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="Total Day:" />
+            android:text="@string/statment_totalDay" />
 
         <!-- TextView to show Value of the Day -->
         <TextView
@@ -47,7 +47,7 @@
             style="@style/general_WrapContent"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="Total Month:" />
+            android:text="@string/statment_totalMonth" />
 
         <!-- TextView to show total value of the month -->
         <TextView
@@ -56,7 +56,6 @@
             android:layout_width="0dp"
             android:layout_weight="3"
             android:text="TotalValueofMonth" />
-
     </LinearLayout>
 
     <!-- Layout for the Buttom Add repeated Outgoing -->
@@ -70,28 +69,21 @@
             android:id="@+id/button_MainActivity_AddRepeatedOutgoing"
             style="@style/general_Middle_MatchParent"
             android:onClick="onClick_OpenRepaetedOutgoing"
-            android:text="Add Repeated Outgoing" />
-
+            android:text="@string/label_addRepeatedOutgoing" />
     </RelativeLayout>
 
     <!-- Layout for the Bottom -->
     <RelativeLayout style="@style/general_Bottom_MatchParent">
 
-        <!-- Button to Delet all Items -->
-        <Button
-            android:id="@+id/button_MainActivity_deletValues"
-            style="@style/general_WrapContent"
-            android:layout_alignParentStart="true"
-            android:onClick="onClick_ClearAll"
-            android:text="Delet All" />
+
 
         <!-- Button to Change Currency -->
         <Button
             android:id="@+id/button_MainActivity_ChangeCurrency"
             style="@style/general_WrapContent"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentStart="true"
             android:onClick="onClick_OpenChangeCurrency"
-            android:text="Currency"
+            android:text="@string/button_addCurrency"
             android:visibility="invisible" />
 
         <!-- Button to Show Items -->
@@ -100,9 +92,7 @@
             style="@style/general_WrapContent"
             android:layout_alignParentEnd="true"
             android:onClick="onClick_ShowAllvalues"
-            android:text="Overview" />
-
-
+            android:text="@string/button_overview" />
     </RelativeLayout>
 </LinearLayout>
 

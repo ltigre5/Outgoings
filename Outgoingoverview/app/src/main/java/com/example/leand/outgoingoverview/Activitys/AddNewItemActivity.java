@@ -6,12 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.leand.outgoingoverview.Classes.GeneralHelper;
 import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
 import com.example.leand.outgoingoverview.EditTextFilter.InputFilterDecimal;
 import com.example.leand.outgoingoverview.ListviewHelper.ListViewAdapter;
@@ -21,16 +24,20 @@ import com.example.leand.outgoingoverview.Classes.SelectedDate;
 import static com.example.leand.outgoingoverview.Activitys.OverviewListActivity.EXTRA_INTEGER_ID;
 
 public class AddNewItemActivity extends AppCompatActivity {
-
-
     private TextView textView_AddNewItemActivity_SelectedDate, textView_AddNewItemActivity_Currency, textView_AddNewItemActivity_TotalValue;
     private EditText editText_AddNewItemActivity_Value, editText_AddNewItemActivity_Description, editText_AddNewItemActivity_Titel;
     private ListView listView_AddNewItemActivity;
-
-    private SelectedDate selectedDate;
     private ListViewAdapter listViewAdapter;
+
+    private GeneralHelper generalHelper;
+    private SelectedDate selectedDate;
     private String string_Currency = "";
 
+    private double double_Value;
+    private String string_Description, string_Title;
+
+
+    public static boolean MainActiv = false;
 
     // Declaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -40,9 +47,6 @@ public class AddNewItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_item);
-
-        //get Currency
-        getCurrency();
 
         //definition of Items in Activity
         textView_AddNewItemActivity_SelectedDate = findViewById(R.id.textView_AddNewItemActivity_SelectedDate);
@@ -60,15 +64,31 @@ public class AddNewItemActivity extends AppCompatActivity {
         Intent caller = getIntent();
         selectedDate = new SelectedDate(caller.getLongExtra(MainActivity.EXTRA_LONG_DATE, -1));
 
-        //create new listViewAdapter
-        listViewAdapter = new ListViewAdapter(selectedDate.getInteger_Month(), selectedDate.getInteger_Year(), DBAdapter.KEY_DATE, string_Currency, this, ListViewAdapter.ASCENDING);
-        listViewAdapter.setCursorDate(selectedDate.getInteger_DateWithoutTime());
+        //Initialize General Helper
+        generalHelper = new GeneralHelper();
 
-        //create the arrayList
-        createArrayList();
+        //check if Main is Active
+        if (!MainActiv) {
+            Intent intent = new Intent(AddNewItemActivity.this, MainActivity.class);
+            intent.putExtra(MainActivity.EXTRA_INT_DIRECT_OPEN_ACTIVITY, 1);
+            startActivity(intent);
+            finish();
+        } else {
 
-        //show Items on Activity
-        displayItemsOnActivity();
+            //create new listViewAdapter
+            listViewAdapter = new ListViewAdapter(selectedDate.getInteger_Month(), selectedDate.getInteger_Year(), DBAdapter.KEY_DATE, this, DBAdapter.ASCENDING);
+            listViewAdapter.setCursorDate(selectedDate.getInteger_DateWithoutTime());
+
+            //get Currency
+            string_Currency = generalHelper.getCurrency();
+
+            //create the arrayList
+            createArrayList();
+
+            //show Items on Activity
+            displayItemsOnActivity();
+        }
+
     }
 
     // OnCreate
@@ -77,23 +97,36 @@ public class AddNewItemActivity extends AppCompatActivity {
 
     //save Item on Databse by Button click
     public void onClick_SaveItem(View view) {
-        String string_Titel;
-        Double double_Value;
-        String string_Description;
 
         //if nothing entered dont save value
         if (editText_AddNewItemActivity_Value.getText().toString().equals("") && editText_AddNewItemActivity_Description.getText().toString().equals("") && editText_AddNewItemActivity_Titel.getText().toString().equals("")) {
             finish();
+        } else if (editText_AddNewItemActivity_Description.getText().toString().equals("") && editText_AddNewItemActivity_Titel.getText().toString().equals("")) {
+            Toast.makeText(AddNewItemActivity.this, getString(R.string.toast_enterATitleAndValue),
+                    Toast.LENGTH_LONG).show();
         }
         //else save values on Database
         else {
-            string_Titel = editText_AddNewItemActivity_Titel.getText().toString();
-            string_Description = editText_AddNewItemActivity_Description.getText().toString();
-            double_Value = Double.parseDouble(editText_AddNewItemActivity_Value.getText().toString());
+            if (!editText_AddNewItemActivity_Titel.getText().toString().equals("")) {
+                string_Title = editText_AddNewItemActivity_Titel.getText().toString();
+            }
 
-            addNewItemInDatabase(selectedDate.getLong_Date(), double_Value, string_Description, string_Titel, string_Currency);
+            if (!editText_AddNewItemActivity_Description.getText().toString().equals("")) {
+                string_Description = editText_AddNewItemActivity_Description.getText().toString();
+            }
+
+            if (!editText_AddNewItemActivity_Value.getText().toString().equals("")) {
+                double_Value = Double.parseDouble(editText_AddNewItemActivity_Value.getText().toString());
+            }
+
+            addNewItemRepeated();
+
         }
+        displayItemsOnActivity();
+    }
 
+    @Override
+    public void onBackPressed() {
         //return to MainActivity
         Intent intent = new Intent();
         setResult(1, intent);
@@ -101,42 +134,23 @@ public class AddNewItemActivity extends AppCompatActivity {
     }
 
     // onClick Methods
-    //----------------------------------------------------------------------------------------------------------------------------------------------
-    // Database methods
+    // ----------------------------------------------------------------------------------------------------------------------------------------------
+    // Database Methods
+
 
     //Adds Date and value to Database
-    private void addNewItemInDatabase(long longDate, double value, String description, String titel, String currency) {
-        MainActivity.myDbMain.insertRow(longDate, value, description, titel, currency);
-    }
+    private void addNewItemRepeated() {
+        if (MainActivity.myDbMain.checkRowItem(double_Value, string_Title, selectedDate.getInteger_DateWithoutTime())) {
+            Toast.makeText(AddNewItemActivity.this, getString(R.string.toast_itemsAlreadyExists),
+                    Toast.LENGTH_LONG).show();
 
-
-
-    private void getCurrency() {
-        Cursor cursor = MainActivity.myDbMain.getAllRows();
-
-        if (cursor.moveToFirst()) {
-            string_Currency = cursor.getString(cursor.getColumnIndexOrThrow(DBAdapter.KEY_CURRENCY));
         } else {
-            string_Currency = "";
+            MainActivity.myDbMain.insertRow(selectedDate.getLong_Date(), double_Value, string_Description, string_Title, string_Currency);
         }
-        cursor.close();
+
     }
 
-    //sums all values of the selected Month
-    private Double sumAllValues() {
-        Cursor cursor = listViewAdapter.getCursor();
-        Double doubleTotalValue = 0.0;
-
-        if (cursor.moveToFirst()) {
-            do {
-                doubleTotalValue += cursor.getDouble(DBAdapter.COL_VALUE);
-            } while (cursor.moveToNext());
-        } else doubleTotalValue = 0.0;
-
-        return doubleTotalValue;
-    }
-
-    // Database methods
+    // Database Methods
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Communicate with other Activitys
 
@@ -145,9 +159,8 @@ public class AddNewItemActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
-                listViewAdapter.setCursorDate(selectedDate.getInteger_DateWithoutTime());
+
                 displayItemsOnActivity();
-                listView_AddNewItemActivity.setAdapter(listViewAdapter.getListViewAdapter());
             }
         }
     }
@@ -191,9 +204,17 @@ public class AddNewItemActivity extends AppCompatActivity {
 
     //show Values on Activity
     public void displayItemsOnActivity() {
-        textView_AddNewItemActivity_SelectedDate.setText(selectedDate.getString_WeekDayOfDate()+" "+selectedDate.getString_Date());
+        editText_AddNewItemActivity_Description.setText("");
+        editText_AddNewItemActivity_Titel.setText("");
+        editText_AddNewItemActivity_Value.setText("");
+
+        textView_AddNewItemActivity_SelectedDate.setText(selectedDate.getString_WeekDayOfDate() + " " + selectedDate.getString_Date());
         textView_AddNewItemActivity_Currency.setText(string_Currency);
-        textView_AddNewItemActivity_TotalValue.setText(sumAllValues().toString());
+
+        listViewAdapter.setCursorDate(selectedDate.getInteger_DateWithoutTime());
+        listView_AddNewItemActivity.setAdapter(listViewAdapter.getListViewAdapter());
+
+        textView_AddNewItemActivity_TotalValue.setText(generalHelper.currencyFormat.format(generalHelper.sumAllValues(listViewAdapter)) + string_Currency);
     }
 
     // Displaying Values

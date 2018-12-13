@@ -10,34 +10,22 @@ import com.example.leand.outgoingoverview.R;
 public class ListViewAdapter {
     private Context context;
     private Cursor cursor;
-    private String string_Currency;
-    public static final String ASCENDING = " ASC";
-    public static final String DESCENDING = " DESC";
 
     // Declaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Constructor
 
-
-    public ListViewAdapter(Integer integer_month, Integer integer_Year, String string_OrderBy, String string_Currency, Context context, String string_AscendDescend) {
+    public ListViewAdapter(Integer integer_month, Integer integer_Year, String string_OrderBy, Context context, String string_AscendDescend) {
         this.context = context;
-        this.string_Currency = string_Currency;
         this.cursor = MainActivity.myDbMain.getRowWithMonthYear(integer_month, integer_Year, string_OrderBy, string_AscendDescend);
     }
 
-    public ListViewAdapter(Context context, String string_Currency) {
+    public ListViewAdapter(Context context) {
         this.context = context;
-        this.string_Currency = string_Currency;
         this.cursor = MainActivity.myDbMain.getAllRows();
     }
 
-
     // Constructor
-    //----------------------------------------------------------------------------------------------------------------------------------------------
-    // Database methods
-
-
-    // Database methods
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Set Cursor
 
@@ -56,7 +44,6 @@ public class ListViewAdapter {
     public void setCursorDate(int dateWithoutTime) {
         this.cursor = MainActivity.myDbMain.getRowWithDate(dateWithoutTime);
     }
-
 
     public void setCursorAllWithEndDateNotDuplicate() {
         this.cursor = MainActivity.myDbMain.getAllRowsRepeatedItemNotDuplicated();
@@ -77,9 +64,10 @@ public class ListViewAdapter {
     public CustomCursorAdapter getListViewAdapter() {
         String[] fromFieldsName = new String[]{DBAdapter.KEY_ROWID, DBAdapter.KEY_DATE, DBAdapter.KEY_VALUE};
         int[] toViewsID = new int[]{};
-        CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(context, R.layout.adapter_view_list, cursor, fromFieldsName, toViewsID, 0, string_Currency);
+        CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(context, R.layout.adapter_view_list, cursor, fromFieldsName, toViewsID, 0);
         return customCursorAdapter;
     }
+
     // GetAdapters
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // End

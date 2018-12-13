@@ -10,7 +10,7 @@
     <EditText
         android:id="@+id/editText_EditRepeatedOutgoingsActivity_Titel"
         style="@style/general_Top_MatchParent"
-        android:hint="Titel"
+        android:hint="@string/hint_title"
         android:inputType="text" />
 
     <!-- Layout for Currency -->
@@ -22,7 +22,7 @@
             android:id="@+id/editText_EditRepeatedOutgoingsActivity_Value"
             style="@style/general_WrapContent"
             android:inputType="numberDecimal"
-            android:hint="Value"
+            android:hint="@string/hint_value"
             android:layout_weight="1" />
 
         <!-- TextView to show Currency -->
@@ -38,8 +38,8 @@
     <EditText
         android:id="@+id/editText_EditRepeatedOutgoingsActivity_Description"
         style="@style/general_Middle_MatchParent"
-        android:hint="Description"
-        android:inputType="text" />
+        android:hint="@string/hint_description"
+        android:inputType="textMultiLine" />
 
     <!-- Layout for Start and End Date -->
     <LinearLayout
@@ -52,7 +52,7 @@
         <TextView
             android:id="@+id/textView_EditRepeatedOutgoingsActivity_StartStatment"
             style="@style/general_WrapContent"
-            android:text="Start:"
+            android:text="@string/statment_start"
             app:autoSizeTextType="uniform" />
 
         <!-- Edittext for Start -->
@@ -66,7 +66,7 @@
         <TextView
             android:id="@+id/textView_EditRepeatedOutgoingsActivity_EndStatment"
             style="@style/general_WrapContent"
-            android:text="End:"
+            android:text="@string/statment_end"
             app:autoSizeTextType="uniform" />
 
         <!-- EditText for End -->
@@ -96,14 +96,14 @@
             style="@style/general_WrapContent"
             android:layout_alignParentEnd="true"
             android:onClick="onClick_SaveReapeatedValues"
-            android:text="Save" />
+            android:text="@string/button_save" />
 
         <Button
             android:id="@+id/button_EditRepeatedOutgoingsActivity_Delet"
             style="@style/general_WrapContent"
             android:layout_alignParentStart="true"
             android:onClick="onClick_DeletReapeatedValuees"
-            android:text="Delet"/>
+            android:text="@string/button_delet"/>
 
 
 

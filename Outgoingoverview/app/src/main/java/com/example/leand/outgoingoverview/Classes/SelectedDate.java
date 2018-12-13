@@ -1,6 +1,5 @@
 package com.example.leand.outgoingoverview.Classes;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class SelectedDate {
@@ -12,29 +11,16 @@ public class SelectedDate {
     private String string_Month;
     private Long long_Date;
     private Calendar calendar;
+    private GeneralHelper generalHelper;
 
 
     // Deklaration
-    //----------------------------------------------------------------------------------------------------------------------------------------------
-    // Formatter
-
-    //Date formatter
-    private SimpleDateFormat sdf_DateInNumbers = new SimpleDateFormat("dd/MM/yyyy");
-    private SimpleDateFormat sdf_DateWithoutTime = new SimpleDateFormat("yyyyMMdd");
-    private SimpleDateFormat sdf_Day = new SimpleDateFormat("dd");
-    private SimpleDateFormat sdf_Month = new SimpleDateFormat("MM");
-    private SimpleDateFormat sdf_MonthWriteOut = new SimpleDateFormat("MMMM");
-    private SimpleDateFormat sdf_Year = new SimpleDateFormat("yyyy");
-    private SimpleDateFormat sdf_WeekdayOfDate = new SimpleDateFormat("EEEE");
-
-
-
-    // Formatter
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Constructor
 
     //constructor
     public SelectedDate() {
+        generalHelper = new GeneralHelper();
         calendar = Calendar.getInstance();
         this.long_Date = calendar.getTimeInMillis();
     }
@@ -50,7 +36,6 @@ public class SelectedDate {
         this.long_Date = calendar.getTimeInMillis();
     }
 
-
     // Constructor
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Getter
@@ -60,38 +45,38 @@ public class SelectedDate {
     }
 
     public String getString_Month() {
-        string_Month = sdf_MonthWriteOut.format(long_Date);
+        string_Month = generalHelper.longDateToMonthWriteOut.format(long_Date);
         return string_Month;
     }
 
     public Integer getInteger_Year() {
-        integer_Year = Integer.valueOf(sdf_Year.format(long_Date));
+        integer_Year = Integer.valueOf(generalHelper.longDateToYearNumber.format(long_Date));
         return integer_Year;
     }
 
     public Integer getInteger_Month() {
-        integer_Month = Integer.valueOf(sdf_Month.format(long_Date));
+        integer_Month = Integer.valueOf(generalHelper.longDateToMonthNumber.format(long_Date));
         return integer_Month;
     }
 
     public Integer getInteger_day() {
-        integer_day = Integer.valueOf(sdf_Day.format(long_Date));
+        integer_day = Integer.valueOf(generalHelper.longDateToDayNumber.format(long_Date));
         return integer_day;
     }
 
 
     public Integer getInteger_DateWithoutTime() {
-        integer_DateWithoutTime = Integer.parseInt(sdf_DateWithoutTime.format(long_Date));
+        integer_DateWithoutTime = Integer.parseInt(generalHelper.longDateToDateWithoutTime.format(long_Date));
         return integer_DateWithoutTime;
     }
 
     public String getString_Date() {
-        string_Date = sdf_DateInNumbers.format(long_Date);
+        string_Date = generalHelper.longDateToDDMMYYYY.format(long_Date);
         return string_Date;
     }
 
     public String getString_WeekDayOfDate() {
-        string_Date = sdf_WeekdayOfDate.format(long_Date);
+        string_Date = generalHelper.longDateToWeekday.format(long_Date);
         return string_Date;
     }
 
@@ -110,7 +95,6 @@ public class SelectedDate {
 
     // Setter
     //----------------------------------------------------------------------------------------------------------------------------------------------
-    // OnCreate
-
+    // End
 
 }

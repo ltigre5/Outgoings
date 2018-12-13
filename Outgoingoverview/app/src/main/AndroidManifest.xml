@@ -21,6 +21,7 @@
         <activity
             android:name=".Activitys.AddNewItemActivity"
             android:label="@string/label_addNewItem"
+            android:launchMode="singleInstance"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Activitys.OverviewListActivity"
@@ -35,12 +36,23 @@
             android:label="@string/label_changeCurrency"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Activitys.AddRepeatedOutgoingsActivity"
+            android:name=".Activitys.AddRepeatedItemsActivity"
             android:label="@string/label_addRepeatedOutgoing"
+            android:launchMode="singleInstance"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Activitys.EditRepeatedOutgoingsActivity"
-            android:label="@string/label_editRepeatedOutgoing"></activity>
+            android:label="@string/label_editRepeatedOutgoing" />
+
+        <receiver android:name=".Widget.AddNewOutgoingWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/add_new_outgoing_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

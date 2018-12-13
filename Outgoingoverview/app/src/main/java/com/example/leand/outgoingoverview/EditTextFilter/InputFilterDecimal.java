@@ -4,15 +4,22 @@ import android.text.Spanned;
 import android.text.method.DigitsKeyListener;
 
 public class InputFilterDecimal extends DigitsKeyListener {
-
     private final int beforeDecimal;
     private final int afterDecimal;
+
+    // Declaration
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // Constructor
 
     public InputFilterDecimal(int beforeDecimal, int afterDecimal) {
         super(Boolean.FALSE, Boolean.TRUE);
         this.beforeDecimal = beforeDecimal;
         this.afterDecimal = afterDecimal;
     }
+
+    // Constructor
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // set filter
 
     @Override
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -34,5 +41,9 @@ public class InputFilterDecimal extends DigitsKeyListener {
 
         return super.filter(source, start, end, dest, dstart, dend);
     }
+
+    // set filter
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // End
 
 }

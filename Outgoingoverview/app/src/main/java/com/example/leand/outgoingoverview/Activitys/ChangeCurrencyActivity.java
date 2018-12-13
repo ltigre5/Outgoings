@@ -12,8 +12,6 @@ import com.example.leand.outgoingoverview.R;
 public class ChangeCurrencyActivity extends AppCompatActivity {
     EditText editText_ChangeCurrency_Currency;
 
-
-
     // Declaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // OnCreate
@@ -22,7 +20,6 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_currency);
-
 
         editText_ChangeCurrency_Currency = findViewById(R.id.editText_Properties_Currency);
     }

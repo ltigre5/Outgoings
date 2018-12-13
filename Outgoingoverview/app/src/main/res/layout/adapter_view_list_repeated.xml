@@ -22,25 +22,47 @@
         <!-- TextView to show Date -->
         <TextView
             android:id="@+id/textView_AdapterViewList_WeekDay"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Week Day"
-            android:layout_weight="2"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Week Day" />
 
         <!-- TextView to show Date -->
         <TextView
             android:id="@+id/textView_AdapterViewList_DATE"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Date"
-            android:layout_weight="2"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Date" />
 
         <!-- TextView to show Value -->
         <TextView
             android:id="@+id/textView_AdapterViewList_VALUE"
-            android:layout_height="wrap_content"
             android:layout_width="0dp"
-            android:text="Value"
-            android:layout_weight="4"/>
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="Value" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="5">
+
+        <!-- TextView to show Date from to -->
+        <TextView
+            android:id="@+id/textView_AdapterViewList_RepeatedDate"
+            style="@style/general_Bottom_MatchParent"
+            android:layout_width="0dp"
+            android:text="from...to"
+            android:layout_weight="3"/>
+
+        <!-- TextView to show if every Year, Month, Week, Day -->
+        <TextView
+            android:id="@+id/textView_AdapterViewList_RepeatedStatment"
+            style="@style/general_Bottom_MatchParent"
+            android:layout_width="0dp"
+            android:text="repeated"
+            android:layout_weight="2"/>
     </LinearLayout>
 </LinearLayout>

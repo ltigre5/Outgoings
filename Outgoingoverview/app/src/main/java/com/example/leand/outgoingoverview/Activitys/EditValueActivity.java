@@ -11,13 +11,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.leand.outgoingoverview.Classes.GeneralHelper;
 import com.example.leand.outgoingoverview.Classes.SelectedDate;
 import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
 import com.example.leand.outgoingoverview.EditTextFilter.InputFilterDecimal;
 import com.example.leand.outgoingoverview.R;
-
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 
 public class EditValueActivity extends AppCompatActivity {
 
@@ -28,7 +26,7 @@ public class EditValueActivity extends AppCompatActivity {
     private Integer interger_ID;
     private String string_oldValue, string_oldTitel, string_oldDescription, string_Currency;
 
-    private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+    private GeneralHelper generalHelper;
 
     // Declaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -57,12 +55,15 @@ public class EditValueActivity extends AppCompatActivity {
         //get Row to edit with ID
         Cursor cursor = MainActivity.myDbMain.getRowWithID(interger_ID);
 
+        //Initialize General Helper
+        generalHelper= new GeneralHelper();
+
         //get Currency
-        getCurrency();
+        string_Currency=generalHelper.getCurrency();
 
         //get old values to Edit
         selectedDate.setLong_Date(cursor.getLong(DBAdapter.COL_DATE));
-        string_oldValue = decimalFormat.format(cursor.getDouble(DBAdapter.COL_VALUE));
+        string_oldValue = generalHelper.currencyFormat.format(cursor.getDouble(DBAdapter.COL_VALUE));
         string_oldTitel = cursor.getString(DBAdapter.COL_TITEL);
         string_oldDescription = cursor.getString(DBAdapter.COL_DESCRIPTION);
 
@@ -123,23 +124,7 @@ public class EditValueActivity extends AppCompatActivity {
     }
 
     //onClick Methods
-    //----------------------------------------------------------------------------------------------------------------------------------------------
-    // Database Methods
-
-
-    private void getCurrency() {
-        Cursor cursor = MainActivity.myDbMain.getAllRows();
-
-        if (cursor.moveToFirst()) {
-            string_Currency = cursor.getString(cursor.getColumnIndexOrThrow("currency"));
-        } else {
-            string_Currency = "";
-        }
-        cursor.close();
-    }
-
-    // Database Methods
-    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------------------------------------------------------------
     // Displaying Values
 
     //show Values on Activity

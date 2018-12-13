@@ -21,7 +21,7 @@
         <EditText
             android:id="@+id/editText_EditValueActivity_Titel"
             style="@style/general_Middle_MatchParent"
-            android:hint="Titel"
+            android:hint="@string/hint_title"
             android:inputType="text" />
 
         <!-- Layout for the Value -->
@@ -34,7 +34,7 @@
                 android:id="@+id/editText_EditValueActivity_Value"
                 style="@style/general_WrapContent"
                 android:layout_weight="1"
-                android:hint="Value"
+                android:hint="@string/hint_value"
                 android:inputType="numberDecimal" />
 
             <!-- TextView to show Currency -->
@@ -49,8 +49,8 @@
         <EditText
             android:id="@+id/editText_EditValueActivity_Description"
             style="@style/general_Middle_MatchParent"
-            android:hint="Description"
-            android:inputType="text" />
+            android:hint="@string/hint_description"
+            android:inputType="textMultiLine" />
 
 
     </LinearLayout>
@@ -67,7 +67,7 @@
             style="@style/general_WrapContent"
             android:layout_alignParentStart="true"
             android:onClick="onClick_DeletItem"
-            android:text="Delet" />
+            android:text="@string/button_delet" />
 
         <!-- Button to save values -->
         <Button
@@ -75,6 +75,6 @@
             style="@style/general_WrapContent"
             android:layout_alignParentEnd="true"
             android:onClick="onClick_SaveNewValue"
-            android:text="Save" />
+            android:text="@string/button_save" />
     </RelativeLayout>
 </LinearLayout>

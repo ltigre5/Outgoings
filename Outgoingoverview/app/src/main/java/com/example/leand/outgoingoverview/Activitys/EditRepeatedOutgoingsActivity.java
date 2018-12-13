@@ -18,13 +18,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.leand.outgoingoverview.Classes.GeneralHelper;
 import com.example.leand.outgoingoverview.Classes.SelectedDate;
 import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
 import com.example.leand.outgoingoverview.EditTextFilter.InputFilterDecimal;
 import com.example.leand.outgoingoverview.R;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -47,9 +46,8 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
     private String string_Description = "", string_TitleRepeated = "", string_Currency = "";
     private String string_EveryForList;
 
+    private GeneralHelper generalHelper;
 
-    private SimpleDateFormat sdf_DateInNumbers = new SimpleDateFormat("dd/MM/yyyy");
-    private DecimalFormat decimalFormat = new DecimalFormat("#0.00");
     private double double_oldValue;
     private String string_oldValue;
     private String string_oldTitel;
@@ -84,9 +82,11 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
         Intent caller = getIntent();
         Integer interger_ID = caller.getIntExtra(OverviewListActivity.EXTRA_INTEGER_ID, -1);
 
-
         //get Row to edit with ID
         Cursor cursor = MainActivity.myDbMain.getRowWithID(interger_ID);
+
+        //Initialize General Helper
+        generalHelper= new GeneralHelper();
 
         //get old values to Edit
         selectedDateNew_Start.setLong_Date((cursor.getLong(DBAdapter.COL_START_DATE)));
@@ -94,7 +94,7 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
         selectedDateOld_Start.setLong_Date((cursor.getLong(DBAdapter.COL_START_DATE)));
         selectedDateOld_End.setLong_Date(cursor.getLong(DBAdapter.COL_END_DATE));
         double_oldValue = cursor.getDouble(DBAdapter.COL_VALUE);
-        string_oldValue = decimalFormat.format(cursor.getDouble(DBAdapter.COL_VALUE));
+        string_oldValue = generalHelper.currencyFormat.format(cursor.getDouble(DBAdapter.COL_VALUE));
         string_oldTitel = cursor.getString(DBAdapter.COL_TITEL);
         string_oldDescription = cursor.getString(DBAdapter.COL_DESCRIPTION);
 
@@ -112,7 +112,7 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
         string_Every = cursor.getString(cursor.getColumnIndexOrThrow(DBAdapter.KEY_EVERY));
 
         //get the Currency
-        getCurrency();
+        string_Currency=generalHelper.getCurrency();
 
 
         //set Filter for Value Input, only allow 2 digits after point and 14 befor point
@@ -128,17 +128,10 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
         editText_EditRepeatedOutgoingsActivity_Start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (editText_EditRepeatedOutgoingsActivity_Start.getText().toString().equals("")) {
-                    Calendar cal = Calendar.getInstance();
-                    year = cal.get(Calendar.YEAR);
-                    month = cal.get(Calendar.MONTH);
-                    day = cal.get(Calendar.DAY_OF_MONTH);
-
-                } else {
                     year = selectedDateOld_Start.getInteger_Year();
                     month = selectedDateOld_Start.getInteger_Month() - 1;
                     day = selectedDateOld_Start.getInteger_day();
-                }
+
 
                 DatePickerDialog dialog = new DatePickerDialog(
                         EditRepeatedOutgoingsActivity.this,
@@ -163,17 +156,10 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
         editText_EditRepeatedOutgoingsActivity_End.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (editText_EditRepeatedOutgoingsActivity_End.getText().toString().equals("")) {
-                    Calendar cal = Calendar.getInstance();
-                    year = cal.get(Calendar.YEAR);
-                    month = cal.get(Calendar.MONTH);
-                    day = cal.get(Calendar.DAY_OF_MONTH);
-
-                } else {
                     year = selectedDateOld_End.getInteger_Year();
                     month = selectedDateOld_End.getInteger_Month() - 1;
                     day = selectedDateOld_End.getInteger_day();
-                }
+
 
                 DatePickerDialog dialog = new DatePickerDialog(
                         EditRepeatedOutgoingsActivity.this,
@@ -224,8 +210,8 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
 
         //set the message to show in the DialogWindow
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+        builder.setMessage(getString(R.string.dialog_question)).setPositiveButton(getString(R.string.dialog_yes), dialogClickListener)
+                .setNegativeButton(getString(R.string.dialog_no), dialogClickListener).show();
     }
 
     public void onClick_SaveReapeatedValues(View view) {
@@ -293,17 +279,6 @@ public class EditRepeatedOutgoingsActivity extends AppCompatActivity implements 
         MainActivity.myDbMain.insertRowRepeatedItem(selectedDate.getLong_Date(), double_Value, string_Description, string_TitleRepeated, string_Currency, selectedDateNew_End.getLong_Date(), string_EveryForList, selectedDateNew_Start.getLong_Date());
     }
 
-
-    //gets Currency out of Database
-    private void getCurrency() {
-        Cursor cursor = MainActivity.myDbMain.getAllRows();
-        if (cursor.moveToFirst()) {
-            string_Currency = cursor.getString(cursor.getColumnIndexOrThrow(DBAdapter.KEY_CURRENCY));
-        } else {
-            string_Currency = "";
-        }
-        cursor.close();
-    }
 
     // Database Methods
     // ----------------------------------------------------------------------------------------------------------------------------------------------

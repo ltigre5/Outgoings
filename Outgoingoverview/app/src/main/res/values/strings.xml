@@ -23,7 +23,7 @@
     <!-- Show spinner -->
     <string name="show_year">Year</string>
     <string name="show_month">Month</string>
-    <string name="show_from_to">from-to</string>
+    <string name="show_from_to">from...to</string>
 
     <string-array name="show_arrays">
         <item>@string/show_month</item>
@@ -48,6 +48,7 @@
     <string name="hint_title">Title</string>
     <string name="hint_value">Value</string>
     <string name="hint_description">Description</string>
+    <string name="hint_3LetterCode">3-Letter Code</string>
 
     <!-- Statments -->
     <string name="statment_total">Total:</string>
@@ -59,6 +60,7 @@
     <string name="statment_to">To:</string>
     <string name="statment_year">Year:</string>
     <string name="statment_month">Month:</string>
+    <string name="statment_currency">Currency</string>
 
     <!-- Buttons -->
     <string name="button_ok">OK</string>
@@ -68,6 +70,7 @@
     <string name="button_changeCurrency">Change Currency</string>
     <string name="button_overview">Overview</string>
     <string name="button_save">Save</string>
+    <string name="button_delet">Delet</string>
 
     <!-- Alert Dialog -->
     <string name="dialog_question">Are you sure?</string>
@@ -82,11 +85,20 @@
     <string name="label_addRepeatedOutgoing">Add Repeated Item</string>
     <string name="label_editRepeatedOutgoing">Edit Repeated Item</string>
 
-    <!-- Toeast -->
-    <string name="toast_noYearMonth">Enter A Year and Month"</string>
+    <!-- Toast -->
+    <string name="toast_noYearMonth">Enter A Year and Month</string>
     <string name="toast_noMonth">Enter A Month</string>
     <string name="toast_noYear">Enter A Year</string>
     <string name="toast_invalidMonth">Enter A valid Month: 1-12</string>
+    <string name="toast_itemsAlreadyExists">Items Already Exists</string>
+    <string name="toast_enterATitleAndValue">Enter a Value and Title</string>
+
+
+    <!-- Widget -->
+    <string name="appwidget_outgoing">Outgoing</string>
+    <string name="appwidget_button_addNew">Add New</string>
+    <string name="appwidget_button_addNewRepeated">Add New Repeated</string>
+
 
 
 </resources>

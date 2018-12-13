@@ -15,14 +15,14 @@
         <TextView
             android:id="@+id/textView_Properties_CurrencyStatment"
             style="@style/general_WrapContent"
-            android:text="Currency" />
+            android:text="@string/statment_currency" />
 
         <!-- EditText for 3-Letter Code from Currency -->
         <EditText
             android:id="@+id/editText_Properties_Currency"
             style="@style/general_WrapContent"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            android:hint="3-Letter Code"
+            android:hint="@string/hint_3LetterCode"
             android:inputType="text"
             android:maxLength="3" />
     </LinearLayout>
@@ -39,7 +39,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             android:onClick="onClick_SaveItem"
-            android:text="Save" />
+            android:text="@string/button_save" />
     </RelativeLayout>
 
 </LinearLayout>

@@ -8,14 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.leand.outgoingoverview.Classes.SelectedDate;
-import com.example.leand.outgoingoverview.ListviewHelper.ListViewAdapter;
-
-import java.text.SimpleDateFormat;
 
 // TO USE:
 // Change the package (at top) to match your project.
 // Search for "TODO", and make the appropriate changes.
 public class DBAdapter {
+    public static final String ASCENDING = " ASC";
+    public static final String DESCENDING = " DESC";
 
     SelectedDate selectedDate = new SelectedDate();
     SelectedDate selectedStartDate = new SelectedDate();
@@ -51,7 +50,6 @@ public class DBAdapter {
     public static final String KEY_START_DATE_WITHOUT_TIME = "startDateWithoutTime";
 
 
-
     // TODO: Setup your field numbers here (0 = KEY_ROWID, 1=...)
     public static final int COL_VALUE = 1;
     public static final int COL_DATE = 2;
@@ -70,7 +68,7 @@ public class DBAdapter {
     public static final int COL_START_DATE_WITHOUT_TIME = 15;
 
 
-    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_VALUE, KEY_DATE, KEY_DAY, KEY_MONTH, KEY_YEAR, KEY_DESCRIPTION, KEY_TITEL, KEY_CURRENCY, KEY_DATE_WITHOUT_TIME, KEY_TITLE_REPEATED, KEY_END_DATE, KEY_EVERY, KEY_START_DATE,KEY_END_DATE_WITHOUT_TIME,KEY_START_DATE_WITHOUT_TIME};
+    public static final String[] ALL_KEYS = new String[]{KEY_ROWID, KEY_VALUE, KEY_DATE, KEY_DAY, KEY_MONTH, KEY_YEAR, KEY_DESCRIPTION, KEY_TITEL, KEY_CURRENCY, KEY_DATE_WITHOUT_TIME, KEY_TITLE_REPEATED, KEY_END_DATE, KEY_EVERY, KEY_START_DATE, KEY_END_DATE_WITHOUT_TIME, KEY_START_DATE_WITHOUT_TIME};
 
     // DB info: it's name, and the table we are using (just one).
     public static final String DATABASE_NAME = "MyDb";
@@ -107,7 +105,6 @@ public class DBAdapter {
                     + KEY_START_DATE + " integer ,"
                     + KEY_START_DATE_WITHOUT_TIME + " integer, "
                     + KEY_END_DATE_WITHOUT_TIME + " integer "
-
 
 
                     // Rest  of creation:
@@ -193,8 +190,8 @@ public class DBAdapter {
         initialValues.put(KEY_END_DATE, endDate);
         initialValues.put(KEY_EVERY, every);
         initialValues.put(KEY_START_DATE, startDate);
-        initialValues.put(KEY_END_DATE_WITHOUT_TIME,selectedEndDate.getInteger_DateWithoutTime());
-        initialValues.put(KEY_START_DATE_WITHOUT_TIME,selectedStartDate.getInteger_DateWithoutTime());
+        initialValues.put(KEY_END_DATE_WITHOUT_TIME, selectedEndDate.getInteger_DateWithoutTime());
+        initialValues.put(KEY_START_DATE_WITHOUT_TIME, selectedStartDate.getInteger_DateWithoutTime());
 
 
         // Insert it into the database.
@@ -249,11 +246,41 @@ public class DBAdapter {
         return c;
     }
 
+    // Checks if Repeated Item already exists
+    public boolean checkRowRepeatedItem(double value, String titleRepeated, int endDayWithoutTime, int startDayWithoutTime) {
+        String where = KEY_START_DATE_WITHOUT_TIME + "=" + startDayWithoutTime + " AND " + KEY_END_DATE_WITHOUT_TIME + "=" + endDayWithoutTime + " AND " + KEY_TITLE_REPEATED + "='" + titleRepeated + "' AND " + KEY_VALUE + "=" + value;
+        Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
+                where, null, null, null, null, null);
+        boolean exists;
+        if (c.moveToFirst()) {
+            exists = true;
+        } else {
+            exists = false;
+        }
+        c.close();
+        return exists;
+    }
+
+    // Checks if Item already exists
+    public boolean checkRowItem(double value, String title, int dateWithoutTime) {
+        String where = KEY_DATE_WITHOUT_TIME + "=" + dateWithoutTime + " AND " + KEY_TITEL + "='" + title + "' AND " + KEY_VALUE + "=" + value;
+        Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
+                where, null, null, null, null, null);
+        boolean exists;
+        if (c.moveToFirst()) {
+            exists = true;
+        } else {
+            exists = false;
+        }
+        c.close();
+        return exists;
+    }
+
 
     // Get row with Repeated Title
     public Cursor getAllRowsRepeatedItemNotDuplicated() {
         String where = KEY_END_DATE + " IS NOT NULL";
-        String groupBy = KEY_START_DATE_WITHOUT_TIME + ", " + KEY_END_DATE_WITHOUT_TIME + ", " + KEY_EVERY + ", " + KEY_TITLE_REPEATED;
+        String groupBy = KEY_START_DATE_WITHOUT_TIME + ", " + KEY_END_DATE_WITHOUT_TIME + ", " + KEY_EVERY + ", " + KEY_TITLE_REPEATED + ", " + KEY_DESCRIPTION + ", " + KEY_VALUE;
         Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
                 where, null, groupBy, null, null, null);
         if (c != null) {
@@ -295,7 +322,7 @@ public class DBAdapter {
     }
 
     public Cursor getRowWithMonthYear(int intMonth, int int_Year) {
-        return getRowWithMonthYear(intMonth, int_Year, DBAdapter.KEY_DATE, ListViewAdapter.ASCENDING);
+        return getRowWithMonthYear(intMonth, int_Year, DBAdapter.KEY_DATE, ASCENDING);
     }
 
     public Cursor getRowWithStartEndDay(int startDateWithoutTime, int endDateWithoutTime, String string_OrderBy, String string_AscendingDescending) {
