@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Outgoing overview</string>
+    <string name="app_name">Finance Tracker by L</string>
 
 
     <!-- Order by Spinner -->
@@ -51,7 +51,7 @@
     <string name="hint_3LetterCode">3-Letter Code</string>
 
     <!-- Statments -->
-    <string name="statment_total">Total:</string>
+    <string name="statment_total">"Total: "</string>
     <string name="statment_totalDay">Total Day:</string>
     <string name="statment_totalMonth">Total Month:</string>
     <string name="statment_start">Start:</string>
@@ -64,7 +64,7 @@
 
     <!-- Buttons -->
     <string name="button_ok">OK</string>
-    <string name="button_addRepeatedOutgoing">Add Repeated Outgoing</string>
+    <string name="button_addRepeatedOutgoing">Add Repeated Issues</string>
     <string name="button_deletAll">Delet All</string>
     <string name="button_addCurrency">Add Currency</string>
     <string name="button_changeCurrency">Change Currency</string>
@@ -78,26 +78,26 @@
     <string name="dialog_no">NO</string>
 
     <!-- Labels -->
-    <string name="label_addNewItem">Add A new Item</string>
+    <string name="label_addNewItem">Add a new Issue</string>
     <string name="label_overview">Overview</string>
-    <string name="label_editItem">Edit Item</string>
-    <string name="label_changeCurrency">Change the Currency</string>
-    <string name="label_addRepeatedOutgoing">Add Repeated Item</string>
-    <string name="label_editRepeatedOutgoing">Edit Repeated Item</string>
+    <string name="label_editItem">Edit Issue</string>
+    <string name="label_changeCurrency">Change Currency</string>
+    <string name="label_addRepeatedOutgoing">Add Repeated Issues</string>
+    <string name="label_editRepeatedOutgoing">Edit Repeated Issue</string>
 
     <!-- Toast -->
     <string name="toast_noYearMonth">Enter A Year and Month</string>
     <string name="toast_noMonth">Enter A Month</string>
     <string name="toast_noYear">Enter A Year</string>
     <string name="toast_invalidMonth">Enter A valid Month: 1-12</string>
-    <string name="toast_itemsAlreadyExists">Positions Already Exists</string>
+    <string name="toast_itemsAlreadyExists">Issue Already Exists</string>
     <string name="toast_enterATitleAndValue">Enter a Value and Title</string>
 
 
     <!-- Widget -->
-    <string name="appwidget_outgoing">Outgoing</string>
-    <string name="appwidget_button_addNew">Add New</string>
-    <string name="appwidget_button_addNewRepeated">Add New Repeated</string>
+    <string name="appwidget_outgoing">Expenses</string>
+    <string name="appwidget_button_addNew">Today</string>
+    <string name="appwidget_button_addNewRepeated">Repeated</string>
 
     <!-- menu -->
     <string name="menu_info">Info</string>

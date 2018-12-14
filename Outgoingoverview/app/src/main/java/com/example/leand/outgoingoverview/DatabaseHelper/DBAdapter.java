@@ -13,8 +13,8 @@ import com.example.leand.outgoingoverview.Classes.SelectedDate;
 // Change the package (at top) to match your project.
 // Search for "TODO", and make the appropriate changes.
 public class DBAdapter {
-    public static final String ASCENDING = " ASC";
-    public static final String DESCENDING = " DESC";
+    public static final String ASCENDING = " DESC";
+    public static final String DESCENDING = " ASC";
 
     SelectedDate selectedDate = new SelectedDate();
     SelectedDate selectedStartDate = new SelectedDate();

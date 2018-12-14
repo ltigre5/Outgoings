@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Outgoing overview</string>
+    <string name="app_name">Finance Tracker by L</string>
 
     <!-- Order by Spinner -->
     <string name="order_by_date">Datum</string>
@@ -50,7 +50,7 @@
     <string name="hint_description">Beschreibung</string>
 
     <!-- Statments -->
-    <string name="statment_total">Total:</string>
+    <string name="statment_total">"Total: "</string>
     <string name="statment_totalDay">Total Tag:</string>
     <string name="statment_totalMonth">Total Monat:</string>
     <string name="statment_start">Start:</string>
@@ -62,7 +62,7 @@
 
     <!-- Buttons -->
     <string name="button_ok">OK</string>
-    <string name="button_addRepeatedOutgoing">Wiederholende ausgabe hinzufügen</string>
+    <string name="button_addRepeatedOutgoing">Wiederholende Ausgabe hinzufügen</string>
     <string name="button_deletAll">Alle löschen</string>
     <string name="button_addCurrency">Währung hinzufügen</string>
     <string name="button_changeCurrency">Währung ändern</string>
@@ -75,10 +75,10 @@
     <string name="dialog_no">Nein</string>
 
     <!-- Labels -->
-    <string name="label_addNewItem">Neue Position hinzufügen</string>
+    <string name="label_addNewItem">Neue Ausgabe hinzufügen</string>
     <string name="label_overview">Übersicht</string>
     <string name="label_editItem">Position bearbeiten</string>
-    <string name="label_changeCurrency">Währung Ändern</string>
+    <string name="label_changeCurrency">Währung ändern</string>
     <string name="label_addRepeatedOutgoing">Wiederholende Ausgabe</string>
     <string name="label_editRepeatedOutgoing">Wiederholende Ausgabe</string>
 
@@ -90,10 +90,10 @@
     <string name="statment_currency">Währung</string>
     <string name="hint_3LetterCode">3-Buchstaben Code</string>
     <string name="button_delet">Löschen</string>
-    <string name="appwidget_button_addNew">Neu</string>
-    <string name="appwidget_button_addNewRepeated">Wiederholende</string>
+    <string name="appwidget_button_addNew">Heute</string>
+    <string name="appwidget_button_addNewRepeated">Wiederholend</string>
     <string name="appwidget_outgoing">Ausgabe</string>
-    <string name="toast_itemsAlreadyExists">Position Existiert bereits</string>
+    <string name="toast_itemsAlreadyExists">Ausgabe Existiert bereits</string>
     <string name="toast_enterATitleAndValue">Titel und Wert eingeben</string>
     <string name="menu_info">Info</string>
 

@@ -51,6 +51,7 @@
         <LinearLayout
             android:id="@+id/overviewListActivity_Date"
             style="@style/general_MatchParent"
+            android:layout_marginStart="8dp"
             android:orientation="horizontal"
             >
 

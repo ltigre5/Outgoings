@@ -11,7 +11,8 @@ import android.widget.Toast;
 import com.example.leand.outgoingoverview.R;
 
 public class ChangeCurrencyActivity extends AppCompatActivity {
-    EditText editText_ChangeCurrency_Currency;
+    private EditText editText_ChangeCurrency_Currency;
+    private String string_Currency;
 
     // Declaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -39,7 +40,8 @@ public class ChangeCurrencyActivity extends AppCompatActivity {
             Toast.makeText(ChangeCurrencyActivity.this, "Enter A 3-Letter Currency",
                     Toast.LENGTH_LONG).show();
         } else {
-            MainActivity.myDbMain.updateCurrency(editText_ChangeCurrency_Currency.getText().toString().toUpperCase());
+            string_Currency=" "+editText_ChangeCurrency_Currency.getText().toString().toUpperCase();
+            MainActivity.myDbMain.updateCurrency(string_Currency);
             Intent intent = new Intent();
             setResult(1, intent);
             finish();

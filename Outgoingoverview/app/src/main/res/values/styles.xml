@@ -96,4 +96,22 @@
         <item name="android:background">@drawable/custom_button</item>
     </style>
 
+    <!-- Title style-->
+    <style name="editText_Title" parent="general_Middle_MatchParent">
+    <item name="android:layout_weight">1</item>
+        <item name="android:hint">@string/hint_title</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:maxLength">50</item>
+    </style>
+
+    <!-- Description style-->
+    <style name="editText_Description" parent="general_Middle_MatchParent">
+        <item name="android:hint">@string/hint_description</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:maxLines">15</item>
+    </style>
+
+
 </resources>

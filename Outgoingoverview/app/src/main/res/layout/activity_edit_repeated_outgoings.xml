@@ -16,14 +16,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- EditText for Titel -->
+        <!-- EditText for Title -->
         <EditText
             android:id="@+id/editText_EditRepeatedOutgoingsActivity_Titel"
-            style="@style/general_Top_MatchParent"
-            android:layout_weight="1"
-            android:hint="@string/hint_title"
-            android:inputType="text"
-            android:textStyle="bold" />
+            style="@style/editText_Title" />
 
         <Button
             android:id="@+id/button_EditRepeatedOutgoingsActivity_ChooseColor"
@@ -56,9 +52,7 @@
     <!-- EditText for Titel -->
     <EditText
         android:id="@+id/editText_EditRepeatedOutgoingsActivity_Description"
-        style="@style/general_Middle_MatchParent"
-        android:hint="@string/hint_description"
-        android:inputType="textMultiLine" />
+        style="@style/editText_Description"/>
 
     <!-- Layout for Start and End Date -->
     <LinearLayout

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Outgoing overview</string>
+    <string name="app_name">Rastreador de finanças</string>
     <string name="order_by_date">data</string>
     <string name="order_by_value">Valor</string>
     <string name="order_by_ascending">Ascendente</string>
@@ -15,7 +15,7 @@
     <string name="hint_title">Título</string>
     <string name="hint_value">Valor</string>
     <string name="hint_description">Descrição</string>
-    <string name="statment_total">Total:</string>
+    <string name="statment_total">"Total: "</string>
     <string name="statment_totalDay">Total dia:</string>
     <string name="statment_totalMonth">Total mês:</string>
     <string name="statment_start">Começo:</string>
@@ -47,10 +47,10 @@
     <string name="statment_currency">Moeada</string>
     <string name="hint_3LetterCode">Código de 3-letras</string>
     <string name="button_delet">Apagar</string>
-    <string name="appwidget_button_addNew">Novo</string>
+    <string name="appwidget_button_addNew">Hoje</string>
     <string name="appwidget_button_addNewRepeated">Repetido</string>
     <string name="appwidget_outgoing">Despesa</string>
-    <string name="toast_itemsAlreadyExists">Posição já existe</string>
+    <string name="toast_itemsAlreadyExists">Despesa já existe</string>
     <string name="toast_enterATitleAndValue">Entra título e valor</string>
     <string name="menu_info">Informação</string>
 </resources>

@@ -19,11 +19,7 @@
         <!-- EditText for Titel -->
         <EditText
             android:id="@+id/editText_AddReapeatedValueActivity_Title"
-            style="@style/general_Top_MatchParent"
-            android:layout_weight="1"
-            android:hint="@string/hint_title"
-            android:inputType="text"
-            android:textStyle="bold" />
+            style="@style/editText_Title" />
 
         <!-- Button to choose Title Color -->
         <Button
@@ -56,9 +52,7 @@
     <!-- EditText for Titel -->
     <EditText
         android:id="@+id/editText_AddReapeatedValueActivity_Description"
-        style="@style/general_Middle_MatchParent"
-        android:hint="@string/hint_description"
-        android:inputType="textMultiLine" />
+        style="@style/editText_Description" />
 
     <!-- Layout for Start and End Date -->
     <LinearLayout
