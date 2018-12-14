@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Finance Tracker by L</string>
+    <string name="app_name">Finance Tracker</string>
 
 
     <!-- Order by Spinner -->
@@ -65,12 +65,13 @@
     <!-- Buttons -->
     <string name="button_ok">OK</string>
     <string name="button_addRepeatedOutgoing">Add Repeated Issues</string>
-    <string name="button_deletAll">Delet All</string>
+    <string name="button_deleteAll">Delete All</string>
+    <string name="button_deleteAllFiltered">Delete All Filtered</string>
     <string name="button_addCurrency">Add Currency</string>
     <string name="button_changeCurrency">Change Currency</string>
     <string name="button_overview">Overview</string>
     <string name="button_save">Save</string>
-    <string name="button_delet">Delet</string>
+    <string name="button_delete">Delete</string>
 
     <!-- Alert Dialog -->
     <string name="dialog_question">Are you sure?</string>
@@ -103,12 +104,27 @@
     <string name="menu_info">Info</string>
 
     <!-- info -->
-    <string name="info">Info
+    <string name="info">
+        At First, thank you for using my App.
 
+        \n\nWith this app you have an overview of your expenses. To add a new issue,
+        double-click on the day of the calendar. There you must enter a Title and a Value.
 
+        \n\nIf you want, you can enter a description and edit the color of the title. Then you can save the issue.
+        If you have a Repeated issue, go to “ADD REPEATED ISSUES”
+        and there you can enter an issue which is repeated every Year, Month, Week or Day. From the Start Date until the end date.
 
+        \n\nIf you want to edit your issue, you just have to click on the issue on the list. There you can edit or delete the issue.
 
+        \n\nIn the Main Menu you can change the Currency by Clicking on the “CHANGE CURRENCY” Button,
+        there you have to enter the 3-Letter Code of the Currency.
 
+        \n\nTo have an overview of all your expenses click on “OVERVIEW”.
+        There you can choose if it should be sorted by Date or value and if ascending or descending.
+        Furthermore, you can choose if it should show a specific year, month or from a start and end day.
+        If you want to delete ALL issues click on the button “DELETE ALL”. This will delete all your issues, not only the ones showed.
+
+        \n\nI would like if you rate my app or if you want you can spend some money for the creator.
 
     </string>
 

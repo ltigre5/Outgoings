@@ -47,7 +47,7 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
     private SelectedDate selectedDate_End;
     private GeneralHelper generalHelper;
 
-    private String string_Currency, string_OrderBy_DateValue = DBAdapter.KEY_DATE, string_OrderBy_AscendingDescending = DBAdapter.ASCENDING;
+    private String string_Currency, string_OrderBy_DateValue = DBAdapter.KEY_DATE, string_OrderBy_AscendingDescending = DBAdapter.DESCENDING;
     private String string_FilterFor;
     private String SPINNER_YEAR, SPINNER_MONTH, SPINNER_FROM_TO, SPINNER_ASCENDING, SPINNER_DESCENDING, SPINNER_VALUE, SPINNER_DATE;
     private Integer integer_OrderBy_Year, integer_OrderBy_Month;
@@ -65,7 +65,7 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
         setContentView(R.layout.activity_overview_list_);
 
         //Set Toolbar
-        Toolbar toolbar=findViewById(R.id.toolbar_MainActivity);
+        Toolbar toolbar = findViewById(R.id.toolbar_MainActivity);
         setSupportActionBar(toolbar);
 
         //definition of Items in MainActivity
@@ -206,7 +206,7 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
 
-                        //Yes button clicked, delet all Data in Database
+                        //Yes button clicked, delete all Data in Database
                         MainActivity.myDbMain.deleteAll();
                         displayItemsOnActivity();
                         break;
@@ -222,6 +222,7 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
         builder.setMessage(getString(R.string.dialog_question)).setPositiveButton(getString(R.string.dialog_yes), dialogClickListener)
                 .setNegativeButton(getString(R.string.dialog_no), dialogClickListener).show();
     }
+
 
     // onClick Methods
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -283,10 +284,10 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
         //see if it should be ordered ascending or descending
         else if (parent.getId() == R.id.spinner_OverviewListActivity_AscendingDescending) {
             if (parent.getItemAtPosition(position).toString().equals(SPINNER_ASCENDING)) {
-                string_OrderBy_AscendingDescending = DBAdapter.ASCENDING;
+                string_OrderBy_AscendingDescending = DBAdapter.DESCENDING;
 
             } else if (parent.getItemAtPosition(position).toString().equals(SPINNER_DESCENDING)) {
-                string_OrderBy_AscendingDescending = DBAdapter.DESCENDING;
+                string_OrderBy_AscendingDescending = DBAdapter.ASCENDING;
             }
         }
 
@@ -417,6 +418,7 @@ public class OverviewListActivity extends AppCompatActivity implements AdapterVi
         //Actualize Total Value
         textView_OverviewListActivity_totalValue.setText(generalHelper.currencyFormat.format(generalHelper.sumAllValues(listViewAdapter)) + string_Currency);
     }
+
 
     // Displaying Values
     //----------------------------------------------------------------------------------------------------------------------------------------------

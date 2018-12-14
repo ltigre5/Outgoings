@@ -160,13 +160,15 @@
             android:layout_weight="1"
             android:text="Total Value:" />
 
+
+
         <!-- Button to Delet all Items -->
         <Button
             android:id="@+id/button_MainActivity_deletValues"
             style="@style/button_WrapContent"
             android:layout_alignParentStart="true"
             android:onClick="onClick_ClearAll"
-            android:text="@string/button_deletAll" />
+            android:text="@string/button_deleteAll" />
     </LinearLayout>
 </LinearLayout>
 

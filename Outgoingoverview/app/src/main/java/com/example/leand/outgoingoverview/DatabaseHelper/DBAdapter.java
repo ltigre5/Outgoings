@@ -225,14 +225,17 @@ public class DBAdapter {
         c.close();
     }
 
+
+
     //-----------------------------------------------------------------------------------------------------------------------------------------
     //getRows Methods
 
     // Return all data in the database.
     public Cursor getAllRows() {
         String where = null;
+        String orderBy= KEY_DATE + DESCENDING;
         Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
-                where, null, null, null, null, null);
+                where, null, null, null, orderBy, null);
         if (c != null) {
             c.moveToFirst();
         }
@@ -285,8 +288,9 @@ public class DBAdapter {
     public Cursor getAllRowsRepeatedItemNotDuplicated() {
         String where = KEY_END_DATE + " IS NOT NULL";
         String groupBy = KEY_START_DATE_WITHOUT_TIME + ", " + KEY_END_DATE_WITHOUT_TIME + ", " + KEY_EVERY + ", " + KEY_TITLE_REPEATED + ", " + KEY_DESCRIPTION + ", " + KEY_VALUE;
+        String orderBy= KEY_DATE + ASCENDING;
         Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
-                where, null, groupBy, null, null, null);
+                where, null, groupBy, null, orderBy, null);
         if (c != null) {
             c.moveToFirst();
         }
@@ -295,8 +299,9 @@ public class DBAdapter {
 
     public Cursor getRowWithDate(int dateWithoutTime) {
         String where = KEY_DATE_WITHOUT_TIME + "=" + dateWithoutTime;
+        String orderBy= KEY_VALUE + ASCENDING;
         Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
-                where, null, null, null, null, null);
+                where, null, null, null, orderBy, null);
         if (c != null) {
             c.moveToFirst();
         }

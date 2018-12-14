@@ -116,7 +116,7 @@
             style="@style/button_WrapContent"
             android:layout_alignParentStart="true"
             android:onClick="onClick_DeletReapeatedValuees"
-            android:text="@string/button_delet" />
+            android:text="@string/button_delete" />
 
 
     </RelativeLayout>

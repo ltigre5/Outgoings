@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Finance Tracker by L</string>
+    <string name="app_name">Finance Tracker</string>
 
     <!-- Order by Spinner -->
     <string name="order_by_date">Datum</string>
@@ -63,7 +63,7 @@
     <!-- Buttons -->
     <string name="button_ok">OK</string>
     <string name="button_addRepeatedOutgoing">Wiederholende Ausgabe hinzufügen</string>
-    <string name="button_deletAll">Alle löschen</string>
+    <string name="button_deleteAll">Alle löschen</string>
     <string name="button_addCurrency">Währung hinzufügen</string>
     <string name="button_changeCurrency">Währung ändern</string>
     <string name="button_overview">Übersicht</string>
@@ -89,13 +89,38 @@
     <string name="toast_invalidMonth">Gültigen Monat eingeben: 1-12</string>
     <string name="statment_currency">Währung</string>
     <string name="hint_3LetterCode">3-Buchstaben Code</string>
-    <string name="button_delet">Löschen</string>
+    <string name="button_delete">Löschen</string>
     <string name="appwidget_button_addNew">Heute</string>
     <string name="appwidget_button_addNewRepeated">Wiederholend</string>
     <string name="appwidget_outgoing">Ausgabe</string>
     <string name="toast_itemsAlreadyExists">Ausgabe Existiert bereits</string>
     <string name="toast_enterATitleAndValue">Titel und Wert eingeben</string>
     <string name="menu_info">Info</string>
+    <string name="button_deleteAllFiltered">Gefilterte Löschen</string>
+
+    <!-- info -->
+    <string name="info">
+        Zuerst einmal Danke das du meine App benutzt.
+
+        \n\nMit dieser App hast du eine Übersicht über deine Ausgaben. Um eine neue Ausgabe hinzuzufügen,
+        musst du zwei mal auf das jeweilige Datum auf dem Kalender drücken. Dort musst du dann einen Titel und Wert eingeben. Wenn du willst,
+        kannst du noch eine Beschreibung hinzufügen oder die Farbe des Textes ändern. Danach kannst du die Ausgabe speichern.
+
+        \n\nWenn du eine wiederholende Ausgabe einfügen willst, musst du im Hauptfenster auf "WIEDERHOLENDE AUSGABE" klicken.
+        Danach kannst du dort eine Ausgabe eingeben die sich alle Jahre, Monate, Wochen oder Tage wiederholen. Vom Start bis zum End Datum.
+
+        \n\nWenn du eine Ausgabe bearbeiten willst, musst du nur auf die Ausgabe auf der Liste klicken. Dort kannst du die Ausgabe dann bearbeiten oder löschen.
+
+        \n\nIm Hauptmenü kannst du die Währung ändern. Wenn du auf «WÄHRUNG ÄNDERN» klickst. Dort kannst du den jeweiligen 3-Buchstaben Code eingeben.
+
+        \n\nUm einen Überblick über all deine Ausgaben zu haben, kannst du im Hauptmenü auf "ÜBERSICHT" gehen. Dort kannst du dann auswählen,
+        ob du die Liste nach Datum oder wert, aufsteigend oder absteigend sortiert haben möchtest.
+        Weiterhin kannst du auswählen, ob die Ausgaben nach Jahr, Monat oder von einem Start bis zu einem End Datum gefiltert werden.
+        Wenn du ALLE Ausgaben löschen möchtest, betätige den "ALLE LÖSCHEN" Knopf.
+
+        \n\nEs würde mir gefallen, wenn du meine App bewertest oder für den Entwickler Geld spenden möchtest.
+
+    </string>
 
 
 </resources>
