@@ -1,6 +1,8 @@
 package com.example.leand.outgoingoverview.Activitys;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -11,6 +13,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,47 +27,47 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.leand.outgoingoverview.Classes.GeneralHelper;
-import com.example.leand.outgoingoverview.Classes.SelectedDate;
+import com.example.leand.outgoingoverview.GeneralHelperClasses.GeneralHelper;
+import com.example.leand.outgoingoverview.GeneralHelperClasses.SelectedDate;
 import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
 import com.example.leand.outgoingoverview.EditTextFilter.InputFilterDecimal;
 import com.example.leand.outgoingoverview.ListviewHelper.ListViewAdapter;
 import com.example.leand.outgoingoverview.R;
+import com.example.leand.outgoingoverview.Widget.AddNewOutgoingWidget;
 
 import java.util.Calendar;
 import java.util.Objects;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
-import static com.example.leand.outgoingoverview.Activitys.OverviewListActivity.EXTRA_INTEGER_ID;
+import static com.example.leand.outgoingoverview.Activitys.OverviewActivity.EXTRA_INTEGER_ID;
 
 public class AddRepeatedItemsActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private EditText editText_AddReapeatedValueActivity_Start, editText_AddReapeatedValueActivity_End, editText_AddReapeatedValueActivity_Value;
-    private EditText editText_AddReapeatedValueActivity_Title, editText_AddReapeatedValueActivity_Description;
-    private TextView textView_AddReapeatedValueActivity_Currency;
-    private Button button_AddReapeatedValueActivity_ChooseColor;
-    private Spinner spinner_AddReapeatedValueActivity_RepeatBy;
-    private ListView listView_AddReapeatedValueActivity;
+    private EditText editText_AddRepeatedItemsActivity_Start, editText_AddRepeatedItemsActivity_End, editText_AddRepeatedItemsActivity_Value;
+    private EditText editText_AddRepeatedItemsActivity_Title, editText_AddRepeatedItemsActivity_Description,editText_AddRepeatedItemsActivity_RepeatedByTimes;
+    private TextView textView_AddRepeatedItemsActivity_Currency;
+    private Button button_AddRepeatedItemsActivity_ChooseColor;
+    private Spinner spinner_AddRepeatedItemsActivity_RepeatBy;
+    private ListView listView_AddRepeatedItemsActivity;
 
     private ListViewAdapter listViewAdapter;
     private GeneralHelper generalHelper;
-    private SelectedDate selectedDate, selectedDate_Start, selectedDate_End;
+    private SelectedDate selectedDate_ForIteration, selectedDate_Start, selectedDate_End;
+    private Calendar calendarStart, calendarEnd, calendarForIteration;
 
     private DatePickerDialog.OnDateSetListener mDateSetListenerStart, mDateSetListenerEnd;
 
     private String string_Every;
     private String SPINNER_YEAR, SPINNER_MONTH, SPINNER_WEEK, SPINNER_DAY;
-    private Calendar calendarStart, calendarEnd;
+    private int int_RepeatedByTimes;
 
-    private double double_Value = 0.0;
-    private String string_Description = "";
-    private String string_TitleRepeated = "";
-    private String string_Currency = "";
-    private int end_Year, end_Month, end_Day;
-    private int start_Year, start_Month, start_Day;
+    private String string_Description;
+    private String string_Title;
+    private String string_Currency;
+    private double double_Value;
     private int int_titleColor = 0xff000000; //for black
-    public static boolean MainActivRepeated = false;
+
 
 
     // Declaration
@@ -74,74 +79,72 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_repeated_items);
 
+        Log.e("AddRepeatedNewItem", "Start");
+
         //Set Toolbar
-        Toolbar toolbar=findViewById(R.id.toolbar_MainActivity);
+        Toolbar toolbar = findViewById(R.id.toolbar_MainActivity);
         setSupportActionBar(toolbar);
 
         //definition of Items in Activity
-        editText_AddReapeatedValueActivity_Start = findViewById(R.id.editText_AddReapeatedValueActivity_Start);
-        editText_AddReapeatedValueActivity_End = findViewById(R.id.editText_AddReapeatedValueActivity_End);
-        editText_AddReapeatedValueActivity_Value = findViewById(R.id.editText_AddReapeatedValueActivity_Value);
-        textView_AddReapeatedValueActivity_Currency = findViewById(R.id.textView_AddReapeatedValueActivity_Currency);
-        spinner_AddReapeatedValueActivity_RepeatBy = findViewById(R.id.spinner_AddReapeatedValueActivity_RepeatBy);
-        editText_AddReapeatedValueActivity_Description = findViewById(R.id.editText_AddReapeatedValueActivity_Description);
-        editText_AddReapeatedValueActivity_Title = findViewById(R.id.editText_AddReapeatedValueActivity_Title);
-        listView_AddReapeatedValueActivity = findViewById(R.id.listView_AddReapeatedValueActivity);
-        button_AddReapeatedValueActivity_ChooseColor = findViewById(R.id.button_AddReapeatedValueActivity_ChooseColor);
+        editText_AddRepeatedItemsActivity_Start = findViewById(R.id.editText_AddRepeatedItemsActivity_Start);
+        editText_AddRepeatedItemsActivity_End = findViewById(R.id.editText_AddRepeatedItemsActivity_End);
+        editText_AddRepeatedItemsActivity_Value = findViewById(R.id.editText_AddRepeatedItemsActivity_Value);
+        textView_AddRepeatedItemsActivity_Currency = findViewById(R.id.textView_AddRepeatedItemsActivity_Currency);
+        spinner_AddRepeatedItemsActivity_RepeatBy = findViewById(R.id.spinner_AddRepeatedItemsActivity_RepeatBy);
+        editText_AddRepeatedItemsActivity_Description = findViewById(R.id.editText_AddRepeatedItemsActivity_Description);
+        editText_AddRepeatedItemsActivity_Title = findViewById(R.id.editText_AddRepeatedItemsActivity_Title);
+        listView_AddRepeatedItemsActivity = findViewById(R.id.listView_AddRepeatedItemsActivity);
+        button_AddRepeatedItemsActivity_ChooseColor = findViewById(R.id.button_AddRepeatedItemsActivity_ChooseColor);
+        editText_AddRepeatedItemsActivity_RepeatedByTimes=findViewById(R.id.editText_AddRepeatedItemsActivity_RepeatedByTimes);
 
 
         //Initialize Start and End Date
-        selectedDate = new SelectedDate();
+        selectedDate_ForIteration = new SelectedDate();
         selectedDate_Start = new SelectedDate();
         selectedDate_End = new SelectedDate();
-
-        end_Day = start_Day = selectedDate_Start.getInteger_day();
-        end_Month = start_Month = selectedDate_Start.getInteger_Month() - 1;
-        end_Year = start_Year = selectedDate_Start.getInteger_Year();
 
         //Initialize Start and End calendar to iterate Date
         calendarStart = Calendar.getInstance();
         calendarEnd = Calendar.getInstance();
+        calendarForIteration=Calendar.getInstance();
 
         SPINNER_YEAR = getResources().getString(R.string.repeated_year);
         SPINNER_MONTH = getResources().getString(R.string.repeated_month);
         SPINNER_WEEK = getResources().getString(R.string.repeated_week);
         SPINNER_DAY = getResources().getString(R.string.repeated_Day);
-        string_Every = SPINNER_YEAR;
+
 
         //show start and end Date from today
-        editText_AddReapeatedValueActivity_Start.setText(selectedDate_Start.getString_Date());
-        editText_AddReapeatedValueActivity_End.setText(selectedDate_End.getString_Date());
+        editText_AddRepeatedItemsActivity_Start.setText(selectedDate_Start.getString_Date());
+        editText_AddRepeatedItemsActivity_End.setText(selectedDate_End.getString_Date());
 
         //Initialize General Helper
         generalHelper = new GeneralHelper();
 
         //set Filter for Value Input, only allow 2 digits after point and 14 befor point
-        editText_AddReapeatedValueActivity_Value.setFilters(new InputFilter[]{new InputFilterDecimal(14, 2)});
+        editText_AddRepeatedItemsActivity_Value.setFilters(new InputFilter[]{new InputFilterDecimal(14, 2)});
 
-        //check if Main is Active
-        if (!MainActivRepeated) {
+        //check if Main is Active for Database, if not open MainActivity first and Re-Enter AddRepeatedItemsActivity
+        if (MainActivity.myDbMain==null) {
+            Log.e("Widget", "StartRepeated");
             Intent intent = new Intent(AddRepeatedItemsActivity.this, MainActivity.class);
-            intent.putExtra(MainActivity.EXTRA_INT_DIRECT_OPEN_ACTIVITY, 2);
+            intent.putExtra(AddNewOutgoingWidget.EXTRA_INT_DIRECT_OPEN_ACTIVITY, 2);
             startActivity(intent);
             finish();
-        } else {
-            //create new listViewAdapter
-            listViewAdapter = new ListViewAdapter(this);
-            listViewAdapter.setCursorAllWithEndDateNotDuplicate();
 
-            //get Currency
+            //else get things from Database
+        } else {
+            listViewAdapter = new ListViewAdapter(this);
+            listViewAdapter.setCursorAllRepeatedNotDuplicate();
+
             string_Currency = generalHelper.getCurrency();
 
-            //create the spinner
             createSpinnerEvery();
-
-            //create the arrayList
             createArrayList();
         }
 
         //set ColorPicker for Button to Edit title color
-        button_AddReapeatedValueActivity_ChooseColor.setOnClickListener(new View.OnClickListener() {
+        button_AddRepeatedItemsActivity_ChooseColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openColorPicker();
@@ -149,7 +152,7 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
         });
 
         //set OnclickListener with Datepicker for Start Date
-        editText_AddReapeatedValueActivity_Start.setOnClickListener(new View.OnClickListener() {
+        editText_AddRepeatedItemsActivity_Start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -157,7 +160,7 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
                         AddRepeatedItemsActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListenerStart,
-                        start_Year, start_Month, start_Day);
+                        selectedDate_Start.getInteger_Year(), selectedDate_Start.getInteger_Month() - 1, selectedDate_Start.getInteger_day());
                 Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -167,13 +170,12 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 selectedDate_Start.setLong_Date(year, month, day);
-                calendarStart.setTimeInMillis(selectedDate_Start.getLong_Date());
-                editText_AddReapeatedValueActivity_Start.setText(selectedDate_Start.getString_Date());
+                editText_AddRepeatedItemsActivity_Start.setText(selectedDate_Start.getString_Date());
             }
         };
 
         //set onClickListener with Datepicker for End date
-        editText_AddReapeatedValueActivity_End.setOnClickListener(new View.OnClickListener() {
+        editText_AddRepeatedItemsActivity_End.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
@@ -181,7 +183,7 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
                         AddRepeatedItemsActivity.this,
                         android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListenerEnd,
-                        end_Year, end_Month, end_Day);
+                        selectedDate_Start.getInteger_Year(), selectedDate_End.getInteger_Month() - 1, selectedDate_End.getInteger_day());
                 Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -191,8 +193,7 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 selectedDate_End.setLong_Date(year, month, day);
-                calendarEnd.setTimeInMillis(selectedDate_End.getLong_Date());
-                editText_AddReapeatedValueActivity_End.setText(selectedDate_End.getString_Date());
+                editText_AddRepeatedItemsActivity_End.setText(selectedDate_End.getString_Date());
             }
         };
     }
@@ -201,76 +202,73 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // onClick Methods
 
-    public void onClick_SaveReapeatedValues(View view) {
-        if (!editText_AddReapeatedValueActivity_Value.getText().toString().equals("")) {
-            double_Value = Double.parseDouble(editText_AddReapeatedValueActivity_Value.getText().toString());
+    public void onClick_SaveRepeatedValues(View view) {
+        if (!editText_AddRepeatedItemsActivity_Value.getText().toString().equals("")) {
+            double_Value = Double.parseDouble(editText_AddRepeatedItemsActivity_Value.getText().toString());
         }
 
-        if (!editText_AddReapeatedValueActivity_Description.getText().toString().equals("")) {
-            string_Description = editText_AddReapeatedValueActivity_Description.getText().toString();
+        if (!editText_AddRepeatedItemsActivity_Description.getText().toString().equals("")) {
+            string_Description = editText_AddRepeatedItemsActivity_Description.getText().toString();
         }
 
-        if (!editText_AddReapeatedValueActivity_Title.getText().toString().equals("")) {
-            string_TitleRepeated = editText_AddReapeatedValueActivity_Title.getText().toString();
+        if (!editText_AddRepeatedItemsActivity_Title.getText().toString().equals("")) {
+            string_Title = editText_AddRepeatedItemsActivity_Title.getText().toString();
         }
 
-        if (!editText_AddReapeatedValueActivity_Value.getText().toString().equals("") && !editText_AddReapeatedValueActivity_Title.getText().toString().equals("")) {
+        if (!editText_AddRepeatedItemsActivity_Value.getText().toString().equals("") && !editText_AddRepeatedItemsActivity_Title.getText().toString().equals("")) {
 
+            //get start and end date
             calendarStart.setTimeInMillis(selectedDate_Start.getLong_Date());
+            selectedDate_ForIteration.setLong_Date(selectedDate_Start.getLong_Date());
+            calendarEnd.setTimeInMillis(selectedDate_End.getLong_Date());
+            calendarForIteration.setTimeInMillis(calendarStart.getTimeInMillis());
+            int_RepeatedByTimes=Integer.parseInt(editText_AddRepeatedItemsActivity_RepeatedByTimes.getText().toString());
 
-            if (MainActivity.myDbMain.checkRowRepeatedItem(double_Value, string_TitleRepeated, selectedDate_End.getInteger_DateWithoutTime(), selectedDate_Start.getInteger_DateWithoutTime())) {
+            if (MainActivity.myDbMain.checkRowRepeatedItem(string_Title, double_Value,selectedDate_Start.getInteger_DateWithoutTime(),selectedDate_End.getInteger_DateWithoutTime(),int_RepeatedByTimes, generalHelper.setRepeatedByWithNumber(string_Every,this))) {
                 Toast.makeText(AddRepeatedItemsActivity.this, getString(R.string.toast_itemsAlreadyExists),
                         Toast.LENGTH_LONG).show();
 
             } else {
 
                 if (string_Every.equals(SPINNER_YEAR)) {
-                    string_Every = SPINNER_YEAR;
 
-                    //loop over end_Day by end_Day
-                    for (; calendarStart.compareTo(calendarEnd) <= 0;
-                         calendarStart.add(Calendar.YEAR, 1)) {
-                        selectedDate.setLong_Date(calendarStart.getTimeInMillis());
+                    //loop over start to end date
+                    for (; calendarForIteration.compareTo(calendarEnd) <= 0; calendarForIteration.add(Calendar.YEAR, int_RepeatedByTimes)) {
+                        selectedDate_ForIteration.setLong_Date(calendarForIteration.getTimeInMillis());
                         addNewItemRepeated();
                     }
 
                 } else if (string_Every.equals(SPINNER_MONTH)) {
-                    string_Every = SPINNER_MONTH;
 
-                    //loop over end_Day by end_Day
-                    for (; calendarStart.compareTo(calendarEnd) <= 0;
-                         calendarStart.add(Calendar.MONTH, 1)) {
-                        selectedDate.setLong_Date(calendarStart.getTimeInMillis());
+                    //loop over start to end date
+                    for (; calendarForIteration.compareTo(calendarEnd) <= 0; calendarForIteration.add(Calendar.MONTH, int_RepeatedByTimes)) {
+                        selectedDate_ForIteration.setLong_Date(calendarForIteration.getTimeInMillis());
                         addNewItemRepeated();
                     }
 
                 } else if (string_Every.equals(SPINNER_WEEK)) {
-                    string_Every = SPINNER_WEEK;
 
-                    //loop over end_Day by end_Day
-                    for (; calendarStart.compareTo(calendarEnd) <= 0;
-                         calendarStart.add(Calendar.DATE, 7)) {
-                        selectedDate.setLong_Date(calendarStart.getTimeInMillis());
+                    //loop over start to end date
+                    for (; calendarForIteration.compareTo(calendarEnd) <= 0; calendarForIteration.add(Calendar.DATE, 7*int_RepeatedByTimes)) {
+                        selectedDate_ForIteration.setLong_Date(calendarForIteration.getTimeInMillis());
                         addNewItemRepeated();
                     }
 
                 } else if (string_Every.equals(SPINNER_DAY)) {
-                    string_Every = SPINNER_DAY;
-                    //loop over end_Day by end_Day
-                    for (; calendarStart.compareTo(calendarEnd) <= 0;
-                         calendarStart.add(Calendar.DATE, 1)) {
-                        selectedDate.setLong_Date(calendarStart.getTimeInMillis());
-                        addNewItemRepeated();
 
+                    //loop over start to end date
+                    for (; calendarForIteration.compareTo(calendarEnd) <= 0; calendarForIteration.add(Calendar.DATE, int_RepeatedByTimes)) {
+                        selectedDate_ForIteration.setLong_Date(calendarForIteration.getTimeInMillis());
+                        addNewItemRepeated();
                     }
                 }
             }
+
+            makeDefaultActivity();
             displayItemsOnActivity();
-            int_titleColor = 0xff000000;
-            button_AddReapeatedValueActivity_ChooseColor.setBackgroundColor(int_titleColor);
+
 
         } else {
-
             Toast.makeText(AddRepeatedItemsActivity.this, getString(R.string.toast_enterATitleAndValue),
                     Toast.LENGTH_LONG).show();
         }
@@ -287,8 +285,8 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
             @Override
             public void onOk(AmbilWarnaDialog dialog, int color) {
                 int_titleColor = color;
-                button_AddReapeatedValueActivity_ChooseColor.setBackgroundColor(color);
-                editText_AddReapeatedValueActivity_Title.setTextColor(color);
+                button_AddRepeatedItemsActivity_ChooseColor.setBackgroundColor(color);
+                editText_AddRepeatedItemsActivity_Title.setTextColor(color);
             }
         });
         colorPicker.show();
@@ -306,15 +304,14 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
     // ----------------------------------------------------------------------------------------------------------------------------------------------
     // Database Methods
 
-
     //Adds Date and value to Database
     private void addNewItemRepeated() {
-        MainActivity.myDbMain.insertRowRepeatedItem(selectedDate.getLong_Date(), double_Value, string_Description, string_TitleRepeated, string_Currency, selectedDate_End.getLong_Date(), string_Every, selectedDate_Start.getLong_Date(), int_titleColor);
+        MainActivity.myDbMain.insertRowRepeatedItem(string_Title,int_titleColor,double_Value,string_Description,selectedDate_ForIteration.getLong_Date(),selectedDate_Start.getLong_Date(),selectedDate_End.getLong_Date(), int_RepeatedByTimes, generalHelper.setRepeatedByWithNumber(string_Every,this));
     }
 
     // Database Methods
     //----------------------------------------------------------------------------------------------------------------------------------------------
-    // Communicate with other Activitys
+    // Communicate with other Activity's
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -328,7 +325,7 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
         }
     }
 
-    // Communicate with other Activitys
+    // Communicate with other Activity's
     // ----------------------------------------------------------------------------------------------------------------------------------------------
     // Spinner Methods
 
@@ -336,8 +333,10 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
     private void createSpinnerEvery() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.repeated_arrays, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner_AddReapeatedValueActivity_RepeatBy.setAdapter(adapter);
-        spinner_AddReapeatedValueActivity_RepeatBy.setOnItemSelectedListener(this);
+        spinner_AddRepeatedItemsActivity_RepeatBy.setAdapter(adapter);
+        spinner_AddRepeatedItemsActivity_RepeatBy.setOnItemSelectedListener(this);
+
+        string_Every = spinner_AddRepeatedItemsActivity_RepeatBy.getSelectedItem().toString();
     }
 
     @Override
@@ -365,21 +364,21 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // List Methods
 
-    //Creates Arraylist of all values for ListView and adds an onClick Method which opens EditValueActivity and tranfers Databse-ID of selected Value
+    //Creates Arraylist of all values for ListView and adds an onClick Method which opens EditItemActivity and tranfers Databse-ID of selected Value
     private void createArrayList() {
-        listView_AddReapeatedValueActivity.setAdapter(listViewAdapter.getListViewAdapter());
+        listView_AddRepeatedItemsActivity.setAdapter(listViewAdapter.getListViewAdapter());
 
-        //by clicking of Item get Database-ID of Position and open EditValueActivity and send ID
-        listView_AddReapeatedValueActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //by clicking of Item get Database-ID of Position and open EditItemActivity and send ID
+        listView_AddRepeatedItemsActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //get ID of selected Item from Databse
+                //get ID of selected Item from Database
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                 Integer integer_iD = cursor.getInt(cursor.getColumnIndexOrThrow(DBAdapter.KEY_ROWID));
 
-                //Open EditValueActivity and send ID
-                Intent intent = new Intent(AddRepeatedItemsActivity.this, EditRepeatedOutgoingsActivity.class);
+                //Open EditItemActivity and send ID
+                Intent intent = new Intent(AddRepeatedItemsActivity.this, EditRepeatedItemsActivity.class);
                 intent.putExtra(EXTRA_INTEGER_ID, integer_iD);
                 startActivityForResult(intent, RESULT_FIRST_USER);
             }
@@ -392,16 +391,103 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
 
     //show Values on Activity
     public void displayItemsOnActivity() {
-        editText_AddReapeatedValueActivity_Description.setText("");
-        editText_AddReapeatedValueActivity_Title.setText("");
-        editText_AddReapeatedValueActivity_Value.setText("");
+        editText_AddRepeatedItemsActivity_Start.setText(selectedDate_Start.getString_Date());
+        editText_AddRepeatedItemsActivity_End.setText(selectedDate_End.getString_Date());
+        editText_AddRepeatedItemsActivity_Title.requestFocus();
 
-        textView_AddReapeatedValueActivity_Currency.setText(string_Currency);
-        listViewAdapter.setCursorAllWithEndDateNotDuplicate();
-        listView_AddReapeatedValueActivity.setAdapter(listViewAdapter.getListViewAdapter());
+        textView_AddRepeatedItemsActivity_Currency.setText(string_Currency);
+
+        listViewAdapter.setCursorAllRepeatedNotDuplicate();
+        listView_AddRepeatedItemsActivity.setAdapter(listViewAdapter.getListViewAdapter());
     }
 
     // Displaying Values
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // default values
+
+    private void makeDefaultActivity() {
+        editText_AddRepeatedItemsActivity_Description.setText("");
+        editText_AddRepeatedItemsActivity_Title.setText("");
+        editText_AddRepeatedItemsActivity_Value.setText("");
+
+        int_titleColor = 0xff000000;
+        editText_AddRepeatedItemsActivity_Title.setTextColor(int_titleColor);
+        button_AddRepeatedItemsActivity_ChooseColor.setBackgroundColor(int_titleColor);
+
+        selectedDate_Start.setLong_DateToday();
+        selectedDate_End.setLong_DateToday();
+    }
+
+    // default values
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // Menu
+
+    //Create the Menubar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // Menus
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.menu_Overview:
+                intent = new Intent(this, OverviewActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+
+            case R.id.menu_AddCurrency:
+                intent = new Intent(this, CurrencyActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+
+            case R.id.menu_DeleteAll:
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+
+                                //Yes button clicked, delete all Data in Database
+                                MainActivity.myDbMain.deleteAll();
+                                displayItemsOnActivity();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked, do nothing
+                                break;
+                        }
+                    }
+                };
+
+                //set the message to show in the DialogWindow
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(getString(R.string.dialog_question)).setPositiveButton(getString(R.string.dialog_yes), dialogClickListener)
+                        .setNegativeButton(getString(R.string.dialog_no), dialogClickListener).show();
+                return true;
+
+            case R.id.menu_info:
+                intent = new Intent(this, InfoActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+
+            case R.id.menu_MainMenu:
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // Menu
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // End
 }

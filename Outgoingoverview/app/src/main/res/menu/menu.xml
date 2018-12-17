@@ -1,10 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_MainMenu"
+        android:title="@string/menu_MainMenu"
+        app:showAsAction="never">
+
+    </item>
+
+    <item
+        android:id="@+id/menu_AddRepeatedIssues"
+        android:title="@string/menu_AddRepeatedOutgoing"
+        app:showAsAction="never">
+
+    </item>
+
+    <item
+        android:id="@+id/menu_Overview"
+        android:title="@string/menu_Overview"
+        app:showAsAction="never">
+
+    </item>
+
+    <item
+        android:id="@+id/menu_AddCurrency"
+        android:title="@string/menu_AddCurrency"
+        app:showAsAction="never">
+
+    </item>
+
+    <item
+        android:id="@+id/menu_DeleteAll"
+        android:title="@string/menu_DeleteAllValues"
+        app:showAsAction="never">
+
+    </item>
+
     <item
         android:id="@+id/menu_info"
         android:title="@string/menu_info"
-        app:showAsAction="always">
+        app:showAsAction="never">
 
     </item>
 </menu>

@@ -1,38 +1,42 @@
 package com.example.leand.outgoingoverview.Activitys;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.TextView;
 
-import com.example.leand.outgoingoverview.Classes.GeneralHelper;
 import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
+import com.example.leand.outgoingoverview.GeneralHelperClasses.GeneralHelper;
 import com.example.leand.outgoingoverview.R;
-import com.example.leand.outgoingoverview.Classes.SelectedDate;
+import com.example.leand.outgoingoverview.GeneralHelperClasses.SelectedDate;
+import com.example.leand.outgoingoverview.Widget.AddNewOutgoingWidget;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     public static DBAdapter myDbMain;
 
-    private TextView textView_MainActivity_SelectedDateValue, textView_MainActivity_totalValue;
-    private Button button_MainActivity_changeValue;
+    private TextView textView_MainActivity_SelectedDateValue, textView_MainActivity_totalValue,textView_MainActivity_totalValueYear;
 
     private GeneralHelper generalHelper;
     private SelectedDate selectedDateNew, selectedDateOld;
 
     private int counterCalendar;
-    private String string_Currency = "";
+    public String string_Currency = "";
+    public int int_directOpenActivity;
 
     public static final String EXTRA_LONG_DATE = "long Date";
-    public static final String EXTRA_INT_DIRECT_OPEN_ACTIVITY = "direct Open Activity";
+
 
     // Declaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -43,25 +47,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.e("MainActivity", "Start");
+
         //Set Toolbar
-        Toolbar toolbar=findViewById(R.id.toolbar_MainActivity);
+        Toolbar toolbar = findViewById(R.id.toolbar_MainActivity);
         setSupportActionBar(toolbar);
 
-        AddRepeatedItemsActivity.MainActivRepeated = true;
-        AddNewItemActivity.MainActiv = true;
-
-        //get Date from MainActivity
+        //get int to Choose which Activity to open Direct
         Intent caller = getIntent();
-        int int_directOpenActvity = caller.getIntExtra(MainActivity.EXTRA_INT_DIRECT_OPEN_ACTIVITY, -1);
+        int int_directOpenActivity = caller.getIntExtra(AddNewOutgoingWidget.EXTRA_INT_DIRECT_OPEN_ACTIVITY, -1);
 
         //open the Database
         openDB();
 
         //definition of Items in Activity
-        textView_MainActivity_totalValue = findViewById(R.id.textView_MainActivity_totalValue);
+        textView_MainActivity_totalValue = findViewById(R.id.textView_MainActivity_totalValueMonth);
         textView_MainActivity_SelectedDateValue = findViewById(R.id.textView_MainActivity_SelectedDateValue);
+        textView_MainActivity_totalValueYear=findViewById(R.id.textView_MainActivity_totalValueYear);
         CalendarView calendarView_MainActivity_calendar = findViewById(R.id.calendarView_MainActivity_calendar);
-        button_MainActivity_changeValue = findViewById(R.id.button_MainActivity_ChangeCurrency);
 
         //counter for double tab on calendar
         counterCalendar = 0;
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         selectedDateNew = new SelectedDate(calendarView_MainActivity_calendar.getDate());
 
         //initialize old date value
-        selectedDateOld = new SelectedDate(0);
+        selectedDateOld = new SelectedDate();
 
         //Initialize General Helper
         generalHelper = new GeneralHelper();
@@ -78,16 +81,7 @@ public class MainActivity extends AppCompatActivity {
         //show values on mainActivity
         displayItemsOnActivity();
 
-        //Open AddRepeatedActivity or AddNewActivity if started from Widget
-        if (int_directOpenActvity == 1) {
-            Intent intent = new Intent(MainActivity.this, AddNewItemActivity.class);
-            intent.putExtra(EXTRA_LONG_DATE, selectedDateNew.getLong_Date());
-            startActivityForResult(intent, 1);
 
-        } else if (int_directOpenActvity == 2) {
-            Intent intent = new Intent(MainActivity.this, AddRepeatedItemsActivity.class);
-            startActivityForResult(intent, 1);
-        }
 
         //When clicked on a date twice, open AddNewItemActivity and send Date to this activity
         calendarView_MainActivity_calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -120,6 +114,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //Open AddRepeatedActivity or AddNewActivity if started from Widget
+        if (int_directOpenActivity == 1) {
+            int_directOpenActivity=0;
+            Intent intent = new Intent(MainActivity.this, AddNewItemActivity.class);
+            intent.putExtra(EXTRA_LONG_DATE, selectedDateNew.getLong_Date());
+            startActivity(intent);
+
+        } else if (int_directOpenActivity == 2) {
+            int_directOpenActivity=0;
+            Intent intent = new Intent(MainActivity.this, AddRepeatedItemsActivity.class);
+            startActivity(intent);
+        }
     }
 
 
@@ -127,40 +134,6 @@ public class MainActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // onClick Methods
 
-    //Create the Menubar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater=getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    // On Menu info selected open Info Activty
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent= new Intent(this, InfoActivity.class);
-        startActivity(intent);
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public void onClick_OpenRepaetedOutgoing(View view) {
-        Intent intent = new Intent(this, AddRepeatedItemsActivity.class);
-        startActivityForResult(intent, 1);
-    }
-
-    //Opens OverviewListActivity, which shows a list of all Dates with values
-    public void onClick_ShowAllvalues(View view) {
-        Intent intent = new Intent(this, OverviewListActivity.class);
-        intent.putExtra(EXTRA_LONG_DATE, selectedDateNew.getLong_Date());
-        startActivityForResult(intent, 1);
-    }
-
-    //Opens ChangeCurrencyActivity, where you can change the Currency
-    public void onClick_OpenChangeCurrency(View view) {
-        Intent intent = new Intent(this, ChangeCurrencyActivity.class);
-        startActivityForResult(intent, 1);
-    }
 
     // onClick Methods
     // ----------------------------------------------------------------------------------------------------------------------------------------------
@@ -177,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
     private void openDB() {
         myDbMain = new DBAdapter(this);
         myDbMain.open();
+
     }
 
     //close Database
@@ -186,18 +160,12 @@ public class MainActivity extends AppCompatActivity {
 
     //get the Currency out of Database
     private void getCurrency() {
-        Cursor cursor = myDbMain.getAllRows();
+        Cursor cursor = myDbMain.getCurrency();
 
         if (cursor.moveToFirst()) {
             string_Currency = cursor.getString(cursor.getColumnIndexOrThrow(DBAdapter.KEY_CURRENCY));
-            button_MainActivity_changeValue.setVisibility(View.VISIBLE);
-            if (string_Currency.equals("")) {
-                button_MainActivity_changeValue.setText(getString(R.string.button_addCurrency));
-            } else {
-                button_MainActivity_changeValue.setText(getString(R.string.button_changeCurrency));
-            }
+
         } else {
-            button_MainActivity_changeValue.setVisibility(View.INVISIBLE);
             string_Currency = "";
         }
         cursor.close();
@@ -236,9 +204,82 @@ public class MainActivity extends AppCompatActivity {
 
         //show total value of selected Month
         textView_MainActivity_totalValue.setText(generalHelper.currencyFormat.format(generalHelper.sumAllValuesOfSelectedMonth(selectedDateNew)) + string_Currency);
+
+        textView_MainActivity_totalValueYear.setText(generalHelper.currencyFormat.format(generalHelper.sumAllValuesOfSelectedYear(selectedDateNew)) + string_Currency);
     }
 
     // Displaying Values
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // Menu
+
+    //Create the Menubar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // Menus
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.menu_Overview:
+                intent = new Intent(this, OverviewActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.menu_AddCurrency:
+                intent = new Intent(this, CurrencyActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.menu_AddRepeatedIssues:
+                intent = new Intent(this, AddRepeatedItemsActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.menu_DeleteAll:
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+
+                                //Yes button clicked, delete all Data in Database
+                                MainActivity.myDbMain.deleteAll();
+                                displayItemsOnActivity();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked, do nothing
+                                break;
+                        }
+                    }
+                };
+
+                //set the message to show in the DialogWindow
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(getString(R.string.dialog_question)).setPositiveButton(getString(R.string.dialog_yes), dialogClickListener)
+                        .setNegativeButton(getString(R.string.dialog_no), dialogClickListener).show();
+                return true;
+
+            case R.id.menu_info:
+                intent = new Intent(this, InfoActivity.class);
+                startActivity(intent);
+                return true;
+
+            case R.id.menu_MainMenu:
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // Menu
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // End
 }

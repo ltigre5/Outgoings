@@ -1,4 +1,6 @@
-package com.example.leand.outgoingoverview.Classes;
+package com.example.leand.outgoingoverview.GeneralHelperClasses;
+
+import android.content.Context;
 
 import java.util.Calendar;
 
@@ -12,6 +14,7 @@ public class SelectedDate {
     private Long long_Date;
     private Calendar calendar;
     private GeneralHelper generalHelper;
+    private Context context;
 
 
     // Deklaration
@@ -90,6 +93,11 @@ public class SelectedDate {
 
     public void setLong_Date(Integer year, Integer month, Integer dayOfMonth) {
         calendar.set(year, month, dayOfMonth);
+        this.long_Date = calendar.getTimeInMillis();
+    }
+
+    public void setLong_DateToday() {
+        calendar = Calendar.getInstance();
         this.long_Date = calendar.getTimeInMillis();
     }
 

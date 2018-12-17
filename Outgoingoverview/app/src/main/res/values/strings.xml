@@ -23,7 +23,7 @@
     <!-- Show spinner -->
     <string name="show_year">Year</string>
     <string name="show_month">Month</string>
-    <string name="show_from_to">From...to</string>
+    <string name="show_from_to">From...To</string>
 
     <string-array name="show_arrays">
         <item>@string/show_month</item>
@@ -31,11 +31,22 @@
         <item>@string/show_from_to</item>
     </string-array>
 
-    <!-- Repeated Outgoings spinner -->
-    <string name="repeated_year">Every Year</string>
-    <string name="repeated_month">Every Month</string>
-    <string name="repeated_week">Every Week</string>
-    <string name="repeated_Day">Every Day</string>
+    <!-- Hide spinner -->
+    <string name="hide_showAll">Show All</string>
+    <string name="hide_hideSingle">Hide Single Issues</string>
+    <string name="hide_hideRepeated">Hide Repeated Issues</string>
+
+    <string-array name="hide_arrays">
+        <item>@string/hide_showAll</item>
+        <item>@string/hide_hideSingle</item>
+        <item>@string/hide_hideRepeated</item>
+    </string-array>
+
+    <!-- Repeated Issues spinner -->
+    <string name="repeated_year">Years</string>
+    <string name="repeated_month">Months</string>
+    <string name="repeated_week">Weeks</string>
+    <string name="repeated_Day">Days</string>
 
     <string-array name="repeated_arrays">
         <item>@string/repeated_year</item>
@@ -50,17 +61,20 @@
     <string name="hint_description">Description</string>
     <string name="hint_3LetterCode">3-Letter Code</string>
 
-    <!-- Statments -->
-    <string name="statment_total">"Total: "</string>
-    <string name="statment_totalDay">Total Day:</string>
-    <string name="statment_totalMonth">Total Month:</string>
-    <string name="statment_start">Start:</string>
-    <string name="statment_end">End:</string>
-    <string name="statment_from">From:</string>
-    <string name="statment_to">To:</string>
-    <string name="statment_year">Year:</string>
-    <string name="statment_month">Month:</string>
-    <string name="statment_currency">Currency</string>
+    <!-- Statements -->
+    <string name="statement_total">"Total: "</string>
+    <string name="statement_totalDay">Total Day: </string>
+    <string name="statement_totalMonth">Total Month: </string>
+    <string name="statement_totalYear">Total Year: </string>
+    <string name="statement_start">Start:</string>
+    <string name="statement_end">End:</string>
+    <string name="statement_from">From:</string>
+    <string name="statement_to">To:</string>
+    <string name="statement_year">Year:</string>
+    <string name="statement_month">Month:</string>
+    <string name="statement_currency">Currency</string>
+    <string name="statement_oldCurrency">Old Currency: </string>
+    <string name="statement_every">Every</string>
 
     <!-- Buttons -->
     <string name="button_ok">OK</string>
@@ -79,20 +93,21 @@
     <string name="dialog_no">NO</string>
 
     <!-- Labels -->
-    <string name="label_addNewItem">Add a new Issue</string>
+    <string name="label_addNewItem">Add A New Issue</string>
     <string name="label_overview">Overview</string>
     <string name="label_editItem">Edit Issue</string>
     <string name="label_changeCurrency">Change Currency</string>
     <string name="label_addRepeatedOutgoing">Add Repeated Issues</string>
     <string name="label_editRepeatedOutgoing">Edit Repeated Issue</string>
+    <string name="label_info">Info</string>
 
     <!-- Toast -->
     <string name="toast_noYearMonth">Enter A Year and Month</string>
     <string name="toast_noMonth">Enter A Month</string>
     <string name="toast_noYear">Enter A Year</string>
-    <string name="toast_invalidMonth">Enter A valid Month: 1-12</string>
+    <string name="toast_invalidMonth">Enter A Valid Month: 1-12</string>
     <string name="toast_itemsAlreadyExists">Issue Already Exists</string>
-    <string name="toast_enterATitleAndValue">Enter a Value and Title</string>
+    <string name="toast_enterATitleAndValue">Enter A Value And Title</string>
 
 
     <!-- Widget -->
@@ -102,6 +117,14 @@
 
     <!-- menu -->
     <string name="menu_info">Info</string>
+    <string name="menu_Overview">Overview</string>
+    <string name="menu_AddCurrency">Add Currency</string>
+    <string name="menu_AddRepeatedOutgoing">Add Repeated Issues</string>
+    <string name="menu_DeleteAllValues">Delete All Issues</string>
+    <string name="menu_MainMenu">Add Single Issue</string>
+
+
+
 
     <!-- info -->
     <string name="info">

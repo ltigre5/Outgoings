@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activitys.ChangeCurrencyActivity">
+    tools:context=".Activitys.CurrencyActivity">
 
     <include
         android:id="@+id/toolbar_MainActivity"
@@ -16,20 +16,41 @@
         style="@style/general_Top_MatchParent"
         android:orientation="vertical">
 
-        <!-- Statment for Currency -->
+        <!-- Statement for Currency -->
         <TextView
-            android:id="@+id/textView_Properties_CurrencyStatment"
+            android:id="@+id/textView_CurrencyActivity_CurrencyStatement"
             style="@style/general_WrapContent"
-            android:text="@string/statment_currency" />
+            android:text="@string/statement_currency" />
 
         <!-- EditText for 3-Letter Code from Currency -->
         <EditText
-            android:id="@+id/editText_Properties_Currency"
+            android:id="@+id/editText_CurrencyActivity_Currency"
             style="@style/general_WrapContent"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
             android:hint="@string/hint_3LetterCode"
             android:inputType="text"
             android:maxLength="3" />
+
+        <!-- Old Currency -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <!-- Statement for old Currency -->
+            <TextView
+                android:id="@+id/textView_CurrencyActivity_oldCurrencyStatement"
+                style="@style/general_WrapContent"
+                android:text="@string/statement_oldCurrency" />
+
+            <!-- Statement for old Currency -->
+            <TextView
+                android:id="@+id/textView_CurrencyActivity_oldCurrency"
+                style="@style/general_WrapContent"
+                />
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
     <!-- Layout for Bottom -->
@@ -39,7 +60,7 @@
 
         <!-- Button to save Currency -->
         <Button
-            android:id="@+id/button_AddNewItemActivity_SaveValue"
+            android:id="@+id/button_CurrencyActivity_SaveValue"
             style="@style/button_WrapContent"
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"

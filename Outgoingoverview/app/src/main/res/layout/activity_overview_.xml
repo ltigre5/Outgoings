@@ -7,12 +7,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activitys.OverviewListActivity">
+    tools:context=".Activitys.OverviewActivity">
 
     <include
         android:id="@+id/toolbar_MainActivity"
-        layout="@layout/toolbar_main_activity">
-    </include>
+        layout="@layout/toolbar_main_activity"></include>
 
     <!-- Layout for All Filter Objects -->
     <LinearLayout
@@ -28,7 +27,7 @@
 
             <!-- Spinner for OrderBy Date or value Objects -->
             <Spinner
-                android:id="@+id/spinner_OverviewListActivity_OrderBy"
+                android:id="@+id/spinner_OverviewActivity_OrderBy"
                 style="@style/general_WrapContent"
                 android:layout_width="0dp"
                 android:layout_weight="4"
@@ -36,24 +35,37 @@
 
             <!-- Spinner for Ascending Descending Order Objects -->
             <Spinner
-                android:id="@+id/spinner_OverviewListActivity_AscendingDescending"
+                android:id="@+id/spinner_OverviewActivity_AscendingDescending"
                 style="@style/general_WrapContent"
                 android:entries="@array/ascending_descending" />
         </LinearLayout>
 
-        <!-- Spinner for Items to be Shown, Month, Year or Date from to -->
-        <Spinner
-            android:id="@+id/spinner_OverviewListActivity_Show"
+
+        <LinearLayout
             style="@style/general_MatchParent"
-            android:entries="@array/show_arrays" />
+            android:orientation="horizontal">
+
+            <!-- Spinner for Items to be Shown, Month, Year or Date from to -->
+            <Spinner
+                android:id="@+id/spinner_OverviewActivity_Show"
+                style="@style/general_WrapContent"
+                android:layout_weight="1"
+                android:entries="@array/show_arrays" />
+
+            <!-- Spinner for Items to be Shown, Month, Year or Date from to -->
+            <Spinner
+                android:id="@+id/spinner_OverviewActivity_Hide"
+                style="@style/general_WrapContent"
+                android:entries="@array/hide_arrays" />
+
+        </LinearLayout>
 
         <!-- Layout for All Date Objects -->
         <LinearLayout
             android:id="@+id/overviewListActivity_Date"
             style="@style/general_MatchParent"
             android:layout_marginStart="8dp"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <!-- Layout for Year and from -->
             <LinearLayout
@@ -64,27 +76,28 @@
 
                 <!-- Statment for Year: or from: -->
                 <TextView
-                    android:id="@+id/textView_OverviewListActivity_YearFromStatment"
+                    android:id="@+id/textView_OverviewActivity_YearFromStatment"
                     style="@style/general_WrapContent"
-                    android:text="@string/statment_year"
-                    />
+                    android:text="@string/statement_year" />
 
                 <!-- Layout for YearFrom Objects -->
                 <android.support.constraint.ConstraintLayout
                     style="@style/general_WrapContent"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <!-- Edittext for entering From Date -->
                     <EditText
-                        android:id="@+id/editText_OverviewListActivity_From"
+                        android:id="@+id/editText_OverviewActivity_From"
                         style="@style/general_MatchParent"
                         android:focusable="false" />
 
                     <!-- Edittext for entering Year -->
                     <EditText
-                        android:id="@+id/editText_OverviewListActivity_Year"
+                        android:id="@+id/editText_OverviewActivity_Year"
                         style="@style/general_MatchParent"
                         android:inputType="number"
                         android:maxLength="4" />
@@ -100,9 +113,9 @@
 
                 <!-- Stament for Month: or to: -->
                 <TextView
-                    android:id="@+id/textView_OverviewListActivity_MonthToStatment"
+                    android:id="@+id/textView_OverviewActivity_MonthToStatment"
                     style="@style/general_WrapContent"
-                    android:text="@string/statment_month" />
+                    android:text="@string/statement_month" />
 
                 <!-- Layout for MonthTo Objects -->
                 <android.support.constraint.ConstraintLayout
@@ -111,13 +124,13 @@
 
                     <!-- EditText for to: -->
                     <EditText
-                        android:id="@+id/editText_OverviewListActivity_To"
+                        android:id="@+id/editText_OverviewActivity_To"
                         style="@style/general_MatchParent"
                         android:focusable="false" />
 
                     <!-- EditText for Month -->
                     <EditText
-                        android:id="@+id/editText_OverviewListActivity_Month"
+                        android:id="@+id/editText_OverviewActivity_Month"
                         style="@style/general_MatchParent"
                         android:inputType="number"
                         android:maxLength="2" />
@@ -126,7 +139,7 @@
 
             <!-- Button for show new Selection -->
             <Button
-                android:id="@+id/button_OverviewListActivity_OK"
+                android:id="@+id/button_OverviewActivity_OK"
                 style="@style/button_WrapContent"
                 android:onClick="onClick_FilterList"
                 android:text="@string/button_ok" />
@@ -135,7 +148,7 @@
 
     <!-- ListView for Filtered Items Selected -->
     <ListView
-        android:id="@+id/listView_OverviewListActivity"
+        android:id="@+id/listView_OverviewActivity"
         style="@style/general_Middle_MatchParent"
         android:layout_weight="1" />
 
@@ -150,25 +163,18 @@
             android:id="@+id/textView_OverviewListActivity_TotalValueStatment"
             style="@style/general_WrapContent"
             android:layout_gravity="bottom"
-            android:text="@string/statment_total" />
+            android:textStyle="bold"
+            android:text="@string/statement_total" />
 
         <!-- TextView for Total value -->
         <TextView
-            android:id="@+id/textView_OverviewListActivity_TotalValue"
+            android:id="@+id/textView_OverviewActivity_TotalValue"
             style="@style/general_WrapContent"
             android:layout_gravity="bottom"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:text="Total Value:" />
 
-
-
-        <!-- Button to Delet all Items -->
-        <Button
-            android:id="@+id/button_MainActivity_deletValues"
-            style="@style/button_WrapContent"
-            android:layout_alignParentStart="true"
-            android:onClick="onClick_ClearAll"
-            android:text="@string/button_deleteAll" />
     </LinearLayout>
 </LinearLayout>
 

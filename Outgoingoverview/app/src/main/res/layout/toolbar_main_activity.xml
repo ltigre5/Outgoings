@@ -6,6 +6,9 @@
     android:background="#505050"
     app:titleTextColor="@android:color/white"
     app:subtitleTextColor="@android:color/white"
+    app:popupTheme="@style/ThemeOverlay.MyTheme"
+
+
     >
 
 </android.support.v7.widget.Toolbar>

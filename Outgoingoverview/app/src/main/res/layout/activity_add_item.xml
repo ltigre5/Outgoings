@@ -74,7 +74,8 @@
             android:id="@+id/textView_AddNewItemActivity_TotalValueStatment"
             style="@style/general_WrapContent"
             android:layout_gravity="bottom"
-            android:text="@string/statment_total" />
+            android:textStyle="bold"
+            android:text="@string/statement_total" />
 
         <!-- TextView for Total value -->
         <TextView
@@ -82,11 +83,12 @@
             style="@style/general_WrapContent"
             android:layout_gravity="bottom"
             android:layout_weight="1"
+            android:textStyle="bold"
             android:text="Total Value" />
 
         <!-- Button to save item -->
         <Button
-            android:id="@+id/button_AddNewItemActivity_SaveValue"
+            android:id="@+id/button_CurrencyActivity_SaveValue"
             style="@style/button_WrapContent"
             android:onClick="onClick_SaveItem"
             android:text="@string/button_save" />

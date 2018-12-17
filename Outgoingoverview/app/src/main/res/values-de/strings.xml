@@ -23,7 +23,7 @@
     <!-- Show spinner -->
     <string name="show_year">Jahr</string>
     <string name="show_month">Monat</string>
-    <string name="show_from_to">Von...bis</string>
+    <string name="show_from_to">Von...Bis</string>
 
     <string-array name="show_arrays">
         <item>@string/show_month</item>
@@ -32,10 +32,10 @@
     </string-array>
 
     <!-- Repeated Outgoings spinner -->
-    <string name="repeated_year">Jedes Jahr</string>
-    <string name="repeated_month">Jeden Monat</string>
-    <string name="repeated_week">Jede Woche</string>
-    <string name="repeated_Day">Jeden Tag</string>
+    <string name="repeated_year">Jahre</string>
+    <string name="repeated_month">Monate</string>
+    <string name="repeated_week">Wochen</string>
+    <string name="repeated_Day">Tage</string>
 
     <string-array name="repeated_arrays">
         <item>@string/repeated_year</item>
@@ -50,15 +50,15 @@
     <string name="hint_description">Beschreibung</string>
 
     <!-- Statments -->
-    <string name="statment_total">"Total: "</string>
-    <string name="statment_totalDay">Total Tag:</string>
-    <string name="statment_totalMonth">Total Monat:</string>
-    <string name="statment_start">Start:</string>
-    <string name="statment_end">Ende:</string>
-    <string name="statment_from">Von:</string>
-    <string name="statment_to">Bis:</string>
-    <string name="statment_year">Jahr:</string>
-    <string name="statment_month">Monat:</string>
+    <string name="statement_total">"Total: "</string>
+    <string name="statement_totalDay">"Total Tag: "</string>
+    <string name="statement_totalMonth">"Total Monat: "</string>
+    <string name="statement_start">Start:</string>
+    <string name="statement_end">Ende:</string>
+    <string name="statement_from">Von:</string>
+    <string name="statement_to">Bis:</string>
+    <string name="statement_year">Jahr:</string>
+    <string name="statement_month">Monat:</string>
 
     <!-- Buttons -->
     <string name="button_ok">OK</string>
@@ -87,13 +87,13 @@
     <string name="toast_noMonth">Monat eingeben</string>
     <string name="toast_noYear">Jahr eingeben</string>
     <string name="toast_invalidMonth">Gültigen Monat eingeben: 1-12</string>
-    <string name="statment_currency">Währung</string>
+    <string name="statement_currency">Währung</string>
     <string name="hint_3LetterCode">3-Buchstaben Code</string>
     <string name="button_delete">Löschen</string>
     <string name="appwidget_button_addNew">Heute</string>
     <string name="appwidget_button_addNewRepeated">Wiederholend</string>
     <string name="appwidget_outgoing">Ausgabe</string>
-    <string name="toast_itemsAlreadyExists">Ausgabe Existiert bereits</string>
+    <string name="toast_itemsAlreadyExists">Ausgabe existiert bereits</string>
     <string name="toast_enterATitleAndValue">Titel und Wert eingeben</string>
     <string name="menu_info">Info</string>
     <string name="button_deleteAllFiltered">Gefilterte Löschen</string>
@@ -121,6 +121,18 @@
         \n\nEs würde mir gefallen, wenn du meine App bewertest oder für den Entwickler Geld spenden möchtest.
 
     </string>
+    <string name="statement_every">Alle</string>
+    <string name="label_info">Info</string>
+    <string name="menu_Overview">Übersicht</string>
+    <string name="menu_AddCurrency">Währung hinzufügen</string>
+    <string name="menu_AddRepeatedOutgoing">Wiederholende Ausgabe</string>
+    <string name="menu_DeleteAllValues">Alles löschen</string>
+    <string name="menu_MainMenu">Einzelne Ausgabe hinzufügen</string>
+    <string name="hide_hideSingle">Einzelne verstecken</string>
+    <string name="hide_hideRepeated">Wiederholende verstecken</string>
+    <string name="hide_showAll">Alle zeigen</string>
+    <string name="statement_totalYear">"Total Jahr: "</string>
+    <string name="statement_oldCurrency">Alte Währung</string>
 
 
 </resources>

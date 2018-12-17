@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activitys.EditValueActivity">
+    tools:context=".Activitys.EditItemActivity">
 
     <include
         android:id="@+id/toolbar_MainActivity"
@@ -18,7 +18,7 @@
 
         <!-- TextView for Date -->
         <TextView
-            android:id="@+id/textView_EditValueActivity_Date"
+            android:id="@+id/textView_EditItemActivity_Date"
             style="@style/general_Top_MatchParent"
             android:text="Date" />
 
@@ -28,11 +28,11 @@
 
             <!-- EditText for Title -->
             <EditText
-                android:id="@+id/editText_EditValueActivity_Titel"
+                android:id="@+id/editText_EditItemActivity_Titel"
                 style="@style/editText_Title" />
 
             <Button
-                android:id="@+id/button_EditValueActivity_ChooseColor"
+                android:id="@+id/button_EditItemActivity_ChooseColor"
                 style="@style/button_Color_Chooser"
                 android:background="@drawable/button_color_chooser" />
 
@@ -45,7 +45,7 @@
 
             <!-- EditText for Value -->
             <EditText
-                android:id="@+id/editText_EditValueActivity_Value"
+                android:id="@+id/editText_EditItemActivity_Value"
                 style="@style/general_WrapContent"
                 android:layout_weight="1"
                 android:hint="@string/hint_value"
@@ -53,7 +53,7 @@
 
             <!-- TextView to show Currency -->
             <TextView
-                android:id="@+id/textView_EditValueActivity_Currency"
+                android:id="@+id/textView_EditItemActivity_Currency"
                 style="@style/general_WrapContent"
                 android:text="Currency" />
 
@@ -61,7 +61,7 @@
 
         <!-- EditText for Description -->
         <EditText
-            android:id="@+id/editText_EditValueActivity_Description"
+            android:id="@+id/editText_EditItemActivity_Description"
             style="@style/editText_Description" />
 
 

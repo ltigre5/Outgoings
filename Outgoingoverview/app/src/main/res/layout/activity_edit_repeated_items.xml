@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Activitys.EditRepeatedOutgoingsActivity">
+    tools:context=".Activitys.EditRepeatedItemsActivity">
 
     <include
         android:id="@+id/toolbar_MainActivity"
@@ -18,11 +18,11 @@
 
         <!-- EditText for Title -->
         <EditText
-            android:id="@+id/editText_EditRepeatedOutgoingsActivity_Titel"
+            android:id="@+id/editText_EditRepeatedItemsActivity_Titel"
             style="@style/editText_Title" />
 
         <Button
-            android:id="@+id/button_EditRepeatedOutgoingsActivity_ChooseColor"
+            android:id="@+id/button_EditRepeatedItemsActivity_ChooseColor"
             style="@style/button_Color_Chooser"
             android:background="@drawable/button_color_chooser" />
 
@@ -34,7 +34,7 @@
 
         <!-- EditText Value -->
         <EditText
-            android:id="@+id/editText_EditRepeatedOutgoingsActivity_Value"
+            android:id="@+id/editText_EditRepeatedItemsActivity_Value"
             style="@style/general_WrapContent"
             android:layout_weight="1"
             android:hint="@string/hint_value"
@@ -42,7 +42,7 @@
 
         <!-- TextView to show Currency -->
         <TextView
-            android:id="@+id/textView_EditRepeatedOutgoingsActivity_Currency"
+            android:id="@+id/textView_EditRepeatedItemsActivity_Currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Currency"
@@ -51,7 +51,7 @@
 
     <!-- EditText for Titel -->
     <EditText
-        android:id="@+id/editText_EditRepeatedOutgoingsActivity_Description"
+        android:id="@+id/editText_EditRepeatedItemsActivity_Description"
         style="@style/editText_Description"/>
 
     <!-- Layout for Start and End Date -->
@@ -65,12 +65,12 @@
         <TextView
             android:id="@+id/textView_EditRepeatedOutgoingsActivity_StartStatment"
             style="@style/general_WrapContent"
-            android:text="@string/statment_start"
+            android:text="@string/statement_start"
             app:autoSizeTextType="uniform" />
 
         <!-- Edittext for Start -->
         <EditText
-            android:id="@+id/editText_EditRepeatedOutgoingsActivity_Start"
+            android:id="@+id/editText_EditRepeatedItemsActivity_Start"
             style="@style/general_WrapContent"
             android:layout_weight="1"
             android:focusable="false" />
@@ -79,22 +79,47 @@
         <TextView
             android:id="@+id/textView_EditRepeatedOutgoingsActivity_EndStatment"
             style="@style/general_WrapContent"
-            android:text="@string/statment_end"
+            android:text="@string/statement_end"
             app:autoSizeTextType="uniform" />
 
         <!-- EditText for End -->
         <EditText
-            android:id="@+id/editText_EditRepeatedOutgoingsActivity_End"
+            android:id="@+id/editText_EditRepeatedItemsActivity_End"
             style="@style/general_WrapContent"
             android:layout_weight="1"
             android:focusable="false" />
     </LinearLayout>
 
-    <!-- Spinner for repeat every Year, Month, Week, Day -->
-    <Spinner
-        android:id="@+id/spinner_EditRepeatedOutgoingsActivity_RepeatBy"
-        style="@style/general_Middle_MatchParent"
-        android:entries="@array/repeated_arrays" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- TextView Every -->
+        <TextView
+            android:id="@+id/editText_EditRepeatedItemsActivity_EveryStatment"
+            style="@style/general_Middle_WrapContent"
+            android:text="@string/statement_every"
+            />
+
+        <!-- EditText Repeated times x -->
+        <EditText
+            android:id="@+id/editText_EditRepeatedItemsActivity_RepeatedByTimes"
+            style="@style/general_Middle_WrapContent"
+            android:maxLength="4"
+            android:inputType="number"
+            android:text="1"
+            />
+
+
+        <!-- Spinner for repeat every Year, Month, Week, Day -->
+        <Spinner
+            android:id="@+id/spinner_EditRepeatedItemsActivity_RepeatBy"
+            style="@style/general_Middle_MatchParent"
+            android:entries="@array/repeated_arrays" />
+
+    </LinearLayout>
 
 
     <!-- Layout for the Bottom -->
@@ -108,7 +133,7 @@
             android:id="@+id/button_EditRepeatedOutgoingsActivity_Save"
             style="@style/button_WrapContent"
             android:layout_alignParentEnd="true"
-            android:onClick="onClick_SaveReapeatedValues"
+            android:onClick="onClick_SaveRepeatedValues"
             android:text="@string/button_save" />
 
         <Button

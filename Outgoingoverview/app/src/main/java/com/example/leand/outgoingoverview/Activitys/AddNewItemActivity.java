@@ -1,5 +1,7 @@
 package com.example.leand.outgoingoverview.Activitys;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.annotation.Nullable;
@@ -7,6 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -15,16 +21,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.leand.outgoingoverview.Classes.GeneralHelper;
 import com.example.leand.outgoingoverview.DatabaseHelper.DBAdapter;
+import com.example.leand.outgoingoverview.GeneralHelperClasses.GeneralHelper;
 import com.example.leand.outgoingoverview.EditTextFilter.InputFilterDecimal;
 import com.example.leand.outgoingoverview.ListviewHelper.ListViewAdapter;
 import com.example.leand.outgoingoverview.R;
-import com.example.leand.outgoingoverview.Classes.SelectedDate;
+import com.example.leand.outgoingoverview.GeneralHelperClasses.SelectedDate;
+import com.example.leand.outgoingoverview.Widget.AddNewOutgoingWidget;
 
 import yuku.ambilwarna.AmbilWarnaDialog;
 
-import static com.example.leand.outgoingoverview.Activitys.OverviewListActivity.EXTRA_INTEGER_ID;
+import static com.example.leand.outgoingoverview.Activitys.OverviewActivity.EXTRA_INTEGER_ID;
 
 public class AddNewItemActivity extends AppCompatActivity {
     private TextView textView_AddNewItemActivity_SelectedDate, textView_AddNewItemActivity_Currency, textView_AddNewItemActivity_TotalValue;
@@ -35,13 +42,11 @@ public class AddNewItemActivity extends AppCompatActivity {
 
     private GeneralHelper generalHelper;
     private SelectedDate selectedDate;
-    private String string_Currency = "";
 
-    private double double_Value;
+    private String string_Currency;
     private String string_Description, string_Title;
-    private int int_titleColor =0xff000000; //for black
-
-    public static boolean MainActiv = false;
+    private double double_Value;
+    private int int_titleColor = 0xff000000; //for black
 
     // Declaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
@@ -50,10 +55,12 @@ public class AddNewItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_new_item);
+        setContentView(R.layout.activity_add_item);
+
+        Log.e("AddNewItem", "Start");
 
         //Set Toolbar
-        Toolbar toolbar=findViewById(R.id.toolbar_MainActivity);
+        Toolbar toolbar = findViewById(R.id.toolbar_MainActivity);
         setSupportActionBar(toolbar);
 
         //definition of Items in Activity
@@ -64,7 +71,7 @@ public class AddNewItemActivity extends AppCompatActivity {
         textView_AddNewItemActivity_Currency = findViewById(R.id.textView_AddNewItemActivity_Currency);
         listView_AddNewItemActivity = findViewById(R.id.listView_AddNewItemActivity);
         textView_AddNewItemActivity_TotalValue = findViewById(R.id.textView_AddNewItemActivity_TotalValue);
-        button_AddNewItemActivity_ChooseColor= findViewById(R.id.button_AddNewItemActivity_ChooseColor);
+        button_AddNewItemActivity_ChooseColor = findViewById(R.id.button_AddNewItemActivity_ChooseColor);
 
         //set Filter for Value Input, only allow 2 digits after point and 14 before point
         editText_AddNewItemActivity_Value.setFilters(new InputFilter[]{new InputFilterDecimal(14, 2)});
@@ -77,11 +84,14 @@ public class AddNewItemActivity extends AppCompatActivity {
         generalHelper = new GeneralHelper();
 
         //check if Main is Active
-        if (!MainActiv) {
+        if (MainActivity.myDbMain==null) {
+            Log.e("Widget", "StartNew");
+
             Intent intent = new Intent(AddNewItemActivity.this, MainActivity.class);
-            intent.putExtra(MainActivity.EXTRA_INT_DIRECT_OPEN_ACTIVITY, 1);
+            intent.putExtra(AddNewOutgoingWidget.EXTRA_INT_DIRECT_OPEN_ACTIVITY, 1);
             startActivity(intent);
             finish();
+
         } else {
 
             //create new listViewAdapter
@@ -112,16 +122,18 @@ public class AddNewItemActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // onClick Methods
 
-    //save Item on Databse by Button click
+
+
+
+    //save Item on Database by Button click
     public void onClick_SaveItem(View view) {
 
         //if nothing entered dont save value
-        if (editText_AddNewItemActivity_Value.getText().toString().equals("") && editText_AddNewItemActivity_Description.getText().toString().equals("") && editText_AddNewItemActivity_Title.getText().toString().equals("")) {
-            finish();
-        } else if (editText_AddNewItemActivity_Description.getText().toString().equals("") && editText_AddNewItemActivity_Title.getText().toString().equals("")) {
+        if (editText_AddNewItemActivity_Title.getText().toString().equals("") || editText_AddNewItemActivity_Value.getText().toString().equals("")) {
             Toast.makeText(AddNewItemActivity.this, getString(R.string.toast_enterATitleAndValue),
                     Toast.LENGTH_LONG).show();
         }
+
         //else save values on Database
         else {
             if (!editText_AddNewItemActivity_Title.getText().toString().equals("")) {
@@ -137,15 +149,17 @@ public class AddNewItemActivity extends AppCompatActivity {
             }
 
             addNewItemRepeated();
+            makeDefaultActivity();
         }
+
+
         displayItemsOnActivity();
-        int_titleColor = 0xff000000;
-        button_AddNewItemActivity_ChooseColor.setBackgroundColor(int_titleColor);
+
     }
 
     //ColorPicker to Edit title color
-    public void openColorPicker(){
-        AmbilWarnaDialog colorPicker= new AmbilWarnaDialog(this, int_titleColor, true, new AmbilWarnaDialog.OnAmbilWarnaListener() {
+    public void openColorPicker() {
+        AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(this, int_titleColor, true, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override
             public void onCancel(AmbilWarnaDialog dialog) {
 
@@ -154,7 +168,7 @@ public class AddNewItemActivity extends AppCompatActivity {
             @Override
             public void onOk(AmbilWarnaDialog dialog, int color) {
                 button_AddNewItemActivity_ChooseColor.setBackgroundColor(color);
-                int_titleColor=color;
+                int_titleColor = color;
                 editText_AddNewItemActivity_Title.setTextColor(color);
             }
         });
@@ -165,6 +179,8 @@ public class AddNewItemActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Log.e("AddNewItem", "backpressed");
+
         //return to MainActivity
         Intent intent = new Intent();
         setResult(1, intent);
@@ -178,12 +194,12 @@ public class AddNewItemActivity extends AppCompatActivity {
 
     //Adds Date and value to Database
     private void addNewItemRepeated() {
-        if (MainActivity.myDbMain.checkRowItem(double_Value, string_Title, selectedDate.getInteger_DateWithoutTime())) {
+        if (MainActivity.myDbMain.checkRowItem(string_Title,double_Value,selectedDate.getInteger_DateWithoutTime())) {
             Toast.makeText(AddNewItemActivity.this, getString(R.string.toast_itemsAlreadyExists),
                     Toast.LENGTH_LONG).show();
 
         } else {
-            MainActivity.myDbMain.insertRow(selectedDate.getLong_Date(), double_Value, string_Description, string_Title, string_Currency, int_titleColor);
+            MainActivity.myDbMain.insertRow(string_Title,int_titleColor,double_Value,string_Description,selectedDate.getLong_Date());
         }
 
     }
@@ -207,11 +223,11 @@ public class AddNewItemActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // List Methods
 
-    //Creates Arraylist of all values for ListView and adds an onClick Method which opens EditValueActivity and tranfers Databse-ID of selected Value
+    //Creates Arraylist of all values for ListView and adds an onClick Method which opens EditItemActivity and tranfers Databse-ID of selected Value
     private void createArrayList() {
         listView_AddNewItemActivity.setAdapter(listViewAdapter.getListViewAdapter());
 
-        //by clicking of Item get Database-ID of Position and open EditValueActivity and send ID
+        //by clicking of Item get Database-ID of Position and open EditItemActivity and send ID
         listView_AddNewItemActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -221,14 +237,14 @@ public class AddNewItemActivity extends AppCompatActivity {
                 Integer integer_iD = cursor.getInt(cursor.getColumnIndexOrThrow(DBAdapter.KEY_ROWID));
 
                 //Open Activity to edit item and send ID
-                if (cursor.isNull(DBAdapter.COL_END_DATE)) {
-                    //Open EditValueActivity and send ID
-                    Intent intent = new Intent(AddNewItemActivity.this, EditValueActivity.class);
+                if (cursor.getString(cursor.getColumnIndexOrThrow(DBAdapter.KEY_SINGLE_OR_REPEATED)).equals(DBAdapter.SINGLE)) {
+                    //Open EditItemActivity and send ID
+                    Intent intent = new Intent(AddNewItemActivity.this, EditItemActivity.class);
                     intent.putExtra(EXTRA_INTEGER_ID, integer_iD);
                     startActivityForResult(intent, RESULT_FIRST_USER);
                 } else {
-                    //Open EditRepeatedOutgoingsActivity and send ID
-                    Intent intent = new Intent(AddNewItemActivity.this, EditRepeatedOutgoingsActivity.class);
+                    //Open EditRepeatedItemsActivity and send ID
+                    Intent intent = new Intent(AddNewItemActivity.this, EditRepeatedItemsActivity.class);
                     intent.putExtra(EXTRA_INTEGER_ID, integer_iD);
                     startActivityForResult(intent, RESULT_FIRST_USER);
                 }
@@ -242,9 +258,7 @@ public class AddNewItemActivity extends AppCompatActivity {
 
     //show Values on Activity
     public void displayItemsOnActivity() {
-        editText_AddNewItemActivity_Description.setText("");
-        editText_AddNewItemActivity_Title.setText("");
-        editText_AddNewItemActivity_Value.setText("");
+        editText_AddNewItemActivity_Title.requestFocus();
 
         textView_AddNewItemActivity_SelectedDate.setText(selectedDate.getString_WeekDayOfDate() + " " + selectedDate.getString_Date());
         textView_AddNewItemActivity_Currency.setText(string_Currency);
@@ -256,6 +270,95 @@ public class AddNewItemActivity extends AppCompatActivity {
     }
 
     // Displaying Values
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // default values
+
+    private void makeDefaultActivity() {
+        editText_AddNewItemActivity_Description.setText("");
+        editText_AddNewItemActivity_Title.setText("");
+        editText_AddNewItemActivity_Value.setText("");
+
+        int_titleColor = 0xff000000;
+        editText_AddNewItemActivity_Title.setTextColor(int_titleColor);
+        button_AddNewItemActivity_ChooseColor.setBackgroundColor(int_titleColor);
+    }
+
+    // default values
+    //----------------------------------------------------------------------------------------------------------------------------------------------
+    // Menu
+
+    //Create the Menubar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    // Menus
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.menu_Overview:
+                intent = new Intent(this, OverviewActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+
+            case R.id.menu_AddCurrency:
+                intent = new Intent(this, CurrencyActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+
+            case R.id.menu_AddRepeatedIssues:
+                intent = new Intent(this, AddRepeatedItemsActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+
+            case R.id.menu_DeleteAll:
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+
+                                //Yes button clicked, delete all Data in Database
+                                MainActivity.myDbMain.deleteAll();
+                                displayItemsOnActivity();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked, do nothing
+                                break;
+                        }
+                    }
+                };
+
+                //set the message to show in the DialogWindow
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(getString(R.string.dialog_question)).setPositiveButton(getString(R.string.dialog_yes), dialogClickListener)
+                        .setNegativeButton(getString(R.string.dialog_no), dialogClickListener).show();
+                return true;
+
+            case R.id.menu_info:
+                intent = new Intent(this, InfoActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+
+            case R.id.menu_MainMenu:
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // Menu
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // End
 
