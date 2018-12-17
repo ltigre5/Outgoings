@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
 
     private int counterCalendar;
     public String string_Currency = "";
-    public int int_directOpenActivity;
 
     public static final String EXTRA_LONG_DATE = "long Date";
 
@@ -117,13 +116,11 @@ public class MainActivity extends AppCompatActivity {
 
         //Open AddRepeatedActivity or AddNewActivity if started from Widget
         if (int_directOpenActivity == 1) {
-            int_directOpenActivity=0;
             Intent intent = new Intent(MainActivity.this, AddNewItemActivity.class);
             intent.putExtra(EXTRA_LONG_DATE, selectedDateNew.getLong_Date());
             startActivity(intent);
 
         } else if (int_directOpenActivity == 2) {
-            int_directOpenActivity=0;
             Intent intent = new Intent(MainActivity.this, AddRepeatedItemsActivity.class);
             startActivity(intent);
         }

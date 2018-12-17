@@ -43,7 +43,7 @@ public class CurrencyActivity extends AppCompatActivity {
         textView_CurrencyActivity_oldCurrency=findViewById(R.id.textView_CurrencyActivity_oldCurrency);
 
         if (MainActivity.myDbMain.checkCurrencyExists()){
-            textView_CurrencyActivity_oldCurrency.setText(generalHelper.getCurrency().trim());
+            textView_CurrencyActivity_oldCurrency.setText(generalHelper.getCurrency());
         }
     }
 

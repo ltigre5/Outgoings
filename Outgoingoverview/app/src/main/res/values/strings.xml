@@ -33,8 +33,8 @@
 
     <!-- Hide spinner -->
     <string name="hide_showAll">Show All</string>
-    <string name="hide_hideSingle">Hide Single Issues</string>
-    <string name="hide_hideRepeated">Hide Repeated Issues</string>
+    <string name="hide_hideSingle">Hide Single Expenses</string>
+    <string name="hide_hideRepeated">Hide Repeated Expenses</string>
 
     <string-array name="hide_arrays">
         <item>@string/hide_showAll</item>
@@ -78,7 +78,7 @@
 
     <!-- Buttons -->
     <string name="button_ok">OK</string>
-    <string name="button_addRepeatedOutgoing">Add Repeated Issues</string>
+    <string name="button_addRepeatedOutgoing">Add Repeated Expenses</string>
     <string name="button_deleteAll">Delete All</string>
     <string name="button_deleteAllFiltered">Delete All Filtered</string>
     <string name="button_addCurrency">Add Currency</string>
@@ -93,12 +93,12 @@
     <string name="dialog_no">NO</string>
 
     <!-- Labels -->
-    <string name="label_addNewItem">Add A New Issue</string>
+    <string name="label_addNewItem">Add A New Expense</string>
     <string name="label_overview">Overview</string>
-    <string name="label_editItem">Edit Issue</string>
+    <string name="label_editItem">Edit Expense</string>
     <string name="label_changeCurrency">Change Currency</string>
-    <string name="label_addRepeatedOutgoing">Add Repeated Issues</string>
-    <string name="label_editRepeatedOutgoing">Edit Repeated Issue</string>
+    <string name="label_addRepeatedOutgoing">Add Repeated Expenses</string>
+    <string name="label_editRepeatedOutgoing">Edit Repeated Expenses</string>
     <string name="label_info">Info</string>
 
     <!-- Toast -->
@@ -106,7 +106,7 @@
     <string name="toast_noMonth">Enter A Month</string>
     <string name="toast_noYear">Enter A Year</string>
     <string name="toast_invalidMonth">Enter A Valid Month: 1-12</string>
-    <string name="toast_itemsAlreadyExists">Issue Already Exists</string>
+    <string name="toast_itemsAlreadyExists">Expense Already Exists</string>
     <string name="toast_enterATitleAndValue">Enter A Value And Title</string>
 
 
@@ -118,10 +118,10 @@
     <!-- menu -->
     <string name="menu_info">Info</string>
     <string name="menu_Overview">Overview</string>
-    <string name="menu_AddCurrency">Add Currency</string>
-    <string name="menu_AddRepeatedOutgoing">Add Repeated Issues</string>
-    <string name="menu_DeleteAllValues">Delete All Issues</string>
-    <string name="menu_MainMenu">Add Single Issue</string>
+    <string name="menu_AddCurrency">Change Currency</string>
+    <string name="menu_AddRepeatedOutgoing">Add Repeated Expenses</string>
+    <string name="menu_DeleteAllValues">Delete All Expenses</string>
+    <string name="menu_MainMenu">Add Single Expenses</string>
 
 
 
@@ -130,24 +130,25 @@
     <string name="info">
         At First, thank you for using my App.
 
-        \n\nWith this app you have an overview of your expenses. To add a new issue,
+        \n\nWith this app you have an overview of your expenses. To add a new expense,
         double-click on the day of the calendar. There you must enter a Title and a Value.
 
-        \n\nIf you want, you can enter a description and edit the color of the title. Then you can save the issue.
-        If you have a Repeated issue, go to “ADD REPEATED ISSUES”
-        and there you can enter an issue which is repeated every Year, Month, Week or Day. From the Start Date until the end date.
+        \n\nIf you want, you can enter a description and edit the color of the title. Then you can save the expense.
+        If you have a repeated expense, click on “Add Repeated Expenses” in the menu
+        and there you can enter an expense which is repeated every X years, months, weeks or days. From the start date until the end date.
 
-        \n\nIf you want to edit your issue, you just have to click on the issue on the list. There you can edit or delete the issue.
+        \n\nIf you want to edit your expense, you just have to click on the expense on the list. There you can edit or delete the expense.
 
-        \n\nIn the Main Menu you can change the Currency by Clicking on the “CHANGE CURRENCY” Button,
+        \n\nIf you want to change the currency click on “Change Currency” in the menu,
         there you have to enter the 3-Letter Code of the Currency.
 
-        \n\nTo have an overview of all your expenses click on “OVERVIEW”.
-        There you can choose if it should be sorted by Date or value and if ascending or descending.
+        \n\nTo have an overview of all your expenses click on “Overview” in the menu.
+        There you can choose if it should be sorted by date or value and if ascending or descending.
         Furthermore, you can choose if it should show a specific year, month or from a start and end day.
-        If you want to delete ALL issues click on the button “DELETE ALL”. This will delete all your issues, not only the ones showed.
+        If you want to delete ALL expenses click on “Delete All Expenses” in the menu. This will delete all your expenses.
 
         \n\nI would like if you rate my app or if you want you can spend some money for the creator.
+
 
     </string>
 

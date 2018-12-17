@@ -28,4 +28,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.github.yukuku:ambilwarna:2.0.1'
     implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
+    implementation 'sun.bob:mcalendarview:1.0.0'
+
 }

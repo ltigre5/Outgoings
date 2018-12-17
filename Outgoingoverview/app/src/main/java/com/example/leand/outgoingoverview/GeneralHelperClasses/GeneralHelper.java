@@ -21,7 +21,7 @@ public class GeneralHelper {
     public SimpleDateFormat longDateToMonthWriteOut = new SimpleDateFormat("MMMM");
     public SimpleDateFormat longDateToYearNumber = new SimpleDateFormat("yyyy");
     public SimpleDateFormat longDateToWeekday = new SimpleDateFormat("EEEE");
-    public DecimalFormat currencyFormat = new DecimalFormat("#0.00");
+    public DecimalFormat currencyFormat = new DecimalFormat("#,###,###,###,###,###,##0.00");
 
 
     // Declaration

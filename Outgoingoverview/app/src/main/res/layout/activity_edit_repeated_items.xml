@@ -140,7 +140,7 @@
             android:id="@+id/button_EditRepeatedOutgoingsActivity_Delet"
             style="@style/button_WrapContent"
             android:layout_alignParentStart="true"
-            android:onClick="onClick_DeletReapeatedValuees"
+            android:onClick="onClick_DeletReapeatedValues"
             android:text="@string/button_delete" />
 
 

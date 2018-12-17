@@ -206,7 +206,7 @@ public class AddNewItemActivity extends AppCompatActivity {
 
     // Database Methods
     //----------------------------------------------------------------------------------------------------------------------------------------------
-    // Communicate with other Activitys
+    // Communicate with other Activity's
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -232,7 +232,7 @@ public class AddNewItemActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //get ID of selected Item from Databse
+                //get ID of selected Item from Database
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
                 Integer integer_iD = cursor.getInt(cursor.getColumnIndexOrThrow(DBAdapter.KEY_ROWID));
 

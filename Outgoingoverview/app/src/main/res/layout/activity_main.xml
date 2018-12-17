@@ -26,7 +26,7 @@
         <!-- Statment for Total Day: -->
         <TextView
             android:id="@+id/textView_MainActivity_SelectedDatValueStatment"
-            style="@style/general_WrapContent"
+            style="@style/general_Middle_WrapContent"
             android:textStyle="bold"
             android:text="@string/statement_totalDay" />
 
@@ -48,7 +48,7 @@
         <!-- Statment for Total Month: -->
         <TextView
             android:id="@+id/textView_MainActivity_TotalValueMonthStatement"
-            style="@style/general_WrapContent"
+            style="@style/general_Middle_WrapContent"
             android:textStyle="bold"
             android:text="@string/statement_totalMonth" />
 
@@ -68,10 +68,10 @@
         android:orientation="horizontal"
         android:layout_gravity="center">
 
-        <!-- Statment for Total Year: -->
+        <!-- Statement for Total Year: -->
         <TextView
             android:id="@+id/textView_MainActivity_TotalValueYearStatement"
-            style="@style/general_WrapContent"
+            style="@style/general_Middle_WrapContent"
             android:textStyle="bold"
             android:text="@string/statement_totalYear" />
 

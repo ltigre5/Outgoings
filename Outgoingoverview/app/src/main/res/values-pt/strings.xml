@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Rastreador de finanças</string>
-    <string name="order_by_date">data</string>
+    <string name="order_by_date">Data</string>
     <string name="order_by_value">Valor</string>
     <string name="order_by_ascending">Ascendente</string>
     <string name="order_by_descending">Descendente</string>
@@ -16,8 +16,8 @@
     <string name="hint_value">Valor</string>
     <string name="hint_description">Descrição</string>
     <string name="statement_total">"Total: "</string>
-    <string name="statement_totalDay">"Total dia: "</string>
-    <string name="statement_totalMonth">"Total mês: "</string>
+    <string name="statement_totalDay">"Total Dia: "</string>
+    <string name="statement_totalMonth">"Total Mês: "</string>
     <string name="statement_start">Começo:</string>
     <string name="statement_end">Fim:</string>
     <string name="statement_from">De:</string>
@@ -60,26 +60,24 @@
     <string name="info">
         Em primeiro lugar, obrigado por usar o meu aplicativo.
 
-        \n\nCom este aplicativo você tem uma visão geral de suas despesas.
-        Para adicionar uma nova despesa, clique duas vezes no dia do calendário.
-        Lá você deve inserir um título e um valor. Se desejar, você pode inserir uma descrição e editar a cor do título.
-        Depois você pode salvar o problema.
+        \n\nCom este aplicativo você tem uma visão geral de suas despesas. Para adicionar uma nova despesa,
+        clique duas vezes no dia do calendário. Lá você deve inserir um título e um valor.
 
-        \n\nSe você tiver uma despesa repetido, vá para “ADICIONAR PROBLEMAS REPETIDOS” e você poderá inserir uma despesa
-        que será repetido a cada ano, mês, semana ou dia. Da data de início até a data final.
+        \n\nSe desejar, você pode inserir uma descrição e editar a cor do título. Então você pode economizar a despesa.
+        Se você tiver uma despesa repetida, clique em “Despesa repetitiva” no menu
+        e aí você pode inserir uma despesa que é repetida a cada X anos, meses, semanas ou dias. A partir da data de início até a data final.
 
-        \n\nSe você quiser editar sua despesa, basta clicar no problema na lista. Lá você pode editar ou excluir a despesa.
+        \n\nSe você quiser editar sua despesa, basta clicar na despesa da lista. Lá você pode editar ou excluir a despesa.
 
-        \n\nNo Menu Principal, você pode alterar a Moeda Clicando no botão “MUDAR MOEDA”, você deve inserir o Código de 3 Letras da Moeda.
+        \n\nSe quiser alterar a moeda, clique em "Alterar Moeda" no menu,
+        lá você tem que digitar o código de 3 letras da moeda.
 
-        \n\nPara ter uma visão geral de todas as suas despesas, clique em " VISÃO GLOBAL".
-        Lá você pode escolher se deve ser classificado por Data ou valor e se ascendente ou descendente.
+        \n\nPara ter uma visão geral de todas as suas despesas, clique em "Visão geral" no menu.
+        Lá você pode escolher se deve ser classificado por data ou valor e se ascendente ou descendente.
         Além disso, você pode escolher se deve mostrar um ano, mês ou um dia de início e fim específicos.
-        Se você quiser excluir todos as despesas, clique no botão "APAGAR TUDO".
-        Isso excluirá todos os seus despesas, não apenas os mostrados.
+        Se você quiser excluir TODAS as despesas, clique em “Excluir todas as despesas” no menu. Isso excluirá todas as suas despesas.
 
-        \n\nEu gostaria que se você avalia meu aplicativo ou se você quiser, pode gastar algum dinheiro para o criador.
-
+        \n\nEu gostaria que você avalie meu aplicativo ou, se quiser, gaste algum dinheiro para o criador.
     </string>
     <string name="statement_every">Todas</string>
     <string name="label_info">Informações</string>
@@ -92,5 +90,5 @@
     <string name="hide_hideRepeated">Repitiodos despesas esconder</string>
     <string name="hide_showAll">Mostrar todos</string>
     <string name="statement_totalYear">Total Ano:</string>
-    <string name="statement_oldCurrency">" Moeda antiga"</string>
+    <string name="statement_oldCurrency">" Moeda antiga:"</string>
 </resources>

@@ -141,6 +141,7 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
 
             createSpinnerEvery();
             createArrayList();
+            displayItemsOnActivity();
         }
 
         //set ColorPicker for Button to Edit title color

@@ -79,7 +79,7 @@
     <string name="label_overview">Übersicht</string>
     <string name="label_editItem">Position bearbeiten</string>
     <string name="label_changeCurrency">Währung ändern</string>
-    <string name="label_addRepeatedOutgoing">Wiederholende Ausgabe</string>
+    <string name="label_addRepeatedOutgoing">Wiederholende Ausgaben</string>
     <string name="label_editRepeatedOutgoing">Wiederholende Ausgabe</string>
 
     <!-- Toeast -->
@@ -100,39 +100,40 @@
 
     <!-- info -->
     <string name="info">
-        Zuerst einmal Danke das du meine App benutzt.
+        Vielen Dank, dass Sie meine App verwenden.
 
-        \n\nMit dieser App hast du eine Übersicht über deine Ausgaben. Um eine neue Ausgabe hinzuzufügen,
-        musst du zwei mal auf das jeweilige Datum auf dem Kalender drücken. Dort musst du dann einen Titel und Wert eingeben. Wenn du willst,
-        kannst du noch eine Beschreibung hinzufügen oder die Farbe des Textes ändern. Danach kannst du die Ausgabe speichern.
+        \n\nMit dieser App haben Sie einen Überblick über Ihre Ausgaben. Um eine neue Ausgabe hinzuzufügen,
+        Doppelklicken Sie auf den Tag des Kalenders. Dort müssen Sie einen Titel und einen Wert eingeben.
 
-        \n\nWenn du eine wiederholende Ausgabe einfügen willst, musst du im Hauptfenster auf "WIEDERHOLENDE AUSGABE" klicken.
-        Danach kannst du dort eine Ausgabe eingeben die sich alle Jahre, Monate, Wochen oder Tage wiederholen. Vom Start bis zum End Datum.
+        \n\nWenn Sie möchten, können Sie eine Beschreibung eingeben und die Farbe des Titels ändern. Dann können Sie die Ausgabe speichern.
+        Bei wiederholten Ausgaben klicken Sie im Menü auf "Wiederholende Ausgaben"
+        und dort können Sie eine Ausgabe eingeben, welche alle X Jahre, Monate, Wochen oder Tage wiederholt wird. Vom Startdatum bis zum Enddatum.
 
-        \n\nWenn du eine Ausgabe bearbeiten willst, musst du nur auf die Ausgabe auf der Liste klicken. Dort kannst du die Ausgabe dann bearbeiten oder löschen.
+        \n\nWenn Sie Ihre Ausgaben bearbeiten möchten, klicken Sie einfach auf die Kosten in der Liste. Dort können Sie die Ausgaben bearbeiten oder löschen.
 
-        \n\nIm Hauptmenü kannst du die Währung ändern. Wenn du auf «WÄHRUNG ÄNDERN» klickst. Dort kannst du den jeweiligen 3-Buchstaben Code eingeben.
+        \n\nWenn Sie die Währung ändern möchten, klicken Sie im Menü auf "Währung ändern".
+        Dort müssen Sie den 3-Buchstaben-Code der Währung eingeben.
 
-        \n\nUm einen Überblick über all deine Ausgaben zu haben, kannst du im Hauptmenü auf "ÜBERSICHT" gehen. Dort kannst du dann auswählen,
-        ob du die Liste nach Datum oder wert, aufsteigend oder absteigend sortiert haben möchtest.
-        Weiterhin kannst du auswählen, ob die Ausgaben nach Jahr, Monat oder von einem Start bis zu einem End Datum gefiltert werden.
-        Wenn du ALLE Ausgaben löschen möchtest, betätige den "ALLE LÖSCHEN" Knopf.
+        \n\nUm eine Übersicht über alle Ihre Ausgaben zu erhalten, klicken Sie im Menü auf "Übersicht".
+        Dort können Sie wählen, ob es nach Datum oder Wert sortiert werden soll und ob aufsteigend oder absteigend.
+        Außerdem können Sie auswählen, ob ein bestimmtes Jahr, ein bestimmter Monat oder ein Start- und Endtag angezeigt werden soll.
+        Wenn Sie ALLE Ausgaben löschen möchten, klicken Sie im Menü auf "Alle Ausgaben löschen". Dadurch werden alle Ihre Ausgaben gelöscht.
 
-        \n\nEs würde mir gefallen, wenn du meine App bewertest oder für den Entwickler Geld spenden möchtest.
+        \n\nIch würde mich freuen, wenn Sie meine App bewerten oder wenn Sie möchten, können Sie etwas Geld für den Entickler spenden.
 
     </string>
     <string name="statement_every">Alle</string>
     <string name="label_info">Info</string>
     <string name="menu_Overview">Übersicht</string>
-    <string name="menu_AddCurrency">Währung hinzufügen</string>
-    <string name="menu_AddRepeatedOutgoing">Wiederholende Ausgabe</string>
+    <string name="menu_AddCurrency">Währung ändern</string>
+    <string name="menu_AddRepeatedOutgoing">Wiederholende Ausgaben</string>
     <string name="menu_DeleteAllValues">Alles löschen</string>
     <string name="menu_MainMenu">Einzelne Ausgabe hinzufügen</string>
     <string name="hide_hideSingle">Einzelne verstecken</string>
     <string name="hide_hideRepeated">Wiederholende verstecken</string>
     <string name="hide_showAll">Alle zeigen</string>
     <string name="statement_totalYear">"Total Jahr: "</string>
-    <string name="statement_oldCurrency">Alte Währung</string>
+    <string name="statement_oldCurrency">Alte Währung:</string>
 
 
 </resources>
