@@ -108,7 +108,7 @@
     <string name="toast_invalidMonth">Enter A Valid Month: 1-12</string>
     <string name="toast_itemsAlreadyExists">Expense Already Exists</string>
     <string name="toast_enterATitleAndValue">Enter A Value And Title</string>
-
+    <string name="toast_enter3LetterCurrency">Enter A 3-Letter Currency</string>
 
     <!-- Widget -->
     <string name="appwidget_outgoing">Expenses</string>
@@ -122,9 +122,6 @@
     <string name="menu_AddRepeatedOutgoing">Add Repeated Expenses</string>
     <string name="menu_DeleteAllValues">Delete All Expenses</string>
     <string name="menu_MainMenu">Add Single Expenses</string>
-
-
-
 
     <!-- info -->
     <string name="info">
@@ -148,8 +145,6 @@
         If you want to delete ALL expenses click on “Delete All Expenses” in the menu. This will delete all your expenses.
 
         \n\nI would like if you rate my app or if you want you can spend some money for the creator.
-
-
     </string>
 
 </resources>

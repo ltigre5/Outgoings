@@ -15,11 +15,27 @@ public class ListViewAdapter {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Constructor
 
-    public ListViewAdapter(Integer integer_month, Integer integer_Year, String string_OrderBy, Context context, String string_AscendDescend) {
+    /**
+     * Makes a ListViewAdapter with all Data from Year and Month
+     *
+     * @param month Month you want to show
+     * @param Year Year you want to show
+     * @param OrderBy Order in Which you want to sort Data
+     * @param context Context
+     * @param AscendDescend If in Ascending or Descending Order
+     */
+
+    public ListViewAdapter(Integer month, Integer Year, String OrderBy, Context context, String AscendDescend) {
         this.context = context;
-        this.cursor = MainActivity.myDbMain.getRowWithMonthYear(integer_month, integer_Year, string_OrderBy, string_AscendDescend, null);
+        this.cursor = MainActivity.myDbMain.getRowWithMonthYear(month, Year, OrderBy, AscendDescend, null);
 
     }
+
+    /**
+     * Makes a ListViewAdapter with all Data in Database
+     *
+     * @param context Context
+     */
 
     public ListViewAdapter(Context context) {
         this.context = context;
@@ -31,21 +47,61 @@ public class ListViewAdapter {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Set Cursor
 
-    public void setCursorMonthYear(Integer integer_month, Integer integer_Year, String string_OrderBy, String string_AscendDescend, String hide) {
-        this.cursor = MainActivity.myDbMain.getRowWithMonthYear(integer_month, integer_Year, string_OrderBy, string_AscendDescend, hide);
+    /**
+     * Set ListViewAdapter for Data from Year and Month
+     *
+     * @param month Month you want to show
+     * @param Year Year you want to show
+     * @param OrderBy Order in Which you want to sort Data
+     * @param AscendDescend If in Ascending or Descending Order
+     * @param hide If you want to hide Repeated or single, enter null if you want to show all
+     */
+
+    public void setCursorMonthYear(Integer month, Integer Year, String OrderBy, String AscendDescend, String hide) {
+        this.cursor = MainActivity.myDbMain.getRowWithMonthYear(month, Year, OrderBy, AscendDescend, hide);
     }
 
-    public void setCursorYear(Integer integer_Year, String string_OrderBy, String string_AscendDescend, String hide) {
-        this.cursor = MainActivity.myDbMain.getRowWithYear(integer_Year, string_OrderBy, string_AscendDescend, hide);
+    /**
+     * Set ListViewAdapter for Data from Year
+     *
+     * @param Year Year you want to show
+     * @param OrderBy Order in Which you want to sort Data
+     * @param AscendDescend If in Ascending or Descending Order
+     * @param hide If you want to hide Repeated or single, enter null if you want to show all
+     */
+
+    public void setCursorYear(Integer Year, String OrderBy, String AscendDescend, String hide) {
+        this.cursor = MainActivity.myDbMain.getRowWithYear(Year, OrderBy, AscendDescend, hide);
     }
 
-    public void setCursorStartEndDate(int startDateWithoutTime, int endDateWithoutTime, String string_OrderBy, String string_AscendDescend, String hide) {
-        this.cursor = MainActivity.myDbMain.getRowWithStartEndDay(startDateWithoutTime, endDateWithoutTime, string_OrderBy, string_AscendDescend, hide);
+    /**
+     * Set ListViewAdapter for Data from a beginning Date until End Date
+     *
+     * @param startDateWithoutTime start date to show Data
+     * @param endDateWithoutTime end date to show data
+     * @param OrderBy Order in Which you want to sort Data
+     * @param AscendDescend If in Ascending or Descending Order
+     * @param hide If you want to hide Repeated or single, enter null if you want to show all
+     */
+
+    public void setCursorStartEndDate(int startDateWithoutTime, int endDateWithoutTime, String OrderBy, String AscendDescend, String hide) {
+        this.cursor = MainActivity.myDbMain.getRowWithStartEndDay(startDateWithoutTime, endDateWithoutTime, OrderBy, AscendDescend, hide);
     }
+
+    /**
+     * Set ListViewAdapter for Datas from a specific Date
+     *
+     * @param dateWithoutTime the date without time to show data
+     */
 
     public void setCursorDate(int dateWithoutTime) {
         this.cursor = MainActivity.myDbMain.getRowWithDate(dateWithoutTime);
     }
+
+    /**
+     * Set ListViewAdapter for Data from all Repeated Dates, but only get one Instance of the repeated Dates
+     *
+     */
 
     public void setCursorAllRepeatedNotDuplicate() {
         this.cursor = MainActivity.myDbMain.getAllRowsRepeatedNotDuplicated();
@@ -55,6 +111,12 @@ public class ListViewAdapter {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // get Cursor
 
+    /**
+     * Get the Cursor for the selected Data's
+     *
+     * @return Cursor
+     */
+
     public Cursor getCursor() {
         return cursor;
     }
@@ -63,10 +125,16 @@ public class ListViewAdapter {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // GetAdapters
 
+    /**
+     * Get the ListViewAdapter for the selected Data's
+     *
+     * @return ListViewAdapter
+     */
+
     public CustomCursorAdapter getListViewAdapter() {
-        String[] fromFieldsName = new String[]{DBAdapter.KEY_ROWID, DBAdapter.KEY_DATE, DBAdapter.KEY_VALUE};
+        String[] fromFieldsName = new String[]{};
         int[] toViewsID = new int[]{};
-        CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(context, R.layout.adapter_view_list, cursor, fromFieldsName, toViewsID, 0);
+        CustomCursorAdapter customCursorAdapter = new CustomCursorAdapter(context, 0, cursor, fromFieldsName, toViewsID, 0);
         return customCursorAdapter;
     }
 

@@ -26,7 +26,7 @@ import java.util.Calendar;
 public class MainActivity extends AppCompatActivity {
     public static DBAdapter myDbMain;
 
-    private TextView textView_MainActivity_SelectedDateValue, textView_MainActivity_totalValue,textView_MainActivity_totalValueYear;
+    private TextView textView_MainActivity_SelectedDateValue, textView_MainActivity_totalValue, textView_MainActivity_totalValueYear;
 
     private GeneralHelper generalHelper;
     private SelectedDate selectedDateNew, selectedDateOld;
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         //definition of Items in Activity
         textView_MainActivity_totalValue = findViewById(R.id.textView_MainActivity_totalValueMonth);
         textView_MainActivity_SelectedDateValue = findViewById(R.id.textView_MainActivity_SelectedDateValue);
-        textView_MainActivity_totalValueYear=findViewById(R.id.textView_MainActivity_totalValueYear);
+        textView_MainActivity_totalValueYear = findViewById(R.id.textView_MainActivity_totalValueYear);
         CalendarView calendarView_MainActivity_calendar = findViewById(R.id.calendarView_MainActivity_calendar);
 
         //counter for double tab on calendar
@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
         //show values on mainActivity
         displayItemsOnActivity();
-
 
 
         //When clicked on a date twice, open AddNewItemActivity and send Date to this activity
@@ -114,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         //Open AddRepeatedActivity or AddNewActivity if started from Widget
         if (int_directOpenActivity == 1) {
             Intent intent = new Intent(MainActivity.this, AddNewItemActivity.class);
@@ -130,6 +130,11 @@ public class MainActivity extends AppCompatActivity {
     // OnCreate
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // onClick Methods
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(false);
+    }
 
 
     // onClick Methods
@@ -172,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Communicate with other Activitys
 
-    //Show new Values if new Values are added from AddNewItemActivity or new Currency is added from ChangeCurrenyActivity
+    //Show new Values if new Values are added from AddNewItemActivity or new Currency is added from ChangeCurrencyActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

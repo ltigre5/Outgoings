@@ -225,7 +225,7 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
             calendarForIteration.setTimeInMillis(calendarStart.getTimeInMillis());
             int_RepeatedByTimes=Integer.parseInt(editText_AddRepeatedItemsActivity_RepeatedByTimes.getText().toString());
 
-            if (MainActivity.myDbMain.checkRowRepeatedItem(string_Title, double_Value,selectedDate_Start.getInteger_DateWithoutTime(),selectedDate_End.getInteger_DateWithoutTime(),int_RepeatedByTimes, generalHelper.setRepeatedByWithNumber(string_Every,this))) {
+            if (MainActivity.myDbMain.checkRowRepeatedItem(string_Title, double_Value,selectedDate_Start.getInteger_DateWithoutTime(),selectedDate_End.getInteger_DateWithoutTime(),int_RepeatedByTimes, generalHelper.setRepeatedEveryWithNumber(string_Every,this))) {
                 Toast.makeText(AddRepeatedItemsActivity.this, getString(R.string.toast_itemsAlreadyExists),
                         Toast.LENGTH_LONG).show();
 
@@ -307,7 +307,7 @@ public class AddRepeatedItemsActivity extends AppCompatActivity implements Adapt
 
     //Adds Date and value to Database
     private void addNewItemRepeated() {
-        MainActivity.myDbMain.insertRowRepeatedItem(string_Title,int_titleColor,double_Value,string_Description,selectedDate_ForIteration.getLong_Date(),selectedDate_Start.getLong_Date(),selectedDate_End.getLong_Date(), int_RepeatedByTimes, generalHelper.setRepeatedByWithNumber(string_Every,this));
+        MainActivity.myDbMain.insertRowRepeatedItem(string_Title,int_titleColor,double_Value,string_Description,selectedDate_ForIteration.getLong_Date(),selectedDate_Start.getLong_Date(),selectedDate_End.getLong_Date(), int_RepeatedByTimes, generalHelper.setRepeatedEveryWithNumber(string_Every,this));
     }
 
     // Database Methods

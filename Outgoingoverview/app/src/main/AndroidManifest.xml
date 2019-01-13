@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Activitys.MainActivity"
+        <activity
+            android:name=".Activitys.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -23,27 +24,32 @@
         <activity
             android:name=".Activitys.AddNewItemActivity"
             android:label="@string/label_addNewItem"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Activitys.OverviewActivity"
             android:label="@string/label_overview"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Activitys.EditItemActivity"
             android:label="@string/label_editItem"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Activitys.CurrencyActivity"
             android:label="@string/label_changeCurrency"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Activitys.AddRepeatedItemsActivity"
             android:label="@string/label_addRepeatedOutgoing"
+            android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".Activitys.EditRepeatedItemsActivity"
             android:label="@string/label_editRepeatedOutgoing"
-            />
+            android:launchMode="singleTask" />
 
         <receiver android:name=".Widget.AddNewOutgoingWidget">
             <intent-filter>
@@ -55,8 +61,10 @@
                 android:resource="@xml/add_new_outgoing_widget_info" />
         </receiver>
 
-        <activity android:name=".Activitys.InfoActivity"
-            android:label="@string/label_info"></activity>
+        <activity
+            android:name=".Activitys.InfoActivity"
+            android:label="@string/label_info"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

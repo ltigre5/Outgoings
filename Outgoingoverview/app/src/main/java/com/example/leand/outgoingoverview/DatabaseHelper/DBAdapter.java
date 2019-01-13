@@ -150,9 +150,8 @@ public class DBAdapter {
     }
 
     // Open the database connection.
-    public DBAdapter open() {
+    public void open() {
         db = myDBHelper.getWritableDatabase();
-        return this;
     }
 
     // Close the database connection.
@@ -165,7 +164,7 @@ public class DBAdapter {
     // Insert Rows
 
     // Add a new set of values to the database.
-    public long insertRow(String title, int titleColour, double value, String description, long dateInLong) {
+    public void insertRow(String title, int titleColour, double value, String description, long dateInLong) {
         /*
          * CHANGE 3:
          */
@@ -188,12 +187,12 @@ public class DBAdapter {
 
 
         // Insert it into the database.
-        return db.insert(DATABASE_TABLE, null, initialValues);
+        db.insert(DATABASE_TABLE, null, initialValues);
     }
 
 
     // Add a new sets of Repeated Item to the database.
-    public long insertRowRepeatedItem(String title, int titleColour, double value, String description, long dateInLong, long startDate, long endDate,int repeatedByTimes, int every) {
+    public void insertRowRepeatedItem(String title, int titleColour, double value, String description, long dateInLong, long startDate, long endDate, int repeatedByTimes, int every) {
         /*
          * CHANGE 3:
          */
@@ -232,7 +231,7 @@ public class DBAdapter {
         Log.d("Repeated End", " ");
 
         // Insert it into the database.
-        return db.insert(DATABASE_TABLE, null, initialValues);
+        db.insert(DATABASE_TABLE, null, initialValues);
     }
 
     // Insert Rows
@@ -240,15 +239,15 @@ public class DBAdapter {
     // delete Rows
 
     // Delete a row from the database, by rowId (primary key)
-    public boolean deleteRow(long rowId) {
+    public void deleteRow(long rowId) {
         String where = KEY_ROWID + "=" + rowId;
-        return db.delete(DATABASE_TABLE, where, null) != 0;
+        db.delete(DATABASE_TABLE, where, null);
     }
 
     // Delete rows from the database, by repeated title
-    public boolean deleteRowWithRepeatedItem(String title, double value, int startDateWithoutTime, int endDateWithoutTime, int repeatedByTimes, int every) {
+    public void deleteRowWithRepeatedItem(String title, double value, int startDateWithoutTime, int endDateWithoutTime, int repeatedByTimes, int every) {
         String where = KEY_TITLE + "='" + title + "' AND " + KEY_VALUE + "=" + value + " AND " + KEY_START_DATE_WITHOUT_TIME + "=" + startDateWithoutTime + " AND " + KEY_END_DATE_WITHOUT_TIME + "=" + endDateWithoutTime + " AND " + KEY_REPEATED_BY_TIMES + "=" + repeatedByTimes + " AND " + KEY_EVERY + "=" + every;
-        return db.delete(DATABASE_TABLE, where, null) != 0;
+        db.delete(DATABASE_TABLE, where, null);
     }
 
     public void deleteAll() {
@@ -272,11 +271,7 @@ public class DBAdapter {
         Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
                 where, null, null, null, null, null);
         boolean exists;
-        if (c.moveToFirst()) {
-            exists = true;
-        } else {
-            exists = false;
-        }
+        exists = c.moveToFirst();
         c.close();
         return exists;
     }
@@ -287,11 +282,7 @@ public class DBAdapter {
         Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
                 where, null, null, null, null, null);
         boolean exists;
-        if (c.moveToFirst()) {
-            exists = true;
-        } else {
-            exists = false;
-        }
+        exists = c.moveToFirst();
         c.close();
         return exists;
     }
@@ -302,10 +293,9 @@ public class DBAdapter {
 
     // Return all data in the database.
     public Cursor getAllRows() {
-        String where = null;
         String orderBy = KEY_DATE + DESCENDING;
         Cursor c = db.query(true, DATABASE_TABLE, ALL_KEYS,
-                where, null, null, null, orderBy, null);
+                null, null, null, null, orderBy, null);
         if (c != null) {
             c.moveToFirst();
         }
@@ -408,7 +398,7 @@ public class DBAdapter {
     //Update Methods
 
     // Change an existing row to be equal to new data.
-    public boolean updateRow(long rowId, String title, int titleColor, double value, String description) {
+    public void updateRow(long rowId, String title, int titleColor, double value, String description) {
         String where = KEY_ROWID + "=" + rowId;
 
         /*
@@ -425,7 +415,7 @@ public class DBAdapter {
 
 
         // Insert it into the database.
-        return db.update(DATABASE_TABLE, newValues, where, null) != 0;
+        db.update(DATABASE_TABLE, newValues, where, null);
     }
 
 
@@ -482,13 +472,13 @@ public class DBAdapter {
     // Insert Rows
 
     // Add a new set of values to the database.
-    public long insertCurrency(String currency) {
+    public void insertCurrency(String currency) {
 
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_CURRENCY, currency);
 
         // Insert it into the database.
-        return db.insert(DATABASE_TABLE2, null, initialValues);
+        db.insert(DATABASE_TABLE2, null, initialValues);
     }
 
     // Insert Rows
@@ -497,10 +487,13 @@ public class DBAdapter {
 
     // Checks if Item already exists
     public boolean checkCurrencyExists() {
+        boolean exists;
         Cursor c = db.query(true, DATABASE_TABLE2, ALL_KEYS2,
                 null, null, null, null, null, null);
 
-        return c.moveToFirst();
+        exists=c.moveToFirst();
+        c.close();
+        return exists;
     }
 
     // check Methods
@@ -509,10 +502,8 @@ public class DBAdapter {
 
     // Return all data in the database.
     public Cursor getCurrency() {
-        String where = null;
-
         Cursor c = db.query(true, DATABASE_TABLE2, ALL_KEYS2,
-                where, null, null, null, null, null);
+                null, null, null, null, null, null);
         if (c != null) {
             c.moveToFirst();
         }
@@ -524,13 +515,13 @@ public class DBAdapter {
     // Update Currency
 
     // Change an existing row to be equal to new data.
-    public boolean updateCurrency(String Currency) {
+    public void updateCurrency(String Currency) {
 
         ContentValues newValues = new ContentValues();
         newValues.put(KEY_CURRENCY, Currency);
 
         // Insert it into the database.
-        return db.update(DATABASE_TABLE2, newValues, null, null) != 0;
+        db.update(DATABASE_TABLE2, newValues, null, null);
     }
 
     // Second Table End

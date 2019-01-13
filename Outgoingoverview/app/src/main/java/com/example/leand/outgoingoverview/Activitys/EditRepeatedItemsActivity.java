@@ -81,7 +81,7 @@ public class EditRepeatedItemsActivity extends AppCompatActivity implements Adap
         textView_EditRepeatedItemsActivity_Currency = findViewById(R.id.textView_EditRepeatedItemsActivity_Currency);
         spinner_EditRepeatedItemsActivity_RepeatBy = findViewById(R.id.spinner_EditRepeatedItemsActivity_RepeatBy);
         editText_EditRepeatedItemsActivity_Description = findViewById(R.id.editText_EditRepeatedItemsActivity_Description);
-        editText_EditRepeatedItemsActivity_Title = findViewById(R.id.editText_EditRepeatedItemsActivity_Titel);
+        editText_EditRepeatedItemsActivity_Title = findViewById(R.id.editText_EditRepeatedItemsActivity_Title);
         button_EditRepeatedItemsActivity_ChooseColor = findViewById(R.id.button_EditRepeatedItemsActivity_ChooseColor);
         editText_EditRepeatedItemsActivity_RepeatedByTimes=findViewById(R.id.editText_EditRepeatedItemsActivity_RepeatedByTimes);
 
@@ -111,7 +111,7 @@ public class EditRepeatedItemsActivity extends AppCompatActivity implements Adap
         string_oldDescription = editHelper.getStringDescription();
         int_titleColor=editHelper.getIntTitleColor();
         integer_RepeatedByTimes =editHelper.getIntRepeatedByTimes();
-        int_OldEvery=generalHelper.setRepeatedByWithNumber(string_NewEvery,EditRepeatedItemsActivity.this);
+        int_OldEvery=generalHelper.setRepeatedEveryWithNumber(string_NewEvery,EditRepeatedItemsActivity.this);
 
 
         //set color of button color chooser and title
@@ -288,7 +288,7 @@ public class EditRepeatedItemsActivity extends AppCompatActivity implements Adap
             calendarForIteration.setTimeInMillis(calendarStart.getTimeInMillis());
             integer_RepeatedByTimes =Integer.parseInt(editText_EditRepeatedItemsActivity_RepeatedByTimes.getText().toString());
 
-            if (MainActivity.myDbMain.checkRowRepeatedItem(string_NewTitle, double_NewValue,selectedDateNew_Start.getInteger_DateWithoutTime(),selectedDateNew_End.getInteger_DateWithoutTime(), integer_RepeatedByTimes,generalHelper.setRepeatedByWithNumber(string_NewEvery,this))) {
+            if (MainActivity.myDbMain.checkRowRepeatedItem(string_NewTitle, double_NewValue,selectedDateNew_Start.getInteger_DateWithoutTime(),selectedDateNew_End.getInteger_DateWithoutTime(), integer_RepeatedByTimes,generalHelper.setRepeatedEveryWithNumber(string_NewEvery,this))) {
                 Toast.makeText(EditRepeatedItemsActivity.this, getString(R.string.toast_itemsAlreadyExists),
                         Toast.LENGTH_LONG).show();
 
@@ -348,7 +348,7 @@ public class EditRepeatedItemsActivity extends AppCompatActivity implements Adap
 
     //Adds Date and value to Database
     private void addNewItemRepeated() {
-        MainActivity.myDbMain.insertRowRepeatedItem(string_NewTitle,int_titleColor,double_NewValue,string_NewDescription, selectedDate_ForIteration.getLong_Date(),selectedDateNew_Start.getLong_Date(),selectedDateNew_End.getLong_Date(), integer_RepeatedByTimes, generalHelper.setRepeatedByWithNumber(string_NewEvery,this));
+        MainActivity.myDbMain.insertRowRepeatedItem(string_NewTitle,int_titleColor,double_NewValue,string_NewDescription, selectedDate_ForIteration.getLong_Date(),selectedDateNew_Start.getLong_Date(),selectedDateNew_End.getLong_Date(), integer_RepeatedByTimes, generalHelper.setRepeatedEveryWithNumber(string_NewEvery,this));
     }
 
 
@@ -363,7 +363,7 @@ public class EditRepeatedItemsActivity extends AppCompatActivity implements Adap
         spinner_EditRepeatedItemsActivity_RepeatBy.setAdapter(adapter);
         spinner_EditRepeatedItemsActivity_RepeatBy.setOnItemSelectedListener(this);
 
-        spinner_EditRepeatedItemsActivity_RepeatBy.setSelection(adapter.getPosition(generalHelper.getRepeatedByWithNumber(editHelper.getIntEvery(),this)));
+        spinner_EditRepeatedItemsActivity_RepeatBy.setSelection(adapter.getPosition(generalHelper.getRepeatedEveryWithNumber(editHelper.getIntEvery(),this)));
         string_NewEvery = spinner_EditRepeatedItemsActivity_RepeatBy.getSelectedItem().toString();
     }
 

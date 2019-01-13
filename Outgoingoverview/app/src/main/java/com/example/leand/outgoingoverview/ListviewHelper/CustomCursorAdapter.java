@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -20,11 +19,22 @@ public class CustomCursorAdapter extends SimpleCursorAdapter {
     private Context context;
     private GeneralHelper generalHelper;
     private EditHelper editHelper;
-    private String string_RepeatedStatment;
+    private String string_RepeatedStatement;
 
     // Declaration
     //----------------------------------------------------------------------------------------------------------------------------------------------
     // Constructor
+
+    /**
+     * Creates a new Cursor Adapter with the Data's from the cursor,
+     *
+     * @param context Context
+     * @param layout don't need to enter a layout, enter 0
+     * @param c enter the cursor from which data's should a list be created
+     * @param from don't need to enter something, enter a empty array of string
+     * @param to don't need to enter something, enter a empty array of int
+     * @param flags don't need to enter something, enter 0
+     */
 
     //constructor
     public CustomCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
@@ -51,7 +61,7 @@ public class CustomCursorAdapter extends SimpleCursorAdapter {
         return 2;
     }
 
-    //choses which Layout to us
+    //chose which Layout to us
     @Override
     public int getItemViewType(int position) {
         cursor.moveToPosition(position);
@@ -88,7 +98,7 @@ public class CustomCursorAdapter extends SimpleCursorAdapter {
         string_EndDate_index = generalHelper.longDateToDDMMYYYY.format(long_EndDate_index);
         string_StartDate_index = generalHelper.longDateToDDMMYYYY.format(long_StartDate_index);
 
-        string_RepeatedStatment = context.getResources().getString(R.string.statement_every) + " " + editHelper.getIntRepeatedByTimes() + " " + generalHelper.getRepeatedByWithNumber(editHelper.getIntEvery(), context);
+        string_RepeatedStatement = context.getResources().getString(R.string.statement_every) + " " + editHelper.getIntRepeatedByTimes() + " " + generalHelper.getRepeatedEveryWithNumber(editHelper.getIntEvery(), context);
 
         //new ViewHolder is old view is null
         if (convertView == null) {
@@ -120,7 +130,7 @@ public class CustomCursorAdapter extends SimpleCursorAdapter {
         //set values in TextViews
         if (type == 1) {
             viewHolder.textView_AdapterViewList_RepeatedDate.setText(string_StartDate_index + " - " + string_EndDate_index);
-            viewHolder.textView_AdapterViewList_RepeatedStatement.setText(string_RepeatedStatment);
+            viewHolder.textView_AdapterViewList_RepeatedStatement.setText(string_RepeatedStatement);
         }
 
         viewHolder.textView_AdapterViewList_title.setText(string_Title);

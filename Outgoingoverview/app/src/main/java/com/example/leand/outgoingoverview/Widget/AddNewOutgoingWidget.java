@@ -35,7 +35,7 @@ Calendar calendar;
 
             //open AddNew
             Intent intentAddNew = new Intent(context, AddNewItemActivity.class);
-            intentAddNew.putExtra(MainActivity.EXTRA_LONG_DATE, calendar.getTimeInMillis());
+            intentAddNew.putExtra(EXTRA_INT_DIRECT_OPEN_ACTIVITY, 1);
             intentAddNew.setAction("AddNew");
             PendingIntent pendingIntentAddNew = PendingIntent.getActivity(context, 0, intentAddNew, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -52,6 +52,5 @@ Calendar calendar;
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
     }
-
 }
 

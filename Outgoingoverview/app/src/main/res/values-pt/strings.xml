@@ -90,5 +90,6 @@
     <string name="hide_hideRepeated">Repitiodos despesas esconder</string>
     <string name="hide_showAll">Mostrar todos</string>
     <string name="statement_totalYear">Total Ano:</string>
-    <string name="statement_oldCurrency">" Moeda antiga:"</string>
+    <string name="statement_oldCurrency">Moeda antiga:</string>
+    <string name="toast_enter3LetterCurrency">Digite um Código de 3-letras</string>
 </resources>

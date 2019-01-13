@@ -134,6 +134,7 @@
     <string name="hide_showAll">Alle zeigen</string>
     <string name="statement_totalYear">"Total Jahr: "</string>
     <string name="statement_oldCurrency">Alte Währung:</string>
+    <string name="toast_enter3LetterCurrency">Gib einen 3-Buchstaben Code ein</string>
 
 
 </resources>

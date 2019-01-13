@@ -107,10 +107,10 @@ public class EditItemActivity extends AppCompatActivity {
         //get the new values
         double double_NewValue = Double.parseDouble(editText_EditItemActivity_Value.getText().toString());
         String string_NewDescription = editText_EditItemActivity_Description.getText().toString();
-        String string_NewTitel = editText_EditItemActivity_Title.getText().toString();
+        String string_NewTitle = editText_EditItemActivity_Title.getText().toString();
 
         //update the Database
-        MainActivity.myDbMain.updateRow(integer_ID, string_NewTitel, int_titleColor, double_NewValue, string_NewDescription);
+        MainActivity.myDbMain.updateRow(integer_ID, string_NewTitle, int_titleColor, double_NewValue, string_NewDescription);
 
         //return to OverviewActivity
         Intent intent = new Intent();

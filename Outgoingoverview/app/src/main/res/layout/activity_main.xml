@@ -8,7 +8,9 @@
 
     <include
         android:id="@+id/toolbar_MainActivity"
-        layout="@layout/toolbar_main_activity"></include>
+        layout="@layout/toolbar_main_activity">
+
+    </include>
 
     <!-- Calendar to add new Item -->
     <CalendarView
@@ -16,82 +18,83 @@
         style="@style/general_Top_WrapContent"
         android:layout_gravity="center" />
 
-    <!-- Layout for Total of Day -->
-    <LinearLayout
-        android:id="@+id/linearLayout_MainActivity_ValueDay"
-        style="@style/general_Middle_WrapContent"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <!-- Statment for Total Day: -->
-        <TextView
-            android:id="@+id/textView_MainActivity_SelectedDatValueStatment"
-            style="@style/general_Middle_WrapContent"
-            android:textStyle="bold"
-            android:text="@string/statement_totalDay" />
-
-        <!-- TextView to show Value of the Day -->
-        <TextView
-            android:id="@+id/textView_MainActivity_SelectedDateValue"
-            style="@style/general_WrapContent"
-            android:textStyle="bold"
-            android:text="TotalValueofDay" />
-    </LinearLayout>
-
-    <!-- Layout for Total of Month -->
-    <LinearLayout
-        android:id="@+id/linearLayout_MainActivity_ValueMonth"
-        style="@style/general_Middle_WrapContent"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <!-- Statment for Total Month: -->
-        <TextView
-            android:id="@+id/textView_MainActivity_TotalValueMonthStatement"
-            style="@style/general_Middle_WrapContent"
-            android:textStyle="bold"
-            android:text="@string/statement_totalMonth" />
-
-        <!-- TextView to show total value of the month -->
-        <TextView
-            android:id="@+id/textView_MainActivity_totalValueMonth"
-            style="@style/general_WrapContent"
-            android:textStyle="bold"
-            android:text="TotalValueofMonth" />
-    </LinearLayout>
-
-
-    <!-- Layout for Total of Year -->
-    <LinearLayout
-        android:id="@+id/linearLayout_MainActivity_ValueYear"
-        style="@style/general_Middle_WrapContent"
-        android:orientation="horizontal"
-        android:layout_gravity="center">
-
-        <!-- Statement for Total Year: -->
-        <TextView
-            android:id="@+id/textView_MainActivity_TotalValueYearStatement"
-            style="@style/general_Middle_WrapContent"
-            android:textStyle="bold"
-            android:text="@string/statement_totalYear" />
-
-        <!-- TextView to show total value of the Year -->
-        <TextView
-            android:id="@+id/textView_MainActivity_totalValueYear"
-            style="@style/general_WrapContent"
-            android:textStyle="bold"
-            android:text="TotalValueofYear" />
-    </LinearLayout>
 
     <!-- Layout for theBottom -->
-    <RelativeLayout
+    <LinearLayout
         style="@style/general_MatchParent"
         android:layout_weight="1"
-        android:gravity="bottom">
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!-- Layout for Total of Day -->
+        <LinearLayout
+            android:id="@+id/linearLayout_MainActivity_ValueDay"
+            style="@style/general_Middle_WrapContent"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <!-- Statment for Total Day: -->
+            <TextView
+                android:id="@+id/textView_MainActivity_SelectedDatValueStatment"
+                style="@style/general_Middle_WrapContent"
+                android:text="@string/statement_totalDay"
+                android:textStyle="bold" />
+
+            <!-- TextView to show Value of the Day -->
+            <TextView
+                android:id="@+id/textView_MainActivity_SelectedDateValue"
+                style="@style/general_WrapContent"
+                android:text="TotalValueofDay"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Layout for Total of Month -->
+        <LinearLayout
+            android:id="@+id/linearLayout_MainActivity_ValueMonth"
+            style="@style/general_Middle_WrapContent"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <!-- Statment for Total Month: -->
+            <TextView
+                android:id="@+id/textView_MainActivity_TotalValueMonthStatement"
+                style="@style/general_Middle_WrapContent"
+                android:text="@string/statement_totalMonth"
+                android:textStyle="bold" />
+
+            <!-- TextView to show total value of the month -->
+            <TextView
+                android:id="@+id/textView_MainActivity_totalValueMonth"
+                style="@style/general_WrapContent"
+                android:text="TotalValueofMonth"
+                android:textStyle="bold" />
+        </LinearLayout>
 
 
+        <!-- Layout for Total of Year -->
+        <LinearLayout
+            android:id="@+id/linearLayout_MainActivity_ValueYear"
+            style="@style/general_Middle_WrapContent"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
 
-    </RelativeLayout>
+            <!-- Statement for Total Year: -->
+            <TextView
+                android:id="@+id/textView_MainActivity_TotalValueYearStatement"
+                style="@style/general_Middle_WrapContent"
+                android:text="@string/statement_totalYear"
+                android:textStyle="bold" />
+
+            <!-- TextView to show total value of the Year -->
+            <TextView
+                android:id="@+id/textView_MainActivity_totalValueYear"
+                style="@style/general_WrapContent"
+                android:text="TotalValueofYear"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 </LinearLayout>
 
 

@@ -18,7 +18,7 @@
 
         <!-- EditText for Title -->
         <EditText
-            android:id="@+id/editText_EditRepeatedItemsActivity_Titel"
+            android:id="@+id/editText_EditRepeatedItemsActivity_Title"
             style="@style/editText_Title" />
 
         <Button

@@ -54,7 +54,7 @@ public class CurrencyActivity extends AppCompatActivity {
     //save new value of Currency
     public void onClick_SaveItem(View view) {
         if (editText_CurrencyActivity_Currency.length() < 3) {
-            Toast.makeText(CurrencyActivity.this, "Enter A 3-Letter Currency",
+            Toast.makeText(CurrencyActivity.this, getString(R.string.toast_enter3LetterCurrency),
                     Toast.LENGTH_LONG).show();
 
         } else {
